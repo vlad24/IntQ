@@ -1,0 +1,71 @@
+h1{
+	
+	font-family: "PT Sans", Verdana, Arial, sans-serif;
+	color: red;
+}
+
+.main_button{
+    background-color: green;
+    border: none;
+    color: white;
+    padding: 10px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+	float: right;
+}
+
+.header img {
+  float: left;
+  width: 100px;
+  height: 100px;
+}
+
+.header h1 {
+  position: relative;
+  top: 18px;
+  left: 10px;
+}
+
+
+.workarea {
+ font-size: 16px;
+ border: 1px solid black;
+}
+
+.rate_button {
+ font-size: 16px;
+ border: 1px solid black;
+}
+
+.question{
+	font-weight: bold;
+}
+
+#rate_up {
+}
+
+#rate_down {
+}
+
+
+#wordContent{
+	
+}
+
+#wordMeaning{
+	
+}
+
+.inputarea {
+    width: 500px;
+    clear: both;
+}
+    
+.inputarea textarea {
+        width: 100%;
+        clear: both;
+    }
+
+ 
