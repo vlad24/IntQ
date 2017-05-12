@@ -47,13 +47,8 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
-	<bean id="reCaptcha" class="net.tanesha.recaptcha.ReCaptchaImpl">
-		<property name="privateKey" value="6LdKMBUUAAAAAN7PS9DV--iIysnZcr7yrV9SkD8k"/>
-	</bean>
-	
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
 	
-	<bean id="QuestionDAOImpl" class="com.appricots.intq.dao.QuestionDAODebug"/>
 	
 	
 
