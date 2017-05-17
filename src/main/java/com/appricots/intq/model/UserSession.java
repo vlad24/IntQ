@@ -31,14 +31,23 @@ public class UserSession {
 	
 	
 	@ManyToOne
-	@JoinColumn(name = NameOf.COLUMN_QUESTION_ID)
+	@JoinColumn(name = NameOf.COLUMN_QUESTION_ID, nullable=true)
 	private Question lastQuestion;
 	
+	
+	public UserSession(long id, User user, String identCookie,
+			Question lastQuestion) {
+		super();
+		this.id = id;
+		this.user = user;
+		this.identCookie = identCookie;
+		this.lastQuestion = lastQuestion;
+	}
 
-	
-	
 	public UserSession() {
 	}
+	
+	
 	
 	public User getUser() {
 		return user;
@@ -53,6 +62,22 @@ public class UserSession {
 
 	public void setLastQuestion(Question lastQuestion) {
 		this.lastQuestion = lastQuestion;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getIdentCookie() {
+		return identCookie;
+	}
+
+	public void setIdentCookie(String identCookie) {
+		this.identCookie = identCookie;
 	}
 
 }

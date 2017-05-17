@@ -27,16 +27,26 @@
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="main.html">Home</a></li>
 				<li><a href="start.html">Questions</a></li>
-				<li><a href="add.html">Suggest</a></li>
+				<c:if test="${not empty username}">
+				</c:if>
+					<li><a href="add.html">Suggest</a></li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="register.htm;"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-				<li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-			</ul>
+			<c:if test="${empty username}">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="register.htm;"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+					<li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+				</ul>
+			</c:if>
+			<c:if test="${not empty username}">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="profile.html"><span class="glyphicon glyphicon-user"></span> ${username} </a></li>
+					<li><a href="logout.html"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+				</ul>
+			</c:if>
 		</div>
 	</div>
 	</nav>
-	<h1 class="header">int q;</h1>
+	<h1 class="header">> int q;</h1>
 	<div class="container-fluid">
 		<form:form class="form-horizontal" id="selectorForm" modelAttribute="questionSelector" action="q.html" method="get">
 			<div class="form-group">

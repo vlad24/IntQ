@@ -1,46 +1,41 @@
 package com.appricots.intq.dao.impl;
 
-import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.appricots.intq.dao.DAO;
 import com.appricots.intq.model.User;
+import com.appricots.intq.model.UserCreds;
 
-public class UserDAO implements DAO<User, Long>{
+@Repository
+public class UserDAO extends DAO<User, Long>{
 
-	@Autowired
-	private SessionFactory sessionFactory;
-	
-	@Override
-	public Long create(User element) {
-		// TODO Auto-generated method stub
-		return null;
+	public User getUserByCreds(UserCreds creds) {
+		Session session = sessionFactory.getCurrentSession();
+		Query selectQuery = session
+				.createQuery(new StringBuilder()
+						.append("SELECT  U FROM User U")
+						.append(" JOIN   U.creds UC ")
+						.append(" WHERE  UC.login    = :login")
+						.append(" AND    UC.passHash = :pass")
+						.toString())
+				.setParameter("login", creds.getLogin())
+				.setParameter("pass", creds.getPassHash());
+		User user = (User) selectQuery.uniqueResult();
+		return user;
 	}
 
-	@Override
-	public void delete(User element) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(User element) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public User get(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<User> getAll(int maxLimit) {
-		// TODO Auto-generated method stub
-		return null;
+	public User getByLogin(String login) {
+		Session session = sessionFactory.getCurrentSession();
+		Query selectQuery = session
+				.createQuery(new StringBuilder()
+						.append("SELECT  U FROM User U")
+						.append(" JOIN   U.creds UC ")
+						.append(" WHERE  U.creds.login    = :login")
+						.toString())
+				.setParameter("login", login);
+		User user = (User) selectQuery.uniqueResult();
+		return user;
 	}
 
 

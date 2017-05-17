@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.appricots.intq.NameOf;
-import com.appricots.intq.dao.DAO;
+import com.appricots.intq.dao.impl.DAO;
 import com.appricots.intq.model.Category;
 
 @Service

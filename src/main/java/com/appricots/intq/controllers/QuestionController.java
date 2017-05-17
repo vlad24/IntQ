@@ -8,18 +8,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.appricots.intq.dao.AbstractQuestionDAO;
 import com.appricots.intq.model.Question;
+import com.appricots.intq.services.QuestionService;
 import com.appricots.intq.wrappers.QuestionSelector;
 
 @Controller
 public class QuestionController {
 
 	@Autowired
-	private AbstractQuestionDAO questionDAO;
+	private QuestionService questionService;
 	
-	public QuestionController(AbstractQuestionDAO questionDAO) {
-		this.questionDAO = questionDAO;
+	public QuestionController(QuestionService questionDAO) {
+		this.questionService = questionDAO;
 	}
 	
 	@RequestMapping(value="/q", method=RequestMethod.GET)
@@ -28,7 +28,7 @@ public class QuestionController {
 			Model model){
 		selector.setLanguage(LocaleContextHolder.getLocale().toLanguageTag());
 		System.out.println("Got selector:" + selector.toString());
-		Question nextQuestion = questionDAO.getNext(selector);
+		Question nextQuestion = questionService.getNext(selector);
 		System.out.println("Next question:" + nextQuestion.toString());
 		model.addAttribute("id",           nextQuestion.getId());
         model.addAttribute("question",     nextQuestion.getQuestion());

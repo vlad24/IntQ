@@ -43,6 +43,7 @@
 				<value>com.appricots.intq.model.Lang</value>
 				<value>com.appricots.intq.model.Difficulty</value>
 				<value>com.appricots.intq.model.UserSession</value>
+				<value>com.appricots.intq.model.UserCreds</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

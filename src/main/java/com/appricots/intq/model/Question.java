@@ -5,6 +5,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.appricots.intq.NameOf;
+import com.appricots.intq.wrappers.QuestionStatus;
 
 @Entity
 @Table(name=NameOf.TABLE_QUESTION)
@@ -52,18 +55,18 @@ public class Question {
 	@Column(name=NameOf.COLUMN_QUESTION_MINUS, nullable=false)
 	private long minusAmount;
 	
-	@Column(name="attachmentURL", nullable=true)
+	@Column(name=NameOf.COLUMN_QUESTION_ATT_URL, nullable=true)
 	private String attachment;
+	
+	   
+	@Enumerated(EnumType.STRING)
+	@Column(name=NameOf.COLUMN_QUESTION_STATUS, nullable=false)
+	private QuestionStatus status;
 
 
 	
 	
 	public Question(){
-		this.question   = NameOf.NOTHING;
-		this.answer     = NameOf.NOTHING;
-		this.lang       = new Lang();
-		this.difficulty = new Difficulty();
-		this.attachment = NameOf.NOTHING;
 	}
 
 
