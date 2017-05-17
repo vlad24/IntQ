@@ -51,6 +51,7 @@ public class NameOf {
 	public static final String COLUMN_USER_ACTIVENESS = "uActiveness";
 	
 	public static final String ERROR_MSG = "error_msg";
+	public static final String SUCCESS_MSG = "success_msg";
 	public static final String MA_USERNAME = "username";
 	
 

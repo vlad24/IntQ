@@ -10,7 +10,7 @@ import com.appricots.intq.NameOf;
 public class AdminController {
 
 
-	@RequestMapping(value="/admin.html", method=RequestMethod.GET)
+	@RequestMapping(value="admin.html", method=RequestMethod.GET)
 	public String admin(
 			@CookieValue(value = NameOf.COOKIE_4_ADMIN, defaultValue = NameOf.NOTHING) String identity, 
 			Model model
@@ -21,7 +21,7 @@ public class AdminController {
 		return "main";
 	}
 	
-	@RequestMapping(value="/admin_init", method=RequestMethod.GET)
+	@RequestMapping(value="admin_init.html", method=RequestMethod.GET)
 	public String adminInit(
 			@CookieValue(value = NameOf.COOKIE_4_ADMIN, defaultValue = NameOf.NOTHING) String identity, 
 			Model model
@@ -32,7 +32,7 @@ public class AdminController {
 		return "main";
 	}
 	
-	@RequestMapping(value="/admin_moderate", method=RequestMethod.GET)
+	@RequestMapping(value="admin_moderate.html", method=RequestMethod.GET)
 	public String adminModerate(
 			@CookieValue(value = NameOf.COOKIE_4_ADMIN, defaultValue = NameOf.NOTHING) String identity, 
 			Model model

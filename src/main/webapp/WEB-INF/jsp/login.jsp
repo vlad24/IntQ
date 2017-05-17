@@ -4,14 +4,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-<link rel="stylesheet" href="<c:url value="/resources/css/user.css" />" />
-<!-- 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
--->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="<c:url value="/resources/img/intq_logo.png" />" />
+<link rel="stylesheet" href="<c:url value="/resources/css/user.css" />" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <title>int q; assert exists(u);</title>
 </head>
 
@@ -39,7 +36,6 @@
 				<strong>Oops!</strong> ${error_msg}
 			</div>
 		</c:if>
-
 	</div>
 	<div class="container-fluid">
 		<form:form class="form-horizontal" id="loginForm" modelAttribute="userCreds" action="login.html" method="post">

@@ -1,7 +1,11 @@
 package com.appricots.intq.controllers;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.appricots.intq.NameOf;
 import com.appricots.intq.model.User;
@@ -23,6 +28,9 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	ReCaptchaImpl reCaptcha;
 
 	public UserController(UserService dao) {
 		userService = dao;
@@ -59,16 +67,27 @@ public class UserController {
 	
 	
 	@RequestMapping(value="register.html",method = RequestMethod.POST)
-	public String registerNewUser(@ModelAttribute("profile") UserProfile profile,
+	public String registerNewUser(
+			@RequestParam("recaptcha_challenge_field") String challangeField,
+			@RequestParam("recaptcha_response_field")  String responseField,
+			@ModelAttribute("profile") UserProfile profile,
+			ServletRequest servletRequest,
 			HttpServletResponse response,
 			Model model){
 		System.out.println(profile);
-		if (userService.registerUser(profile) != null){
-			UserSession newSession = userService.startNewSession(profile.getLogin());
-			response.addCookie(new Cookie(NameOf.COOKIE_4_IDENTITY, newSession.getIdentCookie()));
-			return "redirect:/start.html";
+		String remoteAddress = servletRequest.getRemoteAddr();
+		ReCaptchaResponse reCaptchaResponse = this.reCaptcha.checkAnswer(remoteAddress, challangeField, responseField);
+		if(reCaptchaResponse.isValid()){
+			if (userService.registerUser(profile) != null){
+				UserSession newSession = userService.startNewSession(profile.getLogin());
+				response.addCookie(new Cookie(NameOf.COOKIE_4_IDENTITY, newSession.getIdentCookie()));
+				return "redirect:/start.html";
+			}else{
+				model.addAttribute(NameOf.ERROR_MSG, "Such user exists");
+				return "register";
+			}
 		}else{
-			model.addAttribute(NameOf.ERROR_MSG, "Such user exists");
+			model.addAttribute(NameOf.ERROR_MSG, "Wrong captcha");
 			return "register";
 		}
 		

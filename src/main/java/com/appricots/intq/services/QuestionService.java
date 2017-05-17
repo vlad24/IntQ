@@ -20,7 +20,7 @@ public class QuestionService {
 	
 	
 	public void addNew(Question q) {
-		// TODO Auto-generated method stub
+		System.out.println("adding " + q);
 		
 	}
 
