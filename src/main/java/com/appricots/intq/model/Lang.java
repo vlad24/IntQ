@@ -2,6 +2,7 @@ package com.appricots.intq.model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ public class Lang {
 	@Column(name=NameOf.COLUMN_LANG_ALIAS)
 	String alias;
 	
-	@OneToMany(mappedBy="lang")
+	@OneToMany(cascade=CascadeType.REMOVE, mappedBy="lang")
 	Set<Question> questions;
 	
 	
@@ -62,6 +63,11 @@ public class Lang {
 
 	public void setQuestions(Set<Question> questions) {
 		this.questions = questions;
+	}
+
+	@Override
+	public String toString() {
+		return alias;
 	}	
 	
 }

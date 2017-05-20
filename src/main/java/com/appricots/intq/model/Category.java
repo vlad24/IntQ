@@ -26,20 +26,24 @@ public class Category {
 	@Column(name=NameOf.COLUMN_CAT_ALIAS)
 	String alias;
 	
-	@ManyToMany(cascade=CascadeType.ALL, mappedBy="categories")
-	Set<Question> question;
+	@ManyToMany(cascade=CascadeType.REMOVE, mappedBy="categories")
+	Set<Question> questions;
 	
 	
 	public Category() {
-		this.id = -1;
 		this.alias = NameOf.NOTHING;
+		this.questions = null;
 	}
 	
-	public Category(long id, String alias, Set<Question> question) {
+	public Category(String alias) {
 		super();
-		this.id = id;
 		this.alias = alias;
-		this.question = question;
+	}
+	
+	public Category(String alias, Set<Question> question) {
+		super();
+		this.alias = alias;
+		this.questions = question;
 	}
 
 
@@ -57,10 +61,44 @@ public class Category {
 		this.alias = alias;
 	}
 
+	public Set<Question> getQuestions() {
+		return questions;
+	}
+	
+	public void setQuestions(Set<Question> questions) {
+		this.questions = questions;
+	}
+	
 	@Override
 	public String toString() {
 		return alias;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((alias == null) ? 0 : alias.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Category other = (Category) obj;
+		if (alias == null) {
+			if (other.alias != null)
+				return false;
+		} else if (!alias.equals(other.alias))
+			return false;
+		return true;
+	}
+
 	
 	
 }

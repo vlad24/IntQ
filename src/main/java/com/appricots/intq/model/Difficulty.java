@@ -2,6 +2,7 @@ package com.appricots.intq.model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,20 +26,19 @@ public class Difficulty {
 	@Column(name=NameOf.COLUMN_DIFF_ALIAS, nullable=false, unique=true)
 	String alias;
 	
-	@OneToMany(mappedBy = "difficulty")
+	@OneToMany(cascade=CascadeType.REMOVE, mappedBy = "difficulty")
 	Set<Question> questions;
-	
-	
-	
 	
 	
 	
 	public Difficulty() {
 		this.id = -1;
 		this.alias = NameOf.NOTHING;
+		this.questions = null;
 	}
 	
 	public Difficulty(String alias) {
+		super();
 		this.alias = alias;
 	}
 
@@ -64,6 +64,11 @@ public class Difficulty {
 
 	public void setAlias(String alias) {
 		this.alias = alias;
+	}
+
+	@Override
+	public String toString() {
+		return alias;
 	}
 
 }

@@ -9,25 +9,25 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.appricots.intq.NameOf;
-import com.appricots.intq.model.Category;
+import com.appricots.intq.model.Lang;
 
 @Repository
-public class CategoryDAO extends DAO<Category, Long>{
+public class LangDAO extends DAO<Lang, Long>{
 
 	@Transactional
-	public List<Category> getAll(Integer maxLimit) {
+	public List<Lang> getAll(Integer maxLimit) {
 		return super.getAll(NameOf.MAX_POSSIBLE);
 	}
 	
 	@Transactional
-	public Category findByAlias(String alias){
+	public Lang findByAlias(String alias){
 		Session session = sessionFactory.getCurrentSession();
 		String aliasParam = "alias";
-		Query selectQuery = session.createQuery(MessageFormat.format("SELECT C from {} where C.{} = {}", 
-				NameOf.TABLE_CAT, NameOf.COLUMN_CAT_ALIAS, aliasParam)
+		Query selectQuery = session.createQuery(MessageFormat.format("SELECT L from {} where L.{} = {}", 
+				NameOf.TABLE_LANG, NameOf.COLUMN_LANG_ALIAS, aliasParam)
 		);
 		selectQuery.setParameter(aliasParam, alias);
-		return (Category) selectQuery.uniqueResult();
+		return (Lang) selectQuery.uniqueResult();
 	}
 
 }

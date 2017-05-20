@@ -54,7 +54,7 @@ public class UserController {
 			response.addCookie(new Cookie(NameOf.COOKIE_4_IDENTITY, newSession.getIdentCookie()));
 			return "redirect:/start.html";
 		}else{
-			model.addAttribute(NameOf.ERROR_MSG, "User not found. Try again");
+			model.addAttribute(NameOf.MA_ERROR_MSG, "User not found. Try again");
 		}
 		return "login";
 	}
@@ -83,11 +83,11 @@ public class UserController {
 				response.addCookie(new Cookie(NameOf.COOKIE_4_IDENTITY, newSession.getIdentCookie()));
 				return "redirect:/start.html";
 			}else{
-				model.addAttribute(NameOf.ERROR_MSG, "Such user exists");
+				model.addAttribute(NameOf.MA_ERROR_MSG, "Such user exists");
 				return "register";
 			}
 		}else{
-			model.addAttribute(NameOf.ERROR_MSG, "Wrong captcha");
+			model.addAttribute(NameOf.MA_ERROR_MSG, "Wrong captcha");
 			return "register";
 		}
 		

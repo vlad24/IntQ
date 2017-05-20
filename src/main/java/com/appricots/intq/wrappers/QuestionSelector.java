@@ -16,6 +16,7 @@ public class QuestionSelector {
 	private Set<String> categories;
 	private String difficulty;
 	private String language;
+	private int shift;
 	
 	public static QuestionSelector toSelector(Question q){
 		Set<String> catAliases = new HashSet<String>();
@@ -46,10 +47,10 @@ public class QuestionSelector {
 				+ difficulty + ", language=" + language + "]";
 	}
 	
-	public Set<String> getCategory() {
+	public Set<String> getCategories() {
 		return categories;
 	}
-	public void setCategory(Set<String> category) {
+	public void setCategories(Set<String> category) {
 		this.categories = category;
 	}
 	public String getDifficulty() {
@@ -63,6 +64,14 @@ public class QuestionSelector {
 	}
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+
+	public int getShift() {
+		return shift;
+	}
+
+	public void setShift(int shift) {
+		this.shift = shift;
 	}
 	
 }

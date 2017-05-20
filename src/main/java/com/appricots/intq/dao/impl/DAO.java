@@ -25,6 +25,7 @@ public abstract class DAO<T, ID extends Serializable> {
 	@SuppressWarnings("unchecked")
 	public ID create (T element){
 		Session session = sessionFactory.getCurrentSession();
+		System.out.println(element);
 		return (ID) session.save(element);
 	}
 	

@@ -16,13 +16,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.appricots.intq.NameOf;
 import com.appricots.intq.wrappers.QuestionStatus;
 
 @Entity
 @Table(name=NameOf.TABLE_QUESTION)
 public class Question {
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name=NameOf.COLUMN_QUESTION_ID)
@@ -38,15 +40,15 @@ public class Question {
 	//@Column(name=NameOf.COLUMN_QUESTION_DIFF, nullable=false)
 	private Difficulty difficulty;
 	
-	@ManyToMany(cascade=CascadeType.ALL)  
+	@ManyToMany
 	@JoinTable(name=NameOf.TABLE_QUESTION_CAT_REL, joinColumns=
 		@JoinColumn(name=NameOf.COLUMN_QUESTION_ID), inverseJoinColumns=@JoinColumn(name=NameOf.COLUMN_CAT_ID)) 
 	private Set<Category> categories;
 	
-	@Column(name=NameOf.COLUMN_QUESTION_CONTENT, nullable=false)
+	@Column(name=NameOf.COLUMN_QUESTION_CONTENT, nullable=false, length=1024)
 	private String question;
 	
-	@Column(name=NameOf.COLUMN_QUESTION_ANSWER, nullable=true)
+	@Column(name=NameOf.COLUMN_QUESTION_ANSWER, nullable=true, length=2048)
 	private String answer;
 	
 	@Column(name=NameOf.COLUMN_QUESTION_PLUS, nullable=false)
@@ -57,7 +59,6 @@ public class Question {
 	
 	@Column(name=NameOf.COLUMN_QUESTION_ATT_URL, nullable=true)
 	private String attachment;
-	
 	   
 	@Enumerated(EnumType.STRING)
 	@Column(name=NameOf.COLUMN_QUESTION_STATUS, nullable=false)
@@ -70,7 +71,7 @@ public class Question {
 	}
 
 
-	public Question(String question, String answer, Lang lang, Difficulty difficulty, Set<Category> cats, String attachment) {
+	public Question(String question, String answer, Lang lang, Difficulty difficulty, Set<Category> cats, String attachment, QuestionStatus status) {
 		super();
 		this.question = question;
 		this.answer = answer;
@@ -80,6 +81,7 @@ public class Question {
 		this.categories = cats;
 		this.plusAmount = 0;
 		this.minusAmount = 0;
+		this.status = status;
 	}
 
 
@@ -173,11 +175,31 @@ public class Question {
 
 	@Override
 	public String toString() {
-		return "Question [id=" + id + ", lang=" + lang + ", question="
-				+ question + ", answer=" + answer + ", diffuculty="
-				+ difficulty + ", plusAmount=" + plusAmount + ", minusAmount="
-				+ minusAmount + ", attachment absent =" + (attachment == null)
-				+ "]";
+		return "Question [id=" + id + ", lang=" + lang + ", difficulty="
+				+ difficulty + ", categories=" + categories + ", question="
+				+ question + ", answer=" + answer + ", plusAmount="
+				+ plusAmount + ", minusAmount=" + minusAmount + ", attachment="
+				+ attachment + ", status=" + status + "]";
+	}
+
+
+	public Difficulty getDifficulty() {
+		return difficulty;
+	}
+
+
+	public void setDifficulty(Difficulty difficulty) {
+		this.difficulty = difficulty;
+	}
+
+
+	public QuestionStatus getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(QuestionStatus status) {
+		this.status = status;
 	}
 
 
@@ -198,6 +220,7 @@ public class Question {
 		result = prime * result + (int) (plusAmount ^ (plusAmount >>> 32));
 		result = prime * result
 				+ ((question == null) ? 0 : question.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
 
@@ -249,6 +272,8 @@ public class Question {
 			if (other.question != null)
 				return false;
 		} else if (!question.equals(other.question))
+			return false;
+		if (status != other.status)
 			return false;
 		return true;
 	}

@@ -60,23 +60,26 @@ public class UserService {
 	}
 
 	@Transactional
-	public void registerChecked(User user){
-		userDao.create(user);
-	}
-
-	@Transactional
 	public Long registerUser(UserProfile profile) {
 		try{
 			User newUser = new User();
 			newUser.setName(profile.getName());
+			System.out.println("---------" + "trying to add" + newUser);
 			newUser.setLastName(profile.getLastName());
+			System.out.println("---------" + "trying to add" + newUser);
 			newUser.setAge(profile.getAge());
+			System.out.println("---------" + "trying to add" + newUser);
 			newUser.setEmail(profile.getEmail());
+			System.out.println("---------" + "trying to add" + newUser);
 			newUser.setActiveness(0);
+			System.out.println("---------" + "trying to add" + newUser);
 			UserCreds newCreds = new UserCreds();
+			System.out.println("---------" + "trying to add" + newUser);
 			newCreds.setLogin(profile.getLogin());
 			newCreds.setPassHash(profile.getPass());
 			newUser.setCreds(newCreds);
+			newCreds.setUser(newUser);
+			System.out.println("---------" + "trying to add" + newUser);
 			return userDao.create(newUser);
 		}catch(ConstraintViolationException e){
 			return null;
@@ -85,7 +88,7 @@ public class UserService {
 
 	@Transactional
 	public void dropSession(String identity) {
-		userSessionDao.getByIdentity(identity);
+		userSessionDao.deleteByIdentity(identity);
 	}
 
 	@Transactional
@@ -103,6 +106,18 @@ public class UserService {
 
 	private String generateCookie(String login) {
 		return login + "_cookie";
+	}
+
+	@Transactional
+	public void debugInit() {
+		UserProfile user = new UserProfile();
+		user.setAge(22);
+		user.setEmail("email@domain.ru");
+		user.setLogin("user");
+		user.setPass("user");
+		user.setName("Anonymous");
+		System.out.println("+++++++++" + user);
+		registerUser(user);
 	}
 
 

@@ -19,7 +19,6 @@ public class UserSessionDAO extends DAO<UserSession, Long>{
 						.toString())
 				.setParameter("cookie", identity);
 		UserSession userSession = (UserSession) selectQuery.uniqueResult();
-		System.out.println("============" + userSession);
 		return userSession;
 	}
 	

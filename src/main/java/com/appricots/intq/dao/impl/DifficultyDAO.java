@@ -9,25 +9,25 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.appricots.intq.NameOf;
-import com.appricots.intq.model.Category;
+import com.appricots.intq.model.Difficulty;
 
 @Repository
-public class CategoryDAO extends DAO<Category, Long>{
+public class DifficultyDAO extends DAO<Difficulty, Long>{
 
 	@Transactional
-	public List<Category> getAll(Integer maxLimit) {
+	public List<Difficulty> getAll(Integer maxLimit) {
 		return super.getAll(NameOf.MAX_POSSIBLE);
 	}
 	
 	@Transactional
-	public Category findByAlias(String alias){
+	public Difficulty findByAlias(String alias){
 		Session session = sessionFactory.getCurrentSession();
 		String aliasParam = "alias";
-		Query selectQuery = session.createQuery(MessageFormat.format("SELECT C from {} where C.{} = {}", 
-				NameOf.TABLE_CAT, NameOf.COLUMN_CAT_ALIAS, aliasParam)
+		Query selectQuery = session.createQuery(MessageFormat.format("SELECT D from {} where D.{} = {}", 
+				NameOf.TABLE_DIFFICULTY, NameOf.COLUMN_DIFF_ALIAS, aliasParam)
 		);
 		selectQuery.setParameter(aliasParam, alias);
-		return (Category) selectQuery.uniqueResult();
+		return (Difficulty) selectQuery.uniqueResult();
 	}
 
 }

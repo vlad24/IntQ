@@ -29,11 +29,11 @@
 				<li><a href="start.html">Questions</a></li>
 				<c:if test="${not empty username}">
 				</c:if>
-					<li><a href="add.html">Suggest</a></li>
+				<li><a href="add.html">Suggest</a></li>
 			</ul>
 			<c:if test="${empty username}">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="register.htm;"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+					<li><a href="register.html"><span class="glyphicon glyphicon-user"></span> Register</a></li>
 					<li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 				</ul>
 			</c:if>
@@ -48,35 +48,44 @@
 	</nav>
 	<h1 class="header">> int q;</h1>
 	<div class="container-fluid">
-		<form:form class="form-horizontal" id="selectorForm" modelAttribute="questionSelector" action="q.html" method="get">
-			<div class="form-group">
-				<label class="control-label col-sm-2" for="cats">Categories:</label>
-				<div class="col-sm-10">
-					<form:select class="form-control" path="category" id="cats">
-						<form:options items="${categories}" />
-					</form:select>
+		<c:if test="${not empty categories && not empty difficulties && not empty languages}">
+			<form:form class="form-horizontal" id="selectorForm" modelAttribute="questionSelector" action="q.html" method="get">
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="cats">Categories:</label>
+					<div class="col-sm-10">
+						<form:select class="form-control" path="categories" id="cats">
+							<form:options items="${categories}" />
+						</form:select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="difs">Difficulty:</label>
+					<div class="col-sm-10">
+						<form:select class="form-control" path="difficulty" id="difs">
+							<form:options items="${difficulties}" />
+						</form:select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="langs">Language:</label>
+					<div class="col-sm-10">
+						<form:select class="form-control" path="language" id="langs">
+							<form:options items="${languages}" />
+						</form:select>
+					</div>
+				</div>
+			</form:form>
+			<div class="col-sm-offset-8 col-sm-4">
+				<button id="submit" class="btn btn-success btn-block" type="submit" form="selectorForm">Run</button>
+			</div>
+		</c:if>
+		<c:if test="${empty categories || empty difficulties || empty languages}">
+			<div id="error-container" class="container-fluid">
+				<div class="alert alert-danger fade in">
+					<strong>Oops!</strong> No data came from server. Contact the administrator.
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="control-label col-sm-2" for="difs">Difficulty:</label>
-				<div class="col-sm-10">
-					<form:select class="form-control" path="difficulty" id="difs">
-						<form:options items="${categories}" />
-					</form:select>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label col-sm-2" for="langs">Language:</label>
-				<div class="col-sm-10">
-					<form:select class="form-control" path="language" id="langs">
-						<form:options items="${categories}" />
-					</form:select>
-				</div>
-			</div>
-		</form:form>
-		 <div class="col-sm-offset-8 col-sm-4">
-			<button id="submit" class="btn btn-success btn-block" type="submit" form="selectorForm">Run</button>
-		</div>
+		</c:if>
 	</div>
 </body>
 </html>

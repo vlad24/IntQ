@@ -1,28 +1,48 @@
 package com.appricots.intq.dao.impl;
 
-import java.util.Collections;
+import java.text.MessageFormat;
+import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import com.appricots.intq.NameOf;
 import com.appricots.intq.model.Category;
-import com.appricots.intq.model.Difficulty;
-import com.appricots.intq.model.Lang;
 import com.appricots.intq.model.Question;
 import com.appricots.intq.wrappers.QuestionSelector;
+import com.appricots.intq.wrappers.QuestionStatus;
 
 @Repository
 public class QuestionDAO extends DAO<Question, Long> {
-	
-	public Question getNext(QuestionSelector selector) {
-		return new Question("Python and multi-threading. Is it a good idea? List some ways to get some Python code to run in a parallel way.", 
-				"Python doesn't allow multi-threading in the truest sense of the word. It has a multi-threading package but if you want to multi-thread to speed your code up, then it's usually not a good idea to use it. "
-				+ "Python has a construct called the Global Interpreter Lock (GIL). The GIL makes sure that only one of your 'threads' "
-				+ "can execute at any one time. A thread acquires the GIL, does a little work, then passes the GIL onto the next thread. This happens very quickly so to the human eye it may "
-				+ "seem like your threads are executing in parallel, but they are really just taking turns using the same CPU core. All this GIL passing adds overhead to execution. "
-				+ "This means that if you want to make your code run faster then using the threading package often isn't a good idea.", 
-				new Lang("en"), new Difficulty("easy"), Collections.singleton(new Category()), "");
-	}
 
-	
+	public Question getNextAccepted(QuestionSelector selector) {
+		Session session = sessionFactory.getCurrentSession();
+		Query selectQuery = null;
+		boolean noCategoryBounds = (selector.getCategories().size() == 1 && selector.getCategories().contains(Category.ANY));
+		final String langParam = "language";
+		final String diffParam = "difficulty";
+		final String statParam = "status";
+		StringBuilder hqlQuery = new StringBuilder()
+			.append(MessageFormat.format("SELECT QS FROM {} Q ", NameOf.TABLE_QUESTION))
+			.append("JOIN  Q.categories QS ")
+			.append(MessageFormat.format("AND {} = :{} ", NameOf.COLUMN_QUESTION_LANG,   langParam))
+			.append(MessageFormat.format("AND {} = :{} ", NameOf.COLUMN_QUESTION_DIFF,   diffParam))
+			.append(MessageFormat.format("AND {} = :{} ", NameOf.COLUMN_QUESTION_STATUS, statParam ));
+		if (!noCategoryBounds){
+			hqlQuery.append("WHERE QS.categories in :categories ");
+		}
+		selectQuery = session.createQuery(hqlQuery.toString());
+		if (!noCategoryBounds){
+			selectQuery.setParameter("categories", selector.getCategories());
+		}
+		selectQuery.setParameter(langParam, selector.getLanguage());
+		selectQuery.setParameter(diffParam, selector.getDifficulty());
+		selectQuery.setParameter(statParam, QuestionStatus.ACCEPTED.ordinal());
+		selectQuery.setFirstResult(selector.getShift());
+		selectQuery.setMaxResults(1);
+		List<Question> list = selectQuery.list();
+		return list.get(0);
+	}
 
 }

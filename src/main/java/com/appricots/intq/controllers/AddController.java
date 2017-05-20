@@ -23,6 +23,8 @@ import com.appricots.intq.model.Lang;
 import com.appricots.intq.model.Question;
 import com.appricots.intq.services.CategoryService;
 import com.appricots.intq.services.QuestionService;
+import com.appricots.intq.wrappers.DBAccessReport;
+import com.appricots.intq.wrappers.QuestionStatus;
 import com.appricots.intq.wrappers.QuestionSuggestion;
 
 @Controller
@@ -63,19 +65,14 @@ public class AddController {
 		String remoteAddress = servletRequest.getRemoteAddr();
 		ReCaptchaResponse reCaptchaResponse = this.reCaptcha.checkAnswer(remoteAddress, challangeField, responseField);
 		if(reCaptchaResponse.isValid()){
-			Question q = new Question(
-					suggestion.getQuestion(), 
-					suggestion.getAnswer(),
-					new Lang(LocaleContextHolder.getLocale().toLanguageTag()),
-					new Difficulty("en"),
-					Collections.singleton(new Category()),
-					null
-			);
-			System.out.println("Got new question:" + q);
-			questionService.addNew(q);
-			model.addAttribute(NameOf.SUCCESS_MSG, "Question is added and will soon be moderated.");
+			DBAccessReport report = questionService.tryAddSuggested(suggestion);
+			if (!report.areErrorsPresent()){
+				model.addAttribute(NameOf.MA_SUCCESS_MSG, "Question is added and will soon be moderated.");
+			}else{
+				model.addAttribute(NameOf.MA_ERROR_MSG, report.getErrorMessage());
+			}
 		}else{
-			model.addAttribute(NameOf.ERROR_MSG, "wrong captcha");
+			model.addAttribute(NameOf.MA_ERROR_MSG, "wrong captcha");
 		}
 		model.addAttribute("questionSuggestion", suggestion);
 		model.addAttribute("categories", categoryService.getAllCategories());

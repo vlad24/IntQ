@@ -50,9 +50,13 @@ public class NameOf {
 	public static final String COLUMN_USER_AGE = "uAge";
 	public static final String COLUMN_USER_ACTIVENESS = "uActiveness";
 	
-	public static final String ERROR_MSG = "error_msg";
-	public static final String SUCCESS_MSG = "success_msg";
+	public static final String MA_ERROR_MSG = "error_msg";
+	public static final String MA_SUCCESS_MSG = "success_msg";
 	public static final String MA_USERNAME = "username";
+	public static final String MA_CATEGORIES = "categories";
+	public static final String MA_LANGS = "languages";
+	public static final String MA_DIFFICULTIES = "difficulties";
+	public static final String MA_QUESTION_SELECTOR = "questionSelector";
 	
 
 

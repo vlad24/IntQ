@@ -11,6 +11,8 @@ import com.appricots.intq.NameOf;
 import com.appricots.intq.model.User;
 import com.appricots.intq.model.UserSession;
 import com.appricots.intq.services.CategoryService;
+import com.appricots.intq.services.DifficultyService;
+import com.appricots.intq.services.LangService;
 import com.appricots.intq.services.UserService;
 import com.appricots.intq.wrappers.QuestionSelector;
 
@@ -22,6 +24,10 @@ public class MainController {
 	private UserService userService;
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private DifficultyService diffService;
+	@Autowired
+	private LangService langService;
 	
 	public MainController(UserService service) {
 		this.userService = service;
@@ -60,8 +66,10 @@ public class MainController {
 				}
 			}
 		}
-		model.addAttribute("categories", categoryService.getAllCategories());
-		model.addAttribute("questionSelector", new QuestionSelector());
+		model.addAttribute(NameOf.MA_CATEGORIES,        categoryService.getAllCategories());
+		model.addAttribute(NameOf.MA_DIFFICULTIES,      diffService.getAllDiffs());
+		model.addAttribute(NameOf.MA_LANGS,             langService.getAllLangs());
+		model.addAttribute(NameOf.MA_QUESTION_SELECTOR, new QuestionSelector());
 		return "starter";
 	}
 	
