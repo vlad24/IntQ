@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.appricots.intq.NameOf;
 import com.appricots.intq.model.Question;
 import com.appricots.intq.services.CategoryService;
+import com.appricots.intq.services.DifficultyService;
+import com.appricots.intq.services.LangService;
 import com.appricots.intq.services.QuestionService;
 import com.appricots.intq.wrappers.QuestionSelector;
 import com.appricots.intq.wrappers.QuestionSuggestion;
@@ -30,10 +32,10 @@ public class QuestionController {
 
 	@Autowired
 	CategoryService categoryService;
-	//	@Autowired
-	//	DifficultyService difService;
-	//	@Autowired
-	//	LanguageService langService;
+	@Autowired
+	DifficultyService difService;
+	@Autowired
+	LangService langService;
 	@Autowired
 	ReCaptchaImpl reCaptcha;
 
@@ -68,9 +70,10 @@ public class QuestionController {
 
 	@RequestMapping(value="add.html", method = RequestMethod.GET)
 	public String add(Model model){
-		//TODO 
 		model.addAttribute("questionSuggestion", new QuestionSuggestion());
-		model.addAttribute("categories", categoryService.getAll());
+		model.addAttribute("categories",   categoryService.getAllForSuggestion());
+		model.addAttribute("difficulties", difService.getAllForSuggestion());
+		model.addAttribute("languages",    langService.getAllForSuggestion());
 		return "add";		
 	}
 
@@ -78,7 +81,7 @@ public class QuestionController {
 	public String processSuggestion(
 			@RequestParam("recaptcha_challenge_field") String challangeField,
 			@RequestParam("recaptcha_response_field")  String responseField,
-			@ModelAttribute("qusestionSuggestion") QuestionSuggestion suggestion,
+			@ModelAttribute("questionSuggestion") QuestionSuggestion suggestion,
 			ServletRequest servletRequest,
 			Model model
 			){
@@ -89,6 +92,7 @@ public class QuestionController {
 				Long resultId = questionService.tryAddSuggested(suggestion);
 				if (resultId != null){
 					model.addAttribute(NameOf.MA_SUCCESS_MSG, "Question is added and will soon be moderated.");
+					model.addAttribute("questionSuggestion", new QuestionSuggestion());
 				}
 			}catch(Exception e){
 				model.addAttribute(NameOf.MA_ERROR_MSG, e.getMessage());
@@ -96,8 +100,9 @@ public class QuestionController {
 		}else{
 			model.addAttribute(NameOf.MA_ERROR_MSG, "wrong captcha");
 		}
-		model.addAttribute("questionSuggestion", suggestion);
-		model.addAttribute("categories", categoryService.getAll());
+		model.addAttribute("categories", categoryService.getAllForSuggestion());
+		model.addAttribute("difficulties", difService.getAllForSuggestion());
+		model.addAttribute("languages", langService.getAllForSuggestion());
 		return "add";
 	}
 

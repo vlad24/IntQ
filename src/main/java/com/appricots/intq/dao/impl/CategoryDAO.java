@@ -19,6 +19,7 @@ public class CategoryDAO extends DAO<Category, Long>{
 		return super.getAll(NameOf.MAX_POSSIBLE);
 	}
 	
+	
 	@Transactional
 	public Category findByAlias(String alias){
 		Session session = sessionFactory.getCurrentSession();

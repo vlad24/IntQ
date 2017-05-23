@@ -6,23 +6,41 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.appricots.intq.NameOf;
-import com.appricots.intq.model.Category;
 
 @Entity
 @Table(name=NameOf.TABLE_QUESTION)
 public class QuestionSuggestion {
 
-	private String language;
-	private String difficulty;
-	private Set<Category> categories;
+	@Override
+	public String toString() {
+		return "QuestionSuggestion [language=" + language + ", difficulty="
+				+ difficulty + ", categories=" + categories + ", question="
+				+ question + ", answer=" + answer + ", attachment="
+				+ attachment + "]";
+	}
+	private Long language;
+	private Long difficulty;
+	private Set<Long> categories;
 	private String question;
 	private String answer;
 	private String attachment;
-	public String getDifficulty() {
+	public Long getLanguage() {
+		return language;
+	}
+	public void setLanguage(Long language) {
+		this.language = language;
+	}
+	public Long getDifficulty() {
 		return difficulty;
 	}
-	public void setDifficulty(String difficulty) {
+	public void setDifficulty(Long difficulty) {
 		this.difficulty = difficulty;
+	}
+	public Set<Long> getCategories() {
+		return categories;
+	}
+	public void setCategories(Set<Long> categories) {
+		this.categories = categories;
 	}
 	public String getQuestion() {
 		return question;
@@ -42,20 +60,5 @@ public class QuestionSuggestion {
 	public void setAttachment(String attachment) {
 		this.attachment = attachment;
 	}
-
-	public QuestionSuggestion() {
-		// TODO Auto-generated constructor stub
-	}
-	public String getLanguage() {
-		return language;
-	}
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-	public Set<Category> getCategories() {
-		return categories;
-	}
-	public void setCategories(Set<Category> categories) {
-		this.categories = categories;
-	}
+	
 }

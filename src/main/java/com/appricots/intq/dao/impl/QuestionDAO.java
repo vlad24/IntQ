@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.appricots.intq.model.Question;
 import com.appricots.intq.wrappers.QuestionSelector;
@@ -42,6 +43,21 @@ public class QuestionDAO extends DAO<Question, Long> {
 		}else{
 			return null;
 		}
+	}
+
+	@Transactional
+	public List<Question> getNew() {
+		Session session = sessionFactory.getCurrentSession();
+		Query selectQuery = session.createQuery(
+				new StringBuilder()
+				.append(" SELECT Q FROM ").append(Question.class.getSimpleName()).append(" Q ")
+				.append(" WHERE ")
+				.append(" Q.status = :stat ")
+				.toString()
+				);
+		selectQuery.setParameter("stat", QuestionStatus.NEW);
+		List<Question> list = (List<Question>)selectQuery.list();
+		return list;
 	}
 
 

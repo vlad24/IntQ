@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.appricots.intq.services.QuestionService;
+import com.appricots.intq.wrappers.RateDirection;
 
 @Controller
 public class RateController {
@@ -23,8 +24,8 @@ public class RateController {
 	@RequestMapping(value="rate.html", method = RequestMethod.POST)
 	public String rate(
 			@RequestParam("id")     long id,
-			@RequestParam("delta") String delta
+			@RequestParam("delta")  String delta
 			){
-		return String.valueOf(questionService.rate(id, delta));
+		return String.valueOf(questionService.rate(id, RateDirection.valueOf(delta).getNumericDelta()));
 	}
 }

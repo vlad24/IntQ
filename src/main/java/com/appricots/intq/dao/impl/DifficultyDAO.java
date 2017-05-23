@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.appricots.intq.NameOf;
 import com.appricots.intq.model.Difficulty;
+import com.appricots.intq.wrappers.AliasedId;
 
 @Repository
 public class DifficultyDAO extends DAO<Difficulty, Long>{
@@ -28,6 +29,15 @@ public class DifficultyDAO extends DAO<Difficulty, Long>{
 		);
 		selectQuery.setParameter(aliasParam, alias);
 		return (Difficulty) selectQuery.uniqueResult();
+	}
+
+	public List<Difficulty> getAllNonMeta(Integer maxLimit) {
+		Session session = sessionFactory.getCurrentSession();
+		Query selectQuery = session.createQuery("SELECT D from Difficulty D where D.isMeta is false");
+		if (!maxLimit.equals(NameOf.MAX_POSSIBLE)){
+			selectQuery.setMaxResults(maxLimit);
+		}
+		return (List<Difficulty>)selectQuery.list();
 	}
 
 }

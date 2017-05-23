@@ -13,24 +13,25 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="<c:url value="/resources/img/intq_logo.png" />" />
-<title>int q; print q</title>
+<title>int q; puts q</title>
 </head>
 
 <script src="http://code.jquery.com/jquery-1.10.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     function rateAsync(indicator) {
-    	delta = (indicator == "-1")? "down" : "up";
+    	delta = (indicator == "-1")? "DOWN" : "UP";
         $.ajax(
         	{
-        	type: "POST",
-            url : 'rate.html',
-            data: {"id" : ${id}, "delta" : delta},
-            success : function(data) {
-                	$('#status').html("Thanks for rating! Current rating: " + data);
-                	$(".rate_button").hide()
-            		}
+        		type: "POST",
+            	url : 'rate.html',
+            	data: {"id" : ${id}, "delta" : delta},
+            	success: function(data) 
+            			 {
+                			$('#status').html("Rating: " + data + " %");
+                			$(".rate_button").hide();
+            			 }
         	}
-        		);
+       	);
     }
 </script>
 
@@ -55,19 +56,40 @@
 		</div>
 	</div>
 	</nav>
-	
+
 	<h1 class="header">int q;</h1>
 	<div class="container-fluid">
-		<div class=".well">
-			<form:label class="question" path="question">${question}</form:label>
+
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<form:label class="question" path="question">${question}</form:label>
+			</div>
 		</div>
-		<button data-toggle="collapse" data-target="#ans">Show answer</button>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-2">
+					<button id="rate_down" class="rate_button btn btn-danger" onclick="rateAsync(-1)">--</button>
+				</div>
+				<div class="col-sm-8">
+					<button class="btn btn-default btn-block" form="selectorForm" type="submit">Next</button>
+				</div>
+				<div class="col-sm-2">
+					<button id="rate_up" class="rate_button btn btn-success" onclick="rateAsync(1)">++</button>
+				</div>
+			</div>
+		</div>
+				<div class="continer">
+			<div class="row">
+				<div class="col-sm-2">
+					<button class="btn btn-link" data-toggle="collapse" data-target="#ans">Show answer</button>
+				</div>
+				<div class="col-sm-offset-8 col-sm-2">
+					<p id="status">Rating: ${rating} %</p>
+				</div>
+			</div>
+		</div>
 		<form:label id="ans" class="collapse" path="answer">${answer}</form:label>
 	</div>
-	<button id="rate_down" class="btn btn-error" onclick="rateAsync(-1)">--</button>
-	<button class="btn btn-default" form="selectorForm" type="submit">Next</button>
-	<button id="rate_up" class="btn btn-success" onclick="rateAsync(1)">++</button>
-	<label id="status">Rating: ${rating} / 100%</label>
 </body>
 </html>
 

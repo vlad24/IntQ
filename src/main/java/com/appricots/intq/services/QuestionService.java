@@ -3,7 +3,6 @@ package com.appricots.intq.services;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -19,6 +18,7 @@ import com.appricots.intq.model.Category;
 import com.appricots.intq.model.Difficulty;
 import com.appricots.intq.model.Lang;
 import com.appricots.intq.model.Question;
+import com.appricots.intq.wrappers.AliasedId;
 import com.appricots.intq.wrappers.QuestionSelector;
 import com.appricots.intq.wrappers.QuestionStatus;
 import com.appricots.intq.wrappers.QuestionSuggestion;
@@ -51,18 +51,24 @@ public class QuestionService {
 
 	@Transactional
 	public Long tryAddSuggested(QuestionSuggestion suggestion) {
+		System.out.println(suggestion);
 		Question q = new Question();
-		Difficulty difficulty = difDAO.findByAlias(suggestion.getDifficulty());
-		Lang language = langDAO.findByAlias(suggestion.getLanguage());
+		Difficulty difficulty = difDAO.get(suggestion.getDifficulty());
+		Lang language = langDAO.get(suggestion.getLanguage());
 		if (language == null){
 			throw new IllegalArgumentException("Illegal language provided " + suggestion.getLanguage());
 		}
+		Set<Category> cats = new HashSet<Category>();
+		for (Long cid : suggestion.getCategories()){
+			cats.add(categoryDao.get(cid));
+		}
 		q.setQuestion(suggestion.getQuestion());
 		q.setAnswer(suggestion.getAnswer());
-		q.setCategories(suggestion.getCategories());
+		q.setCategories(cats);
 		q.setDifficulty(difficulty);
 		q.setLang(language);
 		q.setAttachment(suggestion.getAttachment());
+		q.setStatus(QuestionStatus.NEW);
 		return qDao.create(q);
 	}
 
@@ -73,9 +79,9 @@ public class QuestionService {
 	}
 
 	@Transactional
-	public Integer rate(long id, String delta) {
+	public Integer rate(long id, int delta) {
 		Question q = qDao.get(id);
-		if (delta.startsWith("-")){
+		if (delta < 0){
 			q.setMinusAmount(q.getMinusAmount() + 1);
 		}else{
 			q.setPlusAmount(q.getPlusAmount() + 1);
@@ -86,9 +92,16 @@ public class QuestionService {
 
 	@Transactional
 	public Question getNext(QuestionSelector selector) {
-//		Long idOfAny = getIdOfAnyCategory();
-//		selector.setIds(normalizeCategories(selector.getIds(), idOfAny));
 		return qDao.getNextAccepted(selector);
+	}
+	
+	public List<AliasedId<Long>> getNew() {
+		List<Question> qs =  qDao.getNew();
+		List<AliasedId<Long>> aids = new ArrayList<AliasedId<Long>>(qs.size());
+		for (Question q: qs){
+			aids.add(new AliasedId<Long>(q.getId(), q.getQuestion()));
+		}
+		return aids;
 	}
 
 //	private List<Long> normalizeCategories(List<Long> ids, Long idOfAny) {
@@ -133,11 +146,11 @@ public class QuestionService {
 		Lang       english         = new Lang("English");
 		Lang       russian         = new Lang("Russian");
 
-		Set<Category> categoriesOfQ1 = new HashSet<Category>(Arrays.asList(pythonCategory));
-		Set<Category> categoriesOfQ2 = new HashSet<Category>(Arrays.asList(testingCategory));
-		Set<Category> categoriesOfQ3 = new HashSet<Category>(Arrays.asList(testingCategory, pythonCategory));
-		Set<Category> categoriesOfQ4 = new HashSet<Category>(Arrays.asList(javaCategory));
-		Set<Category> categoriesOfQ5 = new HashSet<Category>(Arrays.asList(javaCategory));
+		Set<Category> categoriesOfQ1 = new HashSet<Category>(Arrays.asList(anyCategory, pythonCategory));
+		Set<Category> categoriesOfQ2 = new HashSet<Category>(Arrays.asList(anyCategory, testingCategory));
+		Set<Category> categoriesOfQ3 = new HashSet<Category>(Arrays.asList(anyCategory, testingCategory, pythonCategory));
+		Set<Category> categoriesOfQ4 = new HashSet<Category>(Arrays.asList(anyCategory, javaCategory));
+		Set<Category> categoriesOfQ5 = new HashSet<Category>(Arrays.asList(anyCategory, javaCategory));
 
 		Question q1 = new Question(
 				"Python and multi-threading. Is it a good idea? List some ways to get some Python code to run in a parallel way.",
@@ -195,12 +208,8 @@ public class QuestionService {
 				easy,
 				categoriesOfQ5,
 				null,
-				QuestionStatus.ACCEPTED
+				QuestionStatus.NEW
 				);
-		//pythonCategory.setQuestions( new HashSet<Question>(Arrays.asList(q1, q3)));
-		//testingCategory.setQuestions(new HashSet<Question>(Arrays.asList(q2, q3)));
-		//javaCategory.setQuestions(   new HashSet<Question>(Arrays.asList(q4, q5)));
-		categoryDao.create(anyCategory);
 		categoryDao.create(anyCategory);
 		categoryDao.create(javaCategory);
 		categoryDao.create(pythonCategory);
@@ -224,6 +233,7 @@ public class QuestionService {
 		addNew(q5);
 		System.out.println("------ added all");
 	}
+
 
 
 }

@@ -69,14 +69,14 @@
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="asw">Answer:</label>
 				<div class="col-sm-10">
-					<form:textarea path="question" id="asw" class="form-control" rows="4" placeholder="(Optional). Please be constructive."></form:textarea>
+					<form:textarea path="answer" id="asw" class="form-control" rows="4" placeholder="(Optional). Please be constructive."></form:textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="cats">Categories:</label>
 				<div class="col-sm-10">
 					<form:select class="form-control" path="categories" id="cats" required="true">
-						<form:options items="${categories}" />
+						<form:options items="${categories}" itemValue="id" itemLabel="alias"/>
 					</form:select>
 				</div>
 			</div>
@@ -84,7 +84,7 @@
 				<label class="control-label col-sm-2" for="difs">Difficulty:</label>
 				<div class="col-sm-10">
 					<form:select class="form-control" path="difficulty" id="difs" required="true">
-						<form:options items="${categories}" />
+						<form:options items="${difficulties}" itemValue="id" itemLabel="alias"/>
 					</form:select>
 				</div>
 			</div>
@@ -92,7 +92,7 @@
 				<label class="control-label col-sm-2" for="langs">Language:</label>
 				<div class="col-sm-10">
 					<form:select class="form-control" path="language" id="langs" require="true">
-						<form:options items="${categories}" />
+						<form:options items="${languages}" itemValue="id" itemLabel="alias"/>
 					</form:select>
 				</div>
 			</div>

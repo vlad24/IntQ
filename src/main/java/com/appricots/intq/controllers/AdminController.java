@@ -1,5 +1,7 @@
 package com.appricots.intq.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.appricots.intq.NameOf;
 import com.appricots.intq.services.QuestionService;
 import com.appricots.intq.services.UserService;
+import com.appricots.intq.wrappers.AliasedId;
 
 @Controller
 public class AdminController {
@@ -38,11 +41,8 @@ public class AdminController {
 			@CookieValue(value = NameOf.COOKIE_4_ADMIN, defaultValue = NameOf.NOTHING) String identity, 
 			Model model
 			){
-		System.out.println("debug init...");
 		if (identity.equals(NameOf.DEBUG_ADMIN_COOKIE) || true){
-			StringBuilder resultMsg = new StringBuilder();
 			userService.debugInit();
-			resultMsg.append("Added debug user.");
 			questionService.debugInit();
 			model.addAttribute(NameOf.MA_SUCCESS_MSG, "added debug user");
 			return "admin";
@@ -55,9 +55,10 @@ public class AdminController {
 			@CookieValue(value = NameOf.COOKIE_4_ADMIN, defaultValue = NameOf.NOTHING) String identity, 
 			Model model
 			){
-		System.out.println("moderating...");
 		if (identity.equals(NameOf.DEBUG_ADMIN_COOKIE) || true){
-			return "admin";
+			List<AliasedId<Long>> questions = questionService.getNew();
+			model.addAttribute("questions", questions);
+			return "new_questions";
 		}
 		return "main";
 	}

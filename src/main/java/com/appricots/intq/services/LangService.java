@@ -28,4 +28,16 @@ public class LangService {
 		}
 		return aliasedIds;
 	}
+
+	public List<AliasedId<Long>> getAllForSuggestion() {
+		//TODO try to move to super class
+		List<Lang> entities = getAll();
+		List<AliasedId<Long>> aliasedIds = new ArrayList<AliasedId<Long>>(entities.size());
+		for (Lang entity : entities) {
+			if (!entity.isMeta()){
+				aliasedIds.add(new AliasedId<Long>(entity.getId(), entity.getAlias()));
+			}
+		}
+		return aliasedIds;
+	}
 }
