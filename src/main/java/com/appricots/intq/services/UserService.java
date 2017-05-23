@@ -1,6 +1,5 @@
 package com.appricots.intq.services;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +35,7 @@ public class UserService {
 	public boolean validateIdentity(String identity) {
 		return userSessionDao.getByIdentity(identity) != null;
 	}
-	
+
 	@Transactional
 	public User getUserForIdentity(String identity) {
 		UserSession uSes = userSessionDao.getByIdentity(identity);
@@ -53,7 +52,7 @@ public class UserService {
 		return userDao.getUserByCreds(creds);
 	}
 
-	
+
 	@Transactional
 	public UserSession getLastSessionByCookie(String identity) {
 		return null;
@@ -61,29 +60,19 @@ public class UserService {
 
 	@Transactional
 	public Long registerUser(UserProfile profile) {
-		try{
-			User newUser = new User();
-			newUser.setName(profile.getName());
-			System.out.println("---------" + "trying to add" + newUser);
-			newUser.setLastName(profile.getLastName());
-			System.out.println("---------" + "trying to add" + newUser);
-			newUser.setAge(profile.getAge());
-			System.out.println("---------" + "trying to add" + newUser);
-			newUser.setEmail(profile.getEmail());
-			System.out.println("---------" + "trying to add" + newUser);
-			newUser.setActiveness(0);
-			System.out.println("---------" + "trying to add" + newUser);
-			UserCreds newCreds = new UserCreds();
-			System.out.println("---------" + "trying to add" + newUser);
-			newCreds.setLogin(profile.getLogin());
-			newCreds.setPassHash(profile.getPass());
-			newUser.setCreds(newCreds);
-			newCreds.setUser(newUser);
-			System.out.println("---------" + "trying to add" + newUser);
-			return userDao.create(newUser);
-		}catch(ConstraintViolationException e){
-			return null;
-		}
+		User newUser = new User();
+		newUser.setName(profile.getName());
+		newUser.setLastName(profile.getLastName());
+		newUser.setAge(profile.getAge());
+		newUser.setEmail(profile.getEmail());
+		newUser.setActiveness(0);
+		UserCreds newCreds = new UserCreds();
+		newCreds.setLogin(profile.getLogin());
+		newCreds.setPassHash(profile.getPass());
+		newUser.setCreds(newCreds);
+		newCreds.setUser(newUser);
+		System.out.println("---------" + "trying to add" + newUser);
+		return userDao.create(newUser);
 	}
 
 	@Transactional
@@ -92,7 +81,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public UserSession startNewSession(String login) {
+	public String startNewSession(String login) {
 		String cookie = generateCookie(login);
 		UserSession newSession = new UserSession();
 		newSession.setIdentCookie(cookie);
@@ -101,7 +90,7 @@ public class UserService {
 		newSession.setUser(user);
 		newSession.setLastQuestion(null);
 		userSessionDao.create(newSession);
-		return newSession;
+		return cookie;
 	}
 
 	private String generateCookie(String login) {
@@ -116,7 +105,6 @@ public class UserService {
 		user.setLogin("user");
 		user.setPass("user");
 		user.setName("Anonymous");
-		System.out.println("+++++++++" + user);
 		registerUser(user);
 	}
 

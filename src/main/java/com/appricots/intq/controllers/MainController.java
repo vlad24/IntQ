@@ -55,7 +55,6 @@ public class MainController {
 			Model model
 			){
 		if (!identity.equals(NameOf.NOTHING)){
-			System.out.println("======== Got identity:" + identity);
 			User user = userService.getUserForIdentity(identity);
 			if (user != null){
 				model.addAttribute(NameOf.MA_USERNAME, user.getCreds().getLogin());
@@ -66,9 +65,9 @@ public class MainController {
 				}
 			}
 		}
-		model.addAttribute(NameOf.MA_CATEGORIES,        categoryService.getAllCategories());
-		model.addAttribute(NameOf.MA_DIFFICULTIES,      diffService.getAllDiffs());
-		model.addAttribute(NameOf.MA_LANGS,             langService.getAllLangs());
+		model.addAttribute(NameOf.MA_CATEGORIES,        categoryService.getAliasedIds());
+		model.addAttribute(NameOf.MA_DIFFICULTIES,      diffService.getAliasedIds());
+		model.addAttribute(NameOf.MA_LANGS,             langService.getAliasedIds());
 		model.addAttribute(NameOf.MA_QUESTION_SELECTOR, new QuestionSelector());
 		return "starter";
 	}

@@ -16,8 +16,8 @@ import com.appricots.intq.NameOf;
 @Entity
 @Table(name=NameOf.TABLE_LANG)
 public class Lang {
-	
-	public static final String ANY = "*";
+
+	public static final Lang ANY = new Lang("*");
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -30,14 +30,19 @@ public class Lang {
 	@OneToMany(cascade=CascadeType.REMOVE, mappedBy="lang")
 	Set<Question> questions;
 	
+	@Column(name=NameOf.COLUMN_LANG_METAFLAG, nullable=false)
+	private boolean isMeta;
+	
 	
 	
 	public Lang() {
 		this.id = -1;
 		this.alias = NameOf.NOTHING;
+		this.isMeta = false;
 	}
 	
 	public Lang(String alias) {
+		this();
 		this.alias = alias;
 	}
 
@@ -64,10 +69,44 @@ public class Lang {
 	public void setQuestions(Set<Question> questions) {
 		this.questions = questions;
 	}
+	
+	
+	public boolean isMeta() {
+		return isMeta;
+	}
+
+	public void setMeta(boolean isMeta) {
+		this.isMeta = isMeta;
+	}
 
 	@Override
 	public String toString() {
 		return alias;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((alias == null) ? 0 : alias.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Lang other = (Lang) obj;
+		if (alias == null) {
+			if (other.alias != null)
+				return false;
+		} else if (!alias.equals(other.alias))
+			return false;
+		return true;
 	}	
 	
 }

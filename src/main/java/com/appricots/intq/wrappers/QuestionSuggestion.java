@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.appricots.intq.NameOf;
+import com.appricots.intq.model.Category;
 
 @Entity
 @Table(name=NameOf.TABLE_QUESTION)
@@ -13,7 +14,7 @@ public class QuestionSuggestion {
 
 	private String language;
 	private String difficulty;
-	private Set<String> categories;
+	private Set<Category> categories;
 	private String question;
 	private String answer;
 	private String attachment;
@@ -22,12 +23,6 @@ public class QuestionSuggestion {
 	}
 	public void setDifficulty(String difficulty) {
 		this.difficulty = difficulty;
-	}
-	public Set<String> getCategories() {
-		return categories;
-	}
-	public void setCategories(Set<String> categories) {
-		this.categories = categories;
 	}
 	public String getQuestion() {
 		return question;
@@ -56,5 +51,11 @@ public class QuestionSuggestion {
 	}
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+	public Set<Category> getCategories() {
+		return categories;
+	}
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
 	}
 }

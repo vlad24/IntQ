@@ -16,8 +16,6 @@ import com.appricots.intq.NameOf;
 @Entity
 @Table(name=NameOf.TABLE_DIFFICULTY)
 public class Difficulty {
-	public static final String ANY = "*";
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name=NameOf.COLUMN_DIFF_ID)
@@ -29,6 +27,8 @@ public class Difficulty {
 	@OneToMany(cascade=CascadeType.REMOVE, mappedBy = "difficulty")
 	Set<Question> questions;
 	
+	@Column(name=NameOf.COLUMN_DIFF_METAFLAG, nullable=false)
+	private boolean isMeta;
 	
 	
 	public Difficulty() {
@@ -62,6 +62,14 @@ public class Difficulty {
 		return alias;
 	}
 
+	public boolean isMeta() {
+		return isMeta;
+	}
+
+	public void setMeta(boolean isMeta) {
+		this.isMeta = isMeta;
+	}
+
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}
@@ -69,6 +77,31 @@ public class Difficulty {
 	@Override
 	public String toString() {
 		return alias;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((alias == null) ? 0 : alias.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Difficulty other = (Difficulty) obj;
+		if (alias == null) {
+			if (other.alias != null)
+				return false;
+		} else if (!alias.equals(other.alias))
+			return false;
+		return true;
 	}
 
 }

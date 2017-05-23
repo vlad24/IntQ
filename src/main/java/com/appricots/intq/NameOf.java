@@ -57,6 +57,9 @@ public class NameOf {
 	public static final String MA_LANGS = "languages";
 	public static final String MA_DIFFICULTIES = "difficulties";
 	public static final String MA_QUESTION_SELECTOR = "questionSelector";
+	public static final String COLUMN_CAT_METAFLAG = "isMeta";
+	public static final String COLUMN_DIFF_METAFLAG = "isMeta";
+	public static final String COLUMN_LANG_METAFLAG = "isMeta";
 	
 
 

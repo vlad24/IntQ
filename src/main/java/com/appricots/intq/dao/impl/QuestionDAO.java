@@ -1,14 +1,11 @@
 package com.appricots.intq.dao.impl;
 
-import java.text.MessageFormat;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
-import com.appricots.intq.NameOf;
-import com.appricots.intq.model.Category;
 import com.appricots.intq.model.Question;
 import com.appricots.intq.wrappers.QuestionSelector;
 import com.appricots.intq.wrappers.QuestionStatus;
@@ -18,31 +15,34 @@ public class QuestionDAO extends DAO<Question, Long> {
 
 	public Question getNextAccepted(QuestionSelector selector) {
 		Session session = sessionFactory.getCurrentSession();
-		Query selectQuery = null;
-		boolean noCategoryBounds = (selector.getCategories().size() == 1 && selector.getCategories().contains(Category.ANY));
-		final String langParam = "language";
-		final String diffParam = "difficulty";
-		final String statParam = "status";
-		StringBuilder hqlQuery = new StringBuilder()
-			.append(MessageFormat.format("SELECT QS FROM {} Q ", NameOf.TABLE_QUESTION))
-			.append("JOIN  Q.categories QS ")
-			.append(MessageFormat.format("AND {} = :{} ", NameOf.COLUMN_QUESTION_LANG,   langParam))
-			.append(MessageFormat.format("AND {} = :{} ", NameOf.COLUMN_QUESTION_DIFF,   diffParam))
-			.append(MessageFormat.format("AND {} = :{} ", NameOf.COLUMN_QUESTION_STATUS, statParam ));
-		if (!noCategoryBounds){
-			hqlQuery.append("WHERE QS.categories in :categories ");
-		}
-		selectQuery = session.createQuery(hqlQuery.toString());
-		if (!noCategoryBounds){
-			selectQuery.setParameter("categories", selector.getCategories());
-		}
-		selectQuery.setParameter(langParam, selector.getLanguage());
-		selectQuery.setParameter(diffParam, selector.getDifficulty());
-		selectQuery.setParameter(statParam, QuestionStatus.ACCEPTED.ordinal());
+		Query selectQuery = session.createQuery(
+				new StringBuilder()
+				.append(" SELECT Q FROM ").append(Question.class.getSimpleName()).append(" Q ")
+				.append(" JOIN  Q.categories ").append("QS")
+				.append(" JOIN  Q.lang       ").append("QL")
+				.append(" JOIN  Q.difficulty ").append("QD")
+				.append(" WHERE ")
+				.append(" QL.id = :lang ")   .append("AND")
+				.append(" QD.id = :diff ")   .append("AND")
+				.append(" Q.status = :stat ").append("AND")
+				//.append(" Q.isMeta = :meta ").append("AND")
+				.append(" QS.id in (:categoryIds) ")
+				.toString()
+				);
+		selectQuery.setParameterList("categoryIds", selector.getIds());
+		selectQuery.setParameter("lang", selector.getLanguage());
+		selectQuery.setParameter("diff", selector.getDifficulty());
+		selectQuery.setParameter("stat", QuestionStatus.ACCEPTED);
+		//selectQuery.setParameter("meta", false);
 		selectQuery.setFirstResult(selector.getShift());
 		selectQuery.setMaxResults(1);
 		List<Question> list = selectQuery.list();
-		return list.get(0);
+		if (!list.isEmpty()){
+			return list.get(0);
+		}else{
+			return null;
+		}
 	}
+
 
 }

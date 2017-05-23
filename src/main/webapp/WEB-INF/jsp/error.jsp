@@ -19,9 +19,13 @@
 	<div class="header">
 		<h1>> int q;</h1>
 	</div>
-	<div class="alert alert-warning fade in">
-		<strong>Oops!</strong> ${error_msg}
-	</div>
+	<c:if test="${not empty error_msg}">
+			<div id="error-container" class="container-fluid">
+				<div class="alert alert-danger fade in">
+					<strong>Oops!</strong> ${error_msg}
+				</div>
+			</div>
+		</c:if>
 </body>
 </html>
 

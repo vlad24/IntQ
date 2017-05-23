@@ -2,7 +2,6 @@ package com.appricots.intq.model;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,9 +14,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import com.appricots.intq.NameOf;
 import com.appricots.intq.wrappers.QuestionStatus;
@@ -32,12 +28,10 @@ public class Question {
 	
 	@ManyToOne
 	@JoinColumn(name = NameOf.COLUMN_LANG_ID)
-	//@Column(name=NameOf.COLUMN_QUESTION_LANG, nullable=false)
 	private Lang lang;
 	
 	@ManyToOne
 	@JoinColumn(name = NameOf.COLUMN_DIFF_ID)
-	//@Column(name=NameOf.COLUMN_QUESTION_DIFF, nullable=false)
 	private Difficulty difficulty;
 	
 	@ManyToMany
@@ -64,8 +58,6 @@ public class Question {
 	@Column(name=NameOf.COLUMN_QUESTION_STATUS, nullable=false)
 	private QuestionStatus status;
 
-
-	
 	
 	public Question(){
 	}
@@ -175,11 +167,7 @@ public class Question {
 
 	@Override
 	public String toString() {
-		return "Question [id=" + id + ", lang=" + lang + ", difficulty="
-				+ difficulty + ", categories=" + categories + ", question="
-				+ question + ", answer=" + answer + ", plusAmount="
-				+ plusAmount + ", minusAmount=" + minusAmount + ", attachment="
-				+ attachment + ", status=" + status + "]";
+		return "Question [id=" + id + "]";
 	}
 
 

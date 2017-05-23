@@ -82,8 +82,7 @@ public class UserSession {
 
 	@Override
 	public String toString() {
-		return "UserSession [id=" + id + ", user=" + user + ", identCookie="
-				+ identCookie + ", lastQuestion=" + lastQuestion + "]";
+		return "UserSession [id=" + id + "," + "identCookie=" + identCookie + ", lastQuestion=" + lastQuestion + "]";
 	}
 
 }

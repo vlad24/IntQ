@@ -1,68 +1,69 @@
 package com.appricots.intq.wrappers;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
-import com.appricots.intq.model.Category;
-import com.appricots.intq.model.Difficulty;
-import com.appricots.intq.model.Lang;
-import com.appricots.intq.model.Question;
 
 
 public class QuestionSelector {
-	private Set<String> categories;
-	private String difficulty;
-	private String language;
+	private List<Long> ids;
+	private Long difficulty;
+	private Long language;
 	private int shift;
 	
-	public static QuestionSelector toSelector(Question q){
-		Set<String> catAliases = new HashSet<String>();
-		for (Iterator<Category> iterator = q.getCategories().iterator(); iterator.hasNext();) {
-			Category category = (Category) iterator.next();
-			catAliases.add(category.getAlias());
-		}
-		return new QuestionSelector(catAliases, q.getDiffuculty().getAlias(), q.getLang().getAlias());
-	}
+//	public static QuestionSelector toSelector(Question q){
+//		Set<Long> catIds = new HashSet<Long>();
+//		for (Iterator<Category> iterator = q.getCategories().iterator(); iterator.hasNext();) {
+//			Category category = (Category) iterator.next();
+//			catIds.add(category.getId());
+//		}
+//		return new QuestionSelector(new ArrayList<Long>(catIds),
+//				new AliasedId<Long>(q.getDifficulty().getId(), q.getDifficulty().getAlias()),
+//				new AliasedId<Long>(q.getLang().getId(), q.getLang().getAlias())
+//			);
+//	}
 	
-	public QuestionSelector(Set<String> categories, String difficulty,
-			String language) {
+	public QuestionSelector(List<Long> ids, Long dif, Long lang) {
 		super();
-		this.categories = categories;
-		this.difficulty = difficulty;
-		this.language = language;
+		this.ids = ids;
+		this.difficulty = dif;
+		this.language = lang;
+		this.shift = 0;
 	}
 
 	public QuestionSelector() {
-		categories   = Collections.singleton(Category.ANY);
-		difficulty = Difficulty.ANY;
-		language   = Lang.ANY;
 	}
 	
 	@Override
 	public String toString() {
-		return "QSelector [category=" + categories + ", difficulty="
+		return "QSelector [category=" + ids + ", difficulty="
 				+ difficulty + ", language=" + language + "]";
 	}
-	
-	public Set<String> getCategories() {
-		return categories;
+
+
+
+
+	public List<Long> getIds() {
+		return ids;
 	}
-	public void setCategories(Set<String> category) {
-		this.categories = category;
+
+	public void setIds(List<Long> ids) {
+		this.ids = ids;
 	}
-	public String getDifficulty() {
+
+
+
+	public Long getDifficulty() {
 		return difficulty;
 	}
-	public void setDifficulty(String difficulty) {
+
+	public void setDifficulty(Long difficulty) {
 		this.difficulty = difficulty;
 	}
-	public String getLanguage() {
+
+	public Long getLanguage() {
 		return language;
 	}
-	public void setLanguage(String language) {
+
+	public void setLanguage(Long language) {
 		this.language = language;
 	}
 
@@ -73,5 +74,7 @@ public class QuestionSelector {
 	public void setShift(int shift) {
 		this.shift = shift;
 	}
+	
+
 	
 }

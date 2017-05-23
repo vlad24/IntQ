@@ -5,9 +5,6 @@
 <html>
 <head>
 <link rel="stylesheet" href="<c:url value="/resources/css/user.css" />" />
-<!-- 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
--->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -53,8 +50,8 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="cats">Categories:</label>
 					<div class="col-sm-10">
-						<form:select class="form-control" path="categories" id="cats">
-							<form:options items="${categories}" />
+						<form:select multiple="true" class="form-control" path="ids" id="cats">
+							<form:options items="${categories}" itemValue="id" itemLabel="alias"/>
 						</form:select>
 					</div>
 				</div>
@@ -62,7 +59,7 @@
 					<label class="control-label col-sm-2" for="difs">Difficulty:</label>
 					<div class="col-sm-10">
 						<form:select class="form-control" path="difficulty" id="difs">
-							<form:options items="${difficulties}" />
+							<form:options items="${difficulties}" itemValue="id" itemLabel="alias" />
 						</form:select>
 					</div>
 				</div>
@@ -70,7 +67,7 @@
 					<label class="control-label col-sm-2" for="langs">Language:</label>
 					<div class="col-sm-10">
 						<form:select class="form-control" path="language" id="langs">
-							<form:options items="${languages}" />
+							<form:options items="${languages}" itemValue="id" itemLabel="alias"/>
 						</form:select>
 					</div>
 				</div>
@@ -78,8 +75,15 @@
 			<div class="col-sm-offset-8 col-sm-4">
 				<button id="submit" class="btn btn-success btn-block" type="submit" form="selectorForm">Run</button>
 			</div>
+			<c:if test="${not empty error_msg}">
+				<div id="error-container" class="container-fluid">
+					<div class="alert alert-danger fade in">
+						<strong>Oops!</strong> ${error_msg}
+					</div>
+				</div>
+			</c:if>
 		</c:if>
-		<c:if test="${empty categories || empty difficulties || empty languages}">
+		<c:if test="${(empty categories || empty difficulties || empty languages)}">
 			<div id="error-container" class="container-fluid">
 				<div class="alert alert-danger fade in">
 					<strong>Oops!</strong> No data came from server. Contact the administrator.

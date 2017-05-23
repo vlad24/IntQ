@@ -29,16 +29,23 @@
 				<form method="get" action="admin_moderate.html">
 					<button class="btn btn-danger btn-block" type="submit" value="Submit">Moderate new questions</button>
 				</form>
-				<br> <br> <br>
+				<br> <br>
 				<form method="get" action="admin_init.html">
 					<button class="btn btn-primary btn-block" type="submit" value="Submit">Fill initial data</button>
 				</form>
-				<br> <br> <br>
+				<br> <br>
 				<form method="get" action="main.html">
 					<button class="btn btn-default btn-block" type="submit" value="Submit">Back to main</button>
 				</form>
 			</div>
 		</div>
+		<c:if test="${not empty error_msg}">
+			<div id="error-container" class="container-fluid">
+				<div class="alert alert-danger fade in">
+					<strong>Oops!</strong> ${error_msg}
+				</div>
+			</div>
+		</c:if>
 	</div>
 
 </body>
