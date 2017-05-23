@@ -29,15 +29,4 @@ public class DifficultyService {
 		return aliasedIds;
 	}
 
-	public List<AliasedId<Long>> getAllForSuggestion() {
-		//TODO try to move to super class
-		List<Difficulty> entities = getAll();
-		List<AliasedId<Long>> aliasedIds = new ArrayList<AliasedId<Long>>(entities.size());
-		for (Difficulty entity : entities) {
-			if (!entity.isMeta()){
-				aliasedIds.add(new AliasedId<Long>(entity.getId(), entity.getAlias()));
-			}
-		}
-		return aliasedIds;
-	}
 }

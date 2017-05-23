@@ -60,20 +60,20 @@ public class QuestionController {
 				return "question";
 			}else{
 				model.addAttribute(NameOf.MA_ERROR_MSG, "No next question found");
+				return "error";
 			}
 		}catch (Exception e){
-			e.printStackTrace();
 			model.addAttribute(NameOf.MA_ERROR_MSG, e.getMessage());
+			return "error";
 		}
-		return "starter";
 	}
 
 	@RequestMapping(value="add.html", method = RequestMethod.GET)
 	public String add(Model model){
 		model.addAttribute("questionSuggestion", new QuestionSuggestion());
-		model.addAttribute("categories",   categoryService.getAllForSuggestion());
-		model.addAttribute("difficulties", difService.getAllForSuggestion());
-		model.addAttribute("languages",    langService.getAllForSuggestion());
+		model.addAttribute("categories",   categoryService.getAll());
+		model.addAttribute("difficulties", difService.getAll());
+		model.addAttribute("languages",    langService.getAll());
 		return "add";		
 	}
 
@@ -100,9 +100,9 @@ public class QuestionController {
 		}else{
 			model.addAttribute(NameOf.MA_ERROR_MSG, "wrong captcha");
 		}
-		model.addAttribute("categories", categoryService.getAllForSuggestion());
-		model.addAttribute("difficulties", difService.getAllForSuggestion());
-		model.addAttribute("languages", langService.getAllForSuggestion());
+		model.addAttribute("categories", categoryService.getAll());
+		model.addAttribute("difficulties", difService.getAll());
+		model.addAttribute("languages", langService.getAll());
 		return "add";
 	}
 

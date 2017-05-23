@@ -17,7 +17,6 @@ import com.appricots.intq.NameOf;
 @Table(name = NameOf.TABLE_CAT)
 public class Category {
 	
-	public static final String ANY_ALIAS = "*";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -25,9 +24,6 @@ public class Category {
 	Long id;
 	@Column(name=NameOf.COLUMN_CAT_ALIAS)
 	String alias;
-	@Column(name = NameOf.COLUMN_CAT_METAFLAG)
-	boolean isMeta;
-	
 	@ManyToMany(cascade=CascadeType.ALL, mappedBy="categories")
 	Set<Question> questions;
 	
@@ -35,20 +31,17 @@ public class Category {
 	public Category() {
 		this.alias = NameOf.NOTHING;
 		this.questions = null;
-		isMeta = false;
 	}
 	
 	public Category(String alias) {
 		super();
 		this.alias = alias;
-		isMeta = false;
 	}
 	
 	public Category(String alias, Set<Question> question, boolean isMeta) {
 		super();
 		this.alias = alias;
 		this.questions = question;
-		this.isMeta = isMeta;
 	}
 
 
@@ -75,15 +68,6 @@ public class Category {
 	}
 	
 	
-	
-	public boolean isMeta() {
-		return isMeta;
-	}
-
-	public void setMeta(boolean isMeta) {
-		this.isMeta = isMeta;
-	}
-
 	@Override
 	public String toString() {
 		return alias;

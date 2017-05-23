@@ -30,15 +30,11 @@ public class Lang {
 	@OneToMany(cascade=CascadeType.REMOVE, mappedBy="lang")
 	Set<Question> questions;
 	
-	@Column(name=NameOf.COLUMN_LANG_METAFLAG, nullable=false)
-	private boolean isMeta;
-	
 	
 	
 	public Lang() {
 		this.id = -1;
 		this.alias = NameOf.NOTHING;
-		this.isMeta = false;
 	}
 	
 	public Lang(String alias) {
@@ -71,14 +67,6 @@ public class Lang {
 	}
 	
 	
-	public boolean isMeta() {
-		return isMeta;
-	}
-
-	public void setMeta(boolean isMeta) {
-		this.isMeta = isMeta;
-	}
-
 	@Override
 	public String toString() {
 		return alias;

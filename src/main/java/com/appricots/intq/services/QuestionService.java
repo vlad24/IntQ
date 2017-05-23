@@ -3,6 +3,7 @@ package com.appricots.intq.services;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -104,53 +105,23 @@ public class QuestionService {
 		return aids;
 	}
 
-//	private List<Long> normalizeCategories(List<Long> ids, Long idOfAny) {
-//		for (Iterator<Long> iterator = ids.iterator(); iterator.hasNext();) {
-//			Long id = (Long) iterator.next();
-//			if (id.equals(idOfAny)){
-//				iterator.remove();
-//			}
-//		}
-//		return ids;
-//	}
-//
-//	private Long getIdOfAnyCategory() {
-//		if (cachedIdOfAny != null){
-//			Category anyCat = categoryDao.findByAlias(Category.ANY_ALIAS);
-//			if (anyCat != null) {
-//				cachedIdOfAny = anyCat.getId();
-//				return cachedIdOfAny;
-//			}else{
-//				throw new IllegalStateException("No category 'any' found");
-//			}
-//		}else{
-//			return cachedIdOfAny;
-//		}
-//	}
-
 
 	@Transactional
 	public void debugInit() {
-		Category   anyCategory     = new Category("Any");
-		anyCategory.setMeta(true);
 		Category   pythonCategory  = new Category("Python");
 		Category   testingCategory = new Category("Testing");
 		Category   javaCategory    = new Category("Java");
-		Difficulty anyDiff         = new Difficulty("Any");
-		anyDiff.setMeta(true);
 		Difficulty easy            = new Difficulty("Easy");
 		Difficulty medium          = new Difficulty("Medium");
 		Difficulty hard            = new Difficulty("Hard");
-		Lang       anyLang         = new Lang("Any");
-		anyLang.setMeta(true);
 		Lang       english         = new Lang("English");
 		Lang       russian         = new Lang("Russian");
 
-		Set<Category> categoriesOfQ1 = new HashSet<Category>(Arrays.asList(anyCategory, pythonCategory));
-		Set<Category> categoriesOfQ2 = new HashSet<Category>(Arrays.asList(anyCategory, testingCategory));
-		Set<Category> categoriesOfQ3 = new HashSet<Category>(Arrays.asList(anyCategory, testingCategory, pythonCategory));
-		Set<Category> categoriesOfQ4 = new HashSet<Category>(Arrays.asList(anyCategory, javaCategory));
-		Set<Category> categoriesOfQ5 = new HashSet<Category>(Arrays.asList(anyCategory, javaCategory));
+		Set<Category> categoriesOfQ1 = new HashSet<Category>(Arrays.asList(pythonCategory));
+		Set<Category> categoriesOfQ2 = new HashSet<Category>(Arrays.asList(testingCategory));
+		Set<Category> categoriesOfQ3 = new HashSet<Category>(Arrays.asList(testingCategory, pythonCategory));
+		Set<Category> categoriesOfQ4 = new HashSet<Category>(Arrays.asList(javaCategory));
+		Set<Category> categoriesOfQ5 = new HashSet<Category>(Arrays.asList(javaCategory));
 
 		Question q1 = new Question(
 				"Python and multi-threading. Is it a good idea? List some ways to get some Python code to run in a parallel way.",
@@ -210,17 +181,14 @@ public class QuestionService {
 				null,
 				QuestionStatus.NEW
 				);
-		categoryDao.create(anyCategory);
 		categoryDao.create(javaCategory);
 		categoryDao.create(pythonCategory);
 		categoryDao.create(testingCategory);
-		difDAO.create(anyDiff);
 		difDAO.create(easy);
 		difDAO.create(medium);
 		difDAO.create(hard);
-		langDAO.create(anyLang);
-		langDAO.create(russian);
 		langDAO.create(english);
+		langDAO.create(russian);
 		System.out.println("------ adding q1");
 		addNew(q1);
 		System.out.println("------ adding q2");

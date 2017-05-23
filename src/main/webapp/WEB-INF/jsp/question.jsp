@@ -68,7 +68,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-2">
-					<button id="rate_down" class="rate_button btn btn-danger" onclick="rateAsync(-1)">--</button>
+					<button id="rate_down" class="rate_button btn btn-warn" onclick="rateAsync(-1)">--</button>
 				</div>
 				<div class="col-sm-8">
 					<button class="btn btn-default btn-block" form="selectorForm" type="submit">Next</button>

@@ -26,7 +26,6 @@ public class QuestionDAO extends DAO<Question, Long> {
 				.append(" QL.id = :lang ")   .append("AND")
 				.append(" QD.id = :diff ")   .append("AND")
 				.append(" Q.status = :stat ").append("AND")
-				//.append(" Q.isMeta = :meta ").append("AND")
 				.append(" QS.id in (:categoryIds) ")
 				.toString()
 				);

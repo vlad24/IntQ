@@ -27,9 +27,6 @@ public class Difficulty {
 	@OneToMany(cascade=CascadeType.REMOVE, mappedBy = "difficulty")
 	Set<Question> questions;
 	
-	@Column(name=NameOf.COLUMN_DIFF_METAFLAG, nullable=false)
-	private boolean isMeta;
-	
 	
 	public Difficulty() {
 		this.id = -1;
@@ -60,14 +57,6 @@ public class Difficulty {
 
 	public String getAlias() {
 		return alias;
-	}
-
-	public boolean isMeta() {
-		return isMeta;
-	}
-
-	public void setMeta(boolean isMeta) {
-		this.isMeta = isMeta;
 	}
 
 	public void setAlias(String alias) {

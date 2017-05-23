@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.appricots.intq.NameOf;
 import com.appricots.intq.dao.impl.CategoryDAO;
-import com.appricots.intq.dao.impl.DAO;
 import com.appricots.intq.model.Category;
 import com.appricots.intq.wrappers.AliasedId;
 
@@ -30,15 +29,4 @@ public class CategoryService {
 		return aliasedIds;
 	}
 
-	public List<AliasedId<Long>> getAllForSuggestion() {
-		List<Category> entities = getAll();
-		List<AliasedId<Long>> aliasedIds = new ArrayList<AliasedId<Long>>(entities.size());
-		for (Category entity : entities) {
-			if (!entity.isMeta()){
-				aliasedIds.add(new AliasedId<Long>(entity.getId(), entity.getAlias()));
-			}
-		}
-		return aliasedIds;
-	}
-	
 }
