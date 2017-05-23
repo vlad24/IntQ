@@ -25,8 +25,8 @@
 				<li class="active"><a href="main.html">Home</a></li>
 				<li><a href="start.html">Questions</a></li>
 				<c:if test="${not empty username}">
+					<li><a href="add.html">Suggest</a></li>
 				</c:if>
-				<li><a href="add.html">Suggest</a></li>
 			</ul>
 			<c:if test="${empty username}">
 				<ul class="nav navbar-nav navbar-right">

@@ -33,12 +33,19 @@
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="main.html">Home</a></li>
 				<li><a href="start.html">Questions</a></li>
-				<li><a href="add.html">Suggest</a></li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-				<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-			</ul>
+			<c:if test="${empty username}">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="register.html"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+					<li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+				</ul>
+			</c:if>
+			<c:if test="${not empty username}">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="profile.html"><span class="glyphicon glyphicon-user"></span> ${username} </a></li>
+					<li><a href="logout.html"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+				</ul>
+			</c:if>
 		</div>
 	</div>
 	</nav>
@@ -76,7 +83,7 @@
 				<label class="control-label col-sm-2" for="cats">Categories:</label>
 				<div class="col-sm-10">
 					<form:select class="form-control" path="categories" id="cats" required="true">
-						<form:options items="${categories}" itemValue="id" itemLabel="alias"/>
+						<form:options items="${categories}" itemValue="id" itemLabel="alias" />
 					</form:select>
 				</div>
 			</div>
@@ -84,7 +91,7 @@
 				<label class="control-label col-sm-2" for="difs">Difficulty:</label>
 				<div class="col-sm-10">
 					<form:select class="form-control" path="difficulty" id="difs" required="true">
-						<form:options items="${difficulties}" itemValue="id" itemLabel="alias"/>
+						<form:options items="${difficulties}" itemValue="id" itemLabel="alias" />
 					</form:select>
 				</div>
 			</div>
@@ -92,7 +99,7 @@
 				<label class="control-label col-sm-2" for="langs">Language:</label>
 				<div class="col-sm-10">
 					<form:select class="form-control" path="language" id="langs" require="true">
-						<form:options items="${languages}" itemValue="id" itemLabel="alias"/>
+						<form:options items="${languages}" itemValue="id" itemLabel="alias" />
 					</form:select>
 				</div>
 			</div>

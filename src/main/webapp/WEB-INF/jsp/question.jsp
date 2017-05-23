@@ -47,12 +47,22 @@
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="main.html">Home</a></li>
 				<li><a href="start.html">Questions</a></li>
-				<li><a href="add.html">Suggest</a></li>
+				<c:if test="${not empty username}">
+					<li><a href="add.html">Suggest</a></li>
+				</c:if>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="register.html"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
-				<li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
-			</ul>
+			<c:if test="${empty username}">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="register.html"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+					<li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+				</ul>
+			</c:if>
+			<c:if test="${not empty username}">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="profile.html"><span class="glyphicon glyphicon-user"></span> ${username} </a></li>
+					<li><a href="logout.html"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+				</ul>
+			</c:if>
 		</div>
 	</div>
 	</nav>
@@ -78,7 +88,7 @@
 				</div>
 			</div>
 		</div>
-				<div class="continer">
+		<div class="continer">
 			<div class="row">
 				<div class="col-sm-2">
 					<button class="btn btn-link" data-toggle="collapse" data-target="#ans">Show answer</button>

@@ -33,7 +33,8 @@ public class UserService {
 
 	@Transactional
 	public boolean validateIdentity(String identity) {
-		return userSessionDao.getByIdentity(identity) != null;
+		boolean validated = (userSessionDao.getByIdentity(identity) != null);
+		return validated;
 	}
 
 	@Transactional
