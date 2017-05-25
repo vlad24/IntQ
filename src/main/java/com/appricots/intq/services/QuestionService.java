@@ -96,7 +96,7 @@ public class QuestionService {
 	}
 	
 	public List<AliasedId<Long>> getNew() {
-		List<Question> qs =  qDao.getNew();
+		List<Question> qs =  qDao.getAllNew();
 		List<AliasedId<Long>> aids = new ArrayList<AliasedId<Long>>(qs.size());
 		for (Question q: qs){
 			aids.add(new AliasedId<Long>(q.getId(), q.getQuestion()));
