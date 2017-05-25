@@ -49,6 +49,10 @@ public class NameOf {
 	public static final String COLUMN_USER_EMAIL = "uEmail";
 	public static final String COLUMN_USER_AGE = "uAge";
 	public static final String COLUMN_USER_ACTIVENESS = "uActiveness";
+	public static final String COLUMN_CAT_METAFLAG = "isMeta";
+	public static final String COLUMN_DIFF_METAFLAG = "isMeta";
+	public static final String COLUMN_LANG_METAFLAG = "isMeta";
+	public static final String COLUMN_USESSION_SHIFT = "shift";
 	
 	public static final String MA_ERROR_MSG = "error_msg";
 	public static final String MA_SUCCESS_MSG = "success_msg";
@@ -57,10 +61,7 @@ public class NameOf {
 	public static final String MA_LANGS = "languages";
 	public static final String MA_DIFFICULTIES = "difficulties";
 	public static final String MA_QUESTION_SELECTOR = "questionSelector";
-	public static final String COLUMN_CAT_METAFLAG = "isMeta";
-	public static final String COLUMN_DIFF_METAFLAG = "isMeta";
-	public static final String COLUMN_LANG_METAFLAG = "isMeta";
-	public static final String COLUMN_USESSION_SHIFT = "shift";
+	public static final String MA_NO_MORE_QUESTIONS = "no_more_questions";
 	
 
 

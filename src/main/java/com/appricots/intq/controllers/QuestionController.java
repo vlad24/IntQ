@@ -53,8 +53,7 @@ public class QuestionController {
 			@CookieValue(value = NameOf.COOKIE_4_IDENTITY, defaultValue = NameOf.NOTHING) String identity,
 			Model model){
 		try{
-			Question nextQuestion;
-			nextQuestion = questionService.getNext(selector);
+			Question nextQuestion = questionService.getNext(selector);
 			if (nextQuestion != null){
 				selector.setShift(selector.getShift() + 1);
 				model.addAttribute("id",               nextQuestion.getId());
@@ -65,9 +64,9 @@ public class QuestionController {
 				model.addAttribute("questionSelector", selector);
 				return "question";
 			}else{
-				model.addAttribute(NameOf.MA_ERROR_MSG, "No next question found");
-				return "error";
+				model.addAttribute(NameOf.MA_NO_MORE_QUESTIONS, true);
 			}
+			return "question";
 		}catch (Exception e){
 			model.addAttribute(NameOf.MA_ERROR_MSG, e.getMessage());
 			return "error";

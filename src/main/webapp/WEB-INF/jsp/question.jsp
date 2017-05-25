@@ -67,47 +67,55 @@
 	</div>
 	</nav>
 
-	<h1 class="header">int q;</h1>
-	
-	<form:form id="selectorForm" modelAttribute="questionSelector" action="q.html" method="get" hidden="true">
-		<form:hidden path="ids" multiple="true" />
-		<form:hidden path="difficulty"/>
-		<form:hidden path="language" />
-		<form:hidden path="shift" />
-	</form:form>
-	
-	<div class="container-fluid">
+	<h1 class="header">> int q;</h1>
 
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<form:label class="question" path="question">${question}</form:label>
-			</div>
-		</div>
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-2">
-					<button id="rate_down" class="rate_button btn btn-warn" onclick="rateAsync(-1)">--</button>
-				</div>
-				<div class="col-sm-8">
-					<button class="btn btn-default btn-block" form="selectorForm" type="submit">Next</button>
-				</div>
-				<div class="col-sm-2">
-					<button id="rate_up" class="rate_button btn btn-success" onclick="rateAsync(1)">++</button>
+	<c:if test="${not no_more_questions}">
+		<div class="container-fluid">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<form:label class="question" path="question">${question}</form:label>
 				</div>
 			</div>
-		</div>
-		<div class="continer">
-			<div class="row">
-				<div class="col-sm-2">
-					<button class="btn btn-link" data-toggle="collapse" data-target="#ans">Show answer</button>
-				</div>
-				<div class="col-sm-offset-8 col-sm-2">
-					<p id="status">Rating: ${rating} %</p>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-2">
+						<button id="rate_down" class="rate_button btn btn-warn" onclick="rateAsync(-1)">--</button>
+					</div>
+					<div class="col-sm-8">
+						<button class="btn btn-default btn-block" form="selectorForm" type="submit">Next</button>
+					</div>
+					<div class="col-sm-2">
+						<button id="rate_up" class="rate_button btn btn-success" onclick="rateAsync(1)">++</button>
+					</div>
 				</div>
 			</div>
+			<div class="continer">
+				<div class="row">
+					<div class="col-sm-2">
+						<button class="btn btn-link" data-toggle="collapse" data-target="#ans">Show answer</button>
+					</div>
+					<div class="col-sm-offset-8 col-sm-2">
+						<p id="status">Rating: ${rating} %</p>
+					</div>
+				</div>
+			</div>
+			<form:label id="ans" class="collapse" path="answer">${answer}</form:label>
 		</div>
-		<form:label id="ans" class="collapse" path="answer">${answer}</form:label>
-	</div>
+
+		<form:form id="selectorForm" modelAttribute="questionSelector" action="q.html" method="get" hidden="true">
+			<form:hidden path="ids" multiple="true" />
+			<form:hidden path="difficulty" />
+			<form:hidden path="language" />
+			<form:hidden path="shift" />
+		</form:form>
+	</c:if>
+	<c:if test="${no_more_questions}">
+		<div class="alert alert-success">
+			<strong>Success!</strong> You have reached the end of your question sequence. You are ready! 
+			<a href="start.html" class="alert-link">Start a new tour!</a>.
+		</div>
+	</c:if>
+
 </body>
 </html>
 
