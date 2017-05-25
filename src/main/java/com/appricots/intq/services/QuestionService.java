@@ -3,7 +3,6 @@ package com.appricots.intq.services;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -122,6 +121,7 @@ public class QuestionService {
 		Set<Category> categoriesOfQ3 = new HashSet<Category>(Arrays.asList(testingCategory, pythonCategory));
 		Set<Category> categoriesOfQ4 = new HashSet<Category>(Arrays.asList(javaCategory));
 		Set<Category> categoriesOfQ5 = new HashSet<Category>(Arrays.asList(javaCategory));
+		Set<Category> categoriesOfQ6 = new HashSet<Category>(Arrays.asList(javaCategory));
 
 		Question q1 = new Question(
 				"Python and multi-threading. Is it a good idea? List some ways to get some Python code to run in a parallel way.",
@@ -166,7 +166,7 @@ public class QuestionService {
 						+"Java provides an implementation of read-write lock in the form of ReentrantReadWritLock class in the java.util.concurrent.lock package. This is worth looking before you decide to write your own read-write locking implementation. "
 						,
 						english,
-						hard,
+						medium,
 						categoriesOfQ4,
 						null,
 						QuestionStatus.ACCEPTED
@@ -176,8 +176,26 @@ public class QuestionService {
 
 				"Она представляет собой операцию, которая принимает два входных аргумента и не возвращает никакого результата.",
 				russian,
-				easy,
+				medium,
 				categoriesOfQ5,
+				null,
+				QuestionStatus.ACCEPTED
+				);
+		Question q6 = new Question(
+				"Who invented Java?",
+				"James Gosling!",
+				english,
+				easy,
+				categoriesOfQ6,
+				null,
+				QuestionStatus.ACCEPTED
+				);
+		Question q7 = new Question(
+				"Are you cool?",
+				"Oh, yeah!",
+				english,
+				easy,
+				categoriesOfQ4,
 				null,
 				QuestionStatus.NEW
 				);
@@ -189,17 +207,13 @@ public class QuestionService {
 		difDAO.create(hard);
 		langDAO.create(english);
 		langDAO.create(russian);
-		System.out.println("------ adding q1");
 		addNew(q1);
-		System.out.println("------ adding q2");
 		addNew(q2);
-		System.out.println("------ adding q3");
 		addNew(q3);
-		System.out.println("------ adding q4");
 		addNew(q4);
-		System.out.println("------ adding q5");
 		addNew(q5);
-		System.out.println("------ added all");
+		addNew(q6);
+		addNew(q7);
 	}
 
 

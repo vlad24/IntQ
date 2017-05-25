@@ -55,8 +55,8 @@ public class UserService {
 
 
 	@Transactional
-	public UserSession getLastSessionByCookie(String identity) {
-		return null;
+	public UserSession getCurrentSessionByCookie(String identity) {
+		return userSessionDao.getByIdentity(identity);
 	}
 
 	@Transactional

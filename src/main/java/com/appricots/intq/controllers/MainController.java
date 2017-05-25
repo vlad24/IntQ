@@ -58,7 +58,7 @@ public class MainController {
 			User user = userService.getUserForIdentity(identity);
 			if (user != null){
 				model.addAttribute(NameOf.MA_USERNAME, user.getCreds().getLogin());
-				UserSession lastSession = userService.getLastSessionByCookie(identity);
+				UserSession lastSession = userService.getCurrentSessionByCookie(identity);
 				if (lastSession != null){
 					model.addAttribute("question", lastSession.getLastQuestion());
 					return "question";

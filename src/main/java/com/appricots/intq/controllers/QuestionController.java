@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.appricots.intq.NameOf;
 import com.appricots.intq.model.Question;
+import com.appricots.intq.model.User;
 import com.appricots.intq.model.UserCreds;
+import com.appricots.intq.model.UserSession;
 import com.appricots.intq.services.CategoryService;
 import com.appricots.intq.services.DifficultyService;
 import com.appricots.intq.services.LangService;
@@ -48,15 +50,19 @@ public class QuestionController {
 	@RequestMapping(value="q.html", method=RequestMethod.GET)
 	public String getNext(
 			@ModelAttribute("questionSelector") QuestionSelector selector,
+			@CookieValue(value = NameOf.COOKIE_4_IDENTITY, defaultValue = NameOf.NOTHING) String identity,
 			Model model){
 		try{
-			Question nextQuestion = questionService.getNext(selector);
+			Question nextQuestion;
+			nextQuestion = questionService.getNext(selector);
 			if (nextQuestion != null){
-				model.addAttribute("id",           nextQuestion.getId());
-				model.addAttribute("question",     nextQuestion.getQuestion());
-				model.addAttribute("answer",       nextQuestion.getAnswer());
-				model.addAttribute("attachment",   nextQuestion.getAttachment());
-				model.addAttribute("rating",       nextQuestion.calculateRating());
+				selector.setShift(selector.getShift() + 1);
+				model.addAttribute("id",               nextQuestion.getId());
+				model.addAttribute("question",         nextQuestion.getQuestion());
+				model.addAttribute("answer",           nextQuestion.getAnswer());
+				model.addAttribute("attachment",       nextQuestion.getAttachment());
+				model.addAttribute("rating",           nextQuestion.calculateRating());
+				model.addAttribute("questionSelector", selector);
 				return "question";
 			}else{
 				model.addAttribute(NameOf.MA_ERROR_MSG, "No next question found");
@@ -68,7 +74,7 @@ public class QuestionController {
 		}
 	}
 
-	@RequestMapping(value="add.html", method = RequestMethod.GET)
+	@RequestMapping(value="suggestion.html", method = RequestMethod.GET)
 	public String add(
 			@CookieValue(value = NameOf.COOKIE_4_IDENTITY, defaultValue = NameOf.NOTHING) String identity,
 			Model model
@@ -85,7 +91,7 @@ public class QuestionController {
 		}
 	}
 
-	@RequestMapping(value="add.html",method = RequestMethod.POST)
+	@RequestMapping(value="suggestion.html",method = RequestMethod.POST)
 	public String processSuggestion(
 			@RequestParam("recaptcha_challenge_field") String challangeField,
 			@RequestParam("recaptcha_response_field")  String responseField,

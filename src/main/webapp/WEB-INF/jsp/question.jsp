@@ -68,6 +68,14 @@
 	</nav>
 
 	<h1 class="header">int q;</h1>
+	
+	<form:form id="selectorForm" modelAttribute="questionSelector" action="q.html" method="get" hidden="true">
+		<form:hidden path="ids" multiple="true" />
+		<form:hidden path="difficulty"/>
+		<form:hidden path="language" />
+		<form:hidden path="shift" />
+	</form:form>
+	
 	<div class="container-fluid">
 
 		<div class="panel panel-default">

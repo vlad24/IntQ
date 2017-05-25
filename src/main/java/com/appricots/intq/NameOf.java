@@ -60,6 +60,7 @@ public class NameOf {
 	public static final String COLUMN_CAT_METAFLAG = "isMeta";
 	public static final String COLUMN_DIFF_METAFLAG = "isMeta";
 	public static final String COLUMN_LANG_METAFLAG = "isMeta";
+	public static final String COLUMN_USESSION_SHIFT = "shift";
 	
 
 

@@ -32,14 +32,12 @@ public class QuestionSelector {
 	public QuestionSelector() {
 	}
 	
+
 	@Override
 	public String toString() {
-		return "QSelector [category=" + ids + ", difficulty="
-				+ difficulty + ", language=" + language + "]";
+		return "QuestionSelector [ids=" + ids + ", difficulty=" + difficulty
+				+ ", language=" + language + ", shift=" + shift + "]";
 	}
-
-
-
 
 	public List<Long> getIds() {
 		return ids;

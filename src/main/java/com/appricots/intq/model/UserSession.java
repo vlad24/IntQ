@@ -29,6 +29,8 @@ public class UserSession {
 	@Column(name=NameOf.COLUMN_USESSION_IDENTIIY_COOKIE)
 	private String identCookie;
 	
+	@Column(name=NameOf.COLUMN_USESSION_SHIFT)
+	private Long shift;
 	
 	@ManyToOne
 	@JoinColumn(name = NameOf.COLUMN_QUESTION_ID, nullable=true)
@@ -42,11 +44,11 @@ public class UserSession {
 		this.user = user;
 		this.identCookie = identCookie;
 		this.lastQuestion = lastQuestion;
+		this.shift = 0L;
 	}
 
 	public UserSession() {
 	}
-	
 	
 	
 	public User getUser() {
@@ -79,6 +81,20 @@ public class UserSession {
 	public void setIdentCookie(String identCookie) {
 		this.identCookie = identCookie;
 	}
+	
+	public Long getShift() {
+		return shift;
+	}
+
+	public void setShift(Long shift) {
+		this.shift = shift;
+	}
+	
+	public void incrementShift() {
+		this.shift++;
+	}
+	
+	
 
 	@Override
 	public String toString() {

@@ -16,6 +16,7 @@ public class QuestionDAO extends DAO<Question, Long> {
 
 	public Question getNextAccepted(QuestionSelector selector) {
 		Session session = sessionFactory.getCurrentSession();
+		System.out.println(selector);
 		Query selectQuery = session.createQuery(
 				new StringBuilder()
 				.append(" SELECT Q FROM ").append(Question.class.getSimpleName()).append(" Q ")
