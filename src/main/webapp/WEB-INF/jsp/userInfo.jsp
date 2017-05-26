@@ -9,7 +9,6 @@
 
 <script src="http://code.jquery.com/jquery.min.js"></script>
 <script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>
-<script src="http://1000hz.github.io/bootstrap-validator/dist/validator.min.js"></script>
 
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,7 +32,7 @@
 		</div>
 	</div>
 	</nav>
-	<h1 class="header">>int q;</h1>
+	<h1 class="header">> int q;</h1>
 	<div class="container-fluid">
 		<table class="table table-hover">
 			<tr>
@@ -42,7 +41,7 @@
 			</tr>
 			<tr>
 				<td>First Name</td>
-				<td>${firstName}</td>
+				<td>${name}</td>
 			</tr>
 			<tr>
 				<td>Last Name</td>

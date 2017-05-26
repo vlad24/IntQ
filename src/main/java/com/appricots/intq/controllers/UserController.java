@@ -47,16 +47,20 @@ public class UserController {
 			Model model
 			){
 		try {
-			userService.getUserForCreds(creds);
-			String cookie = userService.startNewSession(creds.getLogin());
-			if (cookie != null){
-				response.addCookie(new Cookie(NameOf.COOKIE_4_IDENTITY, cookie));
-				return "redirect:/start.html";
+			System.out.println(creds);
+			if (userService.getUserForCreds(creds) != null){
+				String cookie = userService.startNewSession(creds.getLogin());
+				if (cookie != null){
+					response.addCookie(new Cookie(NameOf.COOKIE_4_IDENTITY, cookie));
+					return "redirect:/start.html";
+				}else{
+					throw new Exception("Could not start session");
+				}
 			}else{
-				throw new Exception("Could not start session");
+				throw new Exception("Could not find user");
 			}
-
 		} catch (Exception e) {
+			System.out.println("Errors " + e.getMessage());
 			model.addAttribute(NameOf.MA_ERROR_MSG, e.getMessage());
 		}
 		return "login";
@@ -77,7 +81,6 @@ public class UserController {
 			ServletRequest servletRequest,
 			HttpServletResponse response,
 			Model model){
-		System.out.println(profile);
 		String remoteAddress = servletRequest.getRemoteAddr();
 		ReCaptchaResponse reCaptchaResponse = this.reCaptcha.checkAnswer(remoteAddress, challangeField, responseField);
 		try {
@@ -114,7 +117,7 @@ public class UserController {
 			model.addAttribute("pass", user.getCreds().getPassHash());
 			model.addAttribute("email", user.getEmail());
 			model.addAttribute("name", user.getName());
-			model.addAttribute("lastName", user.getName());
+			model.addAttribute("lastName", user.getLastName());
 			model.addAttribute("age", user.getAge());
 			model.addAttribute("activeness", user.getActiveness());
 			return "userInfo";

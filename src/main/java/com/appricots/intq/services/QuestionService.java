@@ -106,7 +106,7 @@ public class QuestionService {
 
 
 	@Transactional
-	public void debugInit() {
+	public List<Question> debugInit() {
 		Category   pythonCategory  = new Category("Python");
 		Category   testingCategory = new Category("Testing");
 		Category   javaCategory    = new Category("Java");
@@ -214,6 +214,7 @@ public class QuestionService {
 		addNew(q5);
 		addNew(q6);
 		addNew(q7);
+		return Arrays.asList(q1, q2, q3, q4, q5, q6, q7);
 	}
 
 

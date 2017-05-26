@@ -21,6 +21,20 @@
 		<h1>> int q;</h1>
 		<p>Review your skills...</p>
 	</div>
+	<c:if test="${not empty error_msg}">
+		<div id="error-container" class="container-fluid">
+			<div class="alert alert-danger fade in">
+				<strong>Oops!</strong> ${error_msg}
+			</div>
+		</div>
+	</c:if>
+	<c:if test="${not empty success_msg}">
+		<div id="success-container" class="container-fluid">
+			<div class="alert alert-success fade in">
+				<strong>Done!</strong> ${success_msg}
+			</div>
+		</div>
+	</c:if>
 	<div class="container">
 		<div class="col-sm-offset-4 col-sm-4 ">
 			<h3>What's next, sir?</h3>
@@ -39,13 +53,6 @@
 				</form>
 			</div>
 		</div>
-		<c:if test="${not empty error_msg}">
-			<div id="error-container" class="container-fluid">
-				<div class="alert alert-danger fade in">
-					<strong>Oops!</strong> ${error_msg}
-				</div>
-			</div>
-		</c:if>
 	</div>
 
 </body>

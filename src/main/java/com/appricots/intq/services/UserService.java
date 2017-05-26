@@ -1,9 +1,13 @@
 package com.appricots.intq.services;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.appricots.intq.NameOf;
 import com.appricots.intq.dao.impl.UserDAO;
 import com.appricots.intq.dao.impl.UserSessionDAO;
 import com.appricots.intq.model.User;
@@ -33,18 +37,19 @@ public class UserService {
 
 	@Transactional
 	public boolean validateIdentity(String identity) {
-		boolean validated = (userSessionDao.getByIdentity(identity) != null);
+		boolean validated = !identity.equals(NameOf.NOTHING) && (userSessionDao.getByIdentity(identity) != null);
 		return validated;
 	}
 
 	@Transactional
 	public User getUserForIdentity(String identity) {
-		UserSession uSes = userSessionDao.getByIdentity(identity);
-		if (uSes != null){
-			return uSes.getUser();
-		}else{
-			return null;
+		if (!identity.equals(NameOf.NOTHING)){
+			UserSession uSes = userSessionDao.getByIdentity(identity);
+			if (uSes != null){
+				return uSes.getUser();
+			}
 		}
+		return null;
 	}
 
 
@@ -56,7 +61,11 @@ public class UserService {
 
 	@Transactional
 	public UserSession getCurrentSessionByCookie(String identity) {
-		return userSessionDao.getByIdentity(identity);
+		if (!identity.equals(NameOf.NOTHING)){
+			return userSessionDao.getByIdentity(identity);
+		}else{
+			return null;
+		}
 	}
 
 	@Transactional
@@ -78,7 +87,7 @@ public class UserService {
 
 	@Transactional
 	public void dropSession(String identity) {
-		userSessionDao.deleteByIdentity(identity);
+		userSessionDao.getByIdentity(identity).getUser().setSession(null);
 	}
 
 	@Transactional
@@ -89,7 +98,6 @@ public class UserService {
 		User user = userDao.getByLogin(login);
 		user.setSession(newSession);
 		newSession.setUser(user);
-		newSession.setLastQuestion(null);
 		userSessionDao.create(newSession);
 		return cookie;
 	}
@@ -99,14 +107,15 @@ public class UserService {
 	}
 
 	@Transactional
-	public void debugInit() {
-		UserProfile user = new UserProfile();
-		user.setAge(22);
-		user.setEmail("email@domain.ru");
-		user.setLogin("user");
-		user.setPass("user");
-		user.setName("Anonymous");
-		registerUser(user);
+	public List<UserProfile> debugInit() {
+		UserProfile userProfile = new UserProfile();
+		userProfile.setAge(22);
+		userProfile.setEmail("email@domain.ru");
+		userProfile.setLogin("user");
+		userProfile.setPass("user");
+		userProfile.setName("Anonymous");
+		registerUser(userProfile);
+		return Arrays.asList(userProfile);
 	}
 
 

@@ -48,7 +48,7 @@
 				<li class="active"><a href="main.html">Home</a></li>
 				<li><a href="start.html">Questions</a></li>
 				<c:if test="${not empty username}">
-					<li><a href="add.html">Suggest</a></li>
+					<li><a href="suggestion.html">Suggest</a></li>
 				</c:if>
 			</ul>
 			<c:if test="${empty username}">
@@ -79,7 +79,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-2">
-						<button id="rate_down" class="rate_button btn btn-warn" onclick="rateAsync(-1)">--</button>
+						<button id="rate_down" class="rate_button btn btn-warn" onclick="rateAsync(-1)">- -</button>
 					</div>
 					<div class="col-sm-8">
 						<button class="btn btn-default btn-block" form="selectorForm" type="submit">Next</button>
@@ -106,6 +106,7 @@
 			<form:hidden path="ids" multiple="true" />
 			<form:hidden path="difficulty" />
 			<form:hidden path="language" />
+			<form:hidden path="catsUnioned" />
 			<form:hidden path="shift" />
 		</form:form>
 	</c:if>

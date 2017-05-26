@@ -39,7 +39,6 @@ public class MainController {
 			Model model
 			){
 		if (!identity.equals(NameOf.NOTHING)){
-			System.out.println("======== Got identity:" + identity);
 			User user = userService.getUserForIdentity(identity);
 			if (user != null){
 				model.addAttribute(NameOf.MA_USERNAME, user.getCreds().getLogin());
@@ -60,8 +59,7 @@ public class MainController {
 				model.addAttribute(NameOf.MA_USERNAME, user.getCreds().getLogin());
 				UserSession lastSession = userService.getCurrentSessionByCookie(identity);
 				if (lastSession != null){
-					model.addAttribute("question", lastSession.getLastQuestion());
-					return "question";
+					//could do something useful
 				}
 			}
 		}

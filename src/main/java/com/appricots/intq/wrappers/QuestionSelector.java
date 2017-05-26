@@ -6,6 +6,7 @@ import java.util.List;
 public class QuestionSelector {
 	private List<Long> ids;
 	private Long difficulty;
+	private boolean catsUnioned;
 	private Long language;
 	private int shift;
 	
@@ -36,7 +37,8 @@ public class QuestionSelector {
 	@Override
 	public String toString() {
 		return "QuestionSelector [ids=" + ids + ", difficulty=" + difficulty
-				+ ", language=" + language + ", shift=" + shift + "]";
+				+ ", catsUnioned=" + catsUnioned + ", language=" + language
+				+ ", shift=" + shift + "]";
 	}
 
 	public List<Long> getIds() {
@@ -71,6 +73,14 @@ public class QuestionSelector {
 
 	public void setShift(int shift) {
 		this.shift = shift;
+	}
+
+	public boolean isCatsUnioned() {
+		return catsUnioned;
+	}
+
+	public void setCatsUnioned(boolean catsUnioned) {
+		this.catsUnioned = catsUnioned;
 	}
 	
 

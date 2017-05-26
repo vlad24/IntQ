@@ -1,13 +1,10 @@
 package com.appricots.intq.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -23,7 +20,7 @@ public class UserSession {
 	@Column(name=NameOf.COLUMN_USESSION_ID)
 	long id;
 	
-	@OneToOne(mappedBy = "session", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "session")
 	private User user;
 	
 	@Column(name=NameOf.COLUMN_USESSION_IDENTIIY_COOKIE)
@@ -32,18 +29,16 @@ public class UserSession {
 	@Column(name=NameOf.COLUMN_USESSION_SHIFT)
 	private Long shift;
 	
-	@ManyToOne
-	@JoinColumn(name = NameOf.COLUMN_QUESTION_ID, nullable=true)
-	private Question lastQuestion;
+//	@ManyToOne
+//	@JoinColumn(name = NameOf.COLUMN_QUESTION_ID, nullable=true)
+//	private Question lastQuestion;
 	
 	
-	public UserSession(long id, User user, String identCookie,
-			Question lastQuestion) {
+	public UserSession(long id, User user, String identCookie) {
 		super();
 		this.id = id;
 		this.user = user;
 		this.identCookie = identCookie;
-		this.lastQuestion = lastQuestion;
 		this.shift = 0L;
 	}
 
@@ -56,14 +51,6 @@ public class UserSession {
 	}
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public Question getLastQuestion() {
-		return lastQuestion;
-	}
-
-	public void setLastQuestion(Question lastQuestion) {
-		this.lastQuestion = lastQuestion;
 	}
 
 	public long getId() {
@@ -98,7 +85,7 @@ public class UserSession {
 
 	@Override
 	public String toString() {
-		return "UserSession [id=" + id + "," + "identCookie=" + identCookie + ", lastQuestion=" + lastQuestion + "]";
+		return "UserSession [id=" + id + "," + "identCookie=" + identCookie + "]";
 	}
 
 }

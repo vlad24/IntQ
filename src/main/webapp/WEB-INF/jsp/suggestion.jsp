@@ -64,7 +64,7 @@
 	</div>
 	<div class="container-fluid">
 		<form:form id="suggestForm" role="form" data-toggle="validator" class="form-horizontal" modelAttribute="questionSuggestion"
-			action="add.html" method="post">
+			action="suggestion.html" method="post">
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="qst">Question:</label>
 				<div class="col-sm-10">
@@ -76,7 +76,7 @@
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="asw">Answer:</label>
 				<div class="col-sm-10">
-					<form:textarea path="answer" id="asw" class="form-control" rows="4" placeholder="(Optional). Please be constructive."></form:textarea>
+					<form:textarea path="answer" id="asw" class="form-control" rows="4" placeholder="(Optional). Please, be constructive."></form:textarea>
 				</div>
 			</div>
 			<div class="form-group">
