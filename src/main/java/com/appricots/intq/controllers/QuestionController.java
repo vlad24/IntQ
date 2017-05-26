@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.appricots.intq.NameOf;
 import com.appricots.intq.model.Question;
-import com.appricots.intq.model.User;
 import com.appricots.intq.model.UserCreds;
 import com.appricots.intq.model.UserSession;
 import com.appricots.intq.services.CategoryService;
@@ -62,7 +61,10 @@ public class QuestionController {
 				model.addAttribute("attachment",       nextQuestion.getAttachment());
 				model.addAttribute("rating",           nextQuestion.calculateRating());
 				model.addAttribute("questionSelector", selector);
-				return "question";
+				if (userService.validateIdentity(identity)){
+					// could fectch user session and store some data
+					//UserSession session = userService.getCurrentSessionByCookie(identity);
+				}
 			}else{
 				model.addAttribute(NameOf.MA_NO_MORE_QUESTIONS, true);
 			}
@@ -83,7 +85,7 @@ public class QuestionController {
 			model.addAttribute("categories",   categoryService.getAll());
 			model.addAttribute("difficulties", difService.getAll());
 			model.addAttribute("languages",    langService.getAll());
-			return "add";
+			return "suggestion";
 		}else{
 			model.addAttribute(new UserCreds());
 			return "login";
@@ -116,7 +118,7 @@ public class QuestionController {
 		model.addAttribute("categories", categoryService.getAll());
 		model.addAttribute("difficulties", difService.getAll());
 		model.addAttribute("languages", langService.getAll());
-		return "add";
+		return "suggestion";
 	}
 
 

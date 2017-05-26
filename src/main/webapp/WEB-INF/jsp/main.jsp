@@ -62,10 +62,10 @@
 					<br> <br>
 				</div>
 			</div>
-			<form method="get" action="admin.html">
-				<button class="btn btn-link btn-block" type="submit" value="Submit">Debug</button>
-			</form>
 		</c:if>
+		<form method="get" action="admin.html">
+			<button class="btn btn-link btn-block" type="submit" value="Submit">Debug</button>
+		</form>
 	</div>
 
 </body>

@@ -5,11 +5,17 @@
 <html>
 <head>
 <link rel="stylesheet" href="<c:url value="/resources/css/user.css" />" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="<c:url value="/resources/img/intq_logo.png" />" />
 <title>int q; setFilter()</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
+
 </head>
 
 <body>
@@ -25,7 +31,7 @@
 				<li class="active"><a href="main.html">Home</a></li>
 				<li><a href="start.html">Questions</a></li>
 				<c:if test="${not empty username}">
-					<li><a href="add.html">Suggest</a></li>
+					<li><a href="suggestion.html">Suggest</a></li>
 				</c:if>
 			</ul>
 			<c:if test="${empty username}">
@@ -51,8 +57,26 @@
 					<label class="control-label col-sm-2" for="cats">Categories:</label>
 					<div class="col-sm-10">
 						<form:select multiple="true" class="form-control" path="ids" id="cats">
-							<form:options items="${categories}" itemValue="id" itemLabel="alias"/>
+							<form:options items="${categories}" itemValue="id" itemLabel="alias" />
 						</form:select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2"
+					data-toggle="tooltip"
+						data-placement="top"
+						 title="Result questions should be classified to ANY/ALL of the selected categories"
+					>Category filters are:</label>
+					
+					<div class="form-check">
+						<label class="form-check" data-toggle="tooltip"> 
+						<form:radiobutton path="catsUnioned" value="true" class="form-check-input" />
+						 Unioned (OR)
+						</label>
+						<label class="form-check" data-toggle="tooltip"> 
+						<form:radiobutton path="catsUnioned" value="false" class="form-check-input" /> 
+						Intersected (AND)
+						</label>
 					</div>
 				</div>
 				<div class="form-group">
@@ -67,7 +91,7 @@
 					<label class="control-label col-sm-2" for="langs">Language:</label>
 					<div class="col-sm-10">
 						<form:select class="form-control" path="language" id="langs">
-							<form:options items="${languages}" itemValue="id" itemLabel="alias"/>
+							<form:options items="${languages}" itemValue="id" itemLabel="alias" />
 						</form:select>
 					</div>
 				</div>

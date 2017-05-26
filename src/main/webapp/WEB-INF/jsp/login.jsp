@@ -24,12 +24,11 @@
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="main.html">Home</a></li>
 				<li><a href="start.html">Questions</a></li>
-				<li><a href="add.html">Suggest</a></li>
 			</ul>
 		</div>
 	</div>
 	</nav>
-	<h1 class="header">>int q;</h1>
+	<h1 class="header">> int q;</h1>
 	<div id="error-container" class="container-fluid">
 		<c:if test="${not empty error_msg}">
 			<div class="alert alert-warning fade in">

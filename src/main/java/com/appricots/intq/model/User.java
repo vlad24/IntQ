@@ -32,7 +32,7 @@ public class User {
 	@Column(name = NameOf.COLUMN_USER_ACTIVENESS)
 	long activeness;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name=NameOf.COLUMN_USESSION_ID)
 	UserSession session;
 	
