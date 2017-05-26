@@ -18,6 +18,11 @@
 <script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="http://1000hz.github.io/bootstrap-validator/dist/validator.min.js"></script>
+<script type="text/javascript">
+var RecaptchaOptions = {
+	    theme : 'clean'
+	 };
+</script>
 <title>int q; insert into Qs values (...);</title>
 </head>
 

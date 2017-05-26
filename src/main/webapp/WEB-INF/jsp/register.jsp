@@ -27,6 +27,9 @@ $('#registerForm').validator();
 		  } else {
 		  }
 		})
+var RecaptchaOptions = {
+    theme : 'clean'
+ };
 </script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
