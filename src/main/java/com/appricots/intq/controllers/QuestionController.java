@@ -13,19 +13,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.appricots.intq.NameOf;
 import com.appricots.intq.model.Question;
 import com.appricots.intq.model.UserCreds;
-import com.appricots.intq.model.UserSession;
 import com.appricots.intq.services.CategoryService;
 import com.appricots.intq.services.DifficultyService;
 import com.appricots.intq.services.LangService;
 import com.appricots.intq.services.QuestionService;
 import com.appricots.intq.services.UserService;
+import com.appricots.intq.wrappers.QuestionResponse;
 import com.appricots.intq.wrappers.QuestionSelector;
 import com.appricots.intq.wrappers.QuestionSuggestion;
 
+@EnableWebMvc
 @Controller
 public class QuestionController {
 
@@ -72,6 +75,28 @@ public class QuestionController {
 		}catch (Exception e){
 			model.addAttribute(NameOf.MA_ERROR_MSG, e.getMessage());
 			return "error";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="nextQ", method=RequestMethod.GET, produces = "application/json")
+	public QuestionResponse getNextJson(
+			@ModelAttribute("questionSelector") QuestionSelector selector
+			//@CookieValue(value = NameOf.COOKIE_4_IDENTITY, defaultValue = NameOf.NOTHING) String identity
+		){
+		try{
+			System.out.println("OOO" + selector.toString());
+			Question nextQuestion = questionService.getNext(selector);
+			if (nextQuestion != null){
+				selector.setShift(selector.getShift() + 1);
+				QuestionResponse r = QuestionResponse.fromQuestionAndSelector(nextQuestion, selector);
+				System.out.println("EEEEEEE " + r);
+				return r;
+			}else{
+				return null;
+			}
+		}catch (Exception e){
+			return null;
 		}
 	}
 
