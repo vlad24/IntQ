@@ -1,4 +1,4 @@
-package com.appricots.intq.wrappers.requests;
+package com.appricots.intq.wrappers.reqobjects;
 
 import java.util.Set;
 
@@ -11,7 +11,7 @@ import com.appricots.intq.NameOf;
 
 @Entity
 @Table(name=NameOf.TABLE_QUESTION)
-public class QuestionSuggestionRequest {
+public class QuestionSuggestion {
 
 	@Override
 	public String toString() {

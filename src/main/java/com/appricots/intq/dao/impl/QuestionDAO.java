@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.appricots.intq.model.Question;
-import com.appricots.intq.wrappers.QuestionSelector;
 import com.appricots.intq.wrappers.QuestionStatus;
+import com.appricots.intq.wrappers.reqobjects.QuestionSelector;
 
 @Repository
 public class QuestionDAO extends DAO<Question, Long> {

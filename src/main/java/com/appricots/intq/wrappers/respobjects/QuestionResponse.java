@@ -1,6 +1,7 @@
-package com.appricots.intq.wrappers;
+package com.appricots.intq.wrappers.respobjects;
 
 import com.appricots.intq.model.Question;
+import com.appricots.intq.wrappers.reqobjects.QuestionSelector;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class QuestionResponse {

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.appricots.intq.NameOf;
@@ -24,9 +25,9 @@ import com.appricots.intq.services.DifficultyService;
 import com.appricots.intq.services.LangService;
 import com.appricots.intq.services.QuestionService;
 import com.appricots.intq.services.UserService;
-import com.appricots.intq.wrappers.QuestionResponse;
-import com.appricots.intq.wrappers.QuestionSelector;
-import com.appricots.intq.wrappers.requests.QuestionSuggestionRequest;
+import com.appricots.intq.wrappers.reqobjects.QuestionSelector;
+import com.appricots.intq.wrappers.reqobjects.QuestionSuggestion;
+import com.appricots.intq.wrappers.respobjects.QuestionResponse;
 
 @EnableWebMvc
 @Controller
@@ -48,49 +49,48 @@ public class QuestionController {
 	@Autowired
 	ReCaptchaImpl reCaptcha;
 
-
-	@RequestMapping(value="q.html", method=RequestMethod.GET)
-	public String getNext(
-			@ModelAttribute("questionSelector") QuestionSelector selector,
-			@CookieValue(value = NameOf.COOKIE_4_IDENTITY, defaultValue = NameOf.NOTHING) String identity,
-			Model model){
-		try{
-			Question nextQuestion = questionService.getNext(selector);
-			if (nextQuestion != null){
-				selector.setShift(selector.getShift() + 1);
-				model.addAttribute("id",               nextQuestion.getId());
-				model.addAttribute("question",         nextQuestion.getQuestion());
-				model.addAttribute("answer",           nextQuestion.getAnswer());
-				model.addAttribute("attachment",       nextQuestion.getAttachment());
-				model.addAttribute("rating",           nextQuestion.calculateRating());
-				model.addAttribute("questionSelector", selector);
-				if (userService.validateIdentity(identity)){
-					// could fectch user session and store some data
-					//UserSession session = userService.getCurrentSessionByCookie(identity);
-				}
-			}else{
-				model.addAttribute(NameOf.MA_NO_MORE_QUESTIONS, true);
-			}
-			return "question";
-		}catch (Exception e){
-			model.addAttribute(NameOf.MA_ERROR_MSG, e.getMessage());
-			return "error";
-		}
-	}
+//
+//	@RequestMapping(value="q.html", method=RequestMethod.GET)
+//	public String getNext(
+//			@ModelAttribute("questionSelector") QuestionSelector selector,
+//			@CookieValue(value = NameOf.COOKIE_4_IDENTITY, defaultValue = NameOf.NOTHING) String identity,
+//			Model model){
+//		try{
+//			Question nextQuestion = questionService.getNext(selector);
+//			if (nextQuestion != null){
+//				selector.setShift(selector.getShift() + 1);
+//				model.addAttribute("id",               nextQuestion.getId());
+//				model.addAttribute("question",         nextQuestion.getQuestion());
+//				model.addAttribute("answer",           nextQuestion.getAnswer());
+//				model.addAttribute("attachment",       nextQuestion.getAttachment());
+//				model.addAttribute("rating",           nextQuestion.calculateRating());
+//				model.addAttribute("questionSelector", selector);
+//				if (userService.validateIdentity(identity)){
+//					// could fectch user session and store some data
+//					//UserSession session = userService.getCurrentSessionByCookie(identity);
+//				}
+//			}else{
+//				model.addAttribute(NameOf.MA_NO_MORE_QUESTIONS, true);
+//			}
+//			return "question";
+//		}catch (Exception e){
+//			model.addAttribute(NameOf.MA_ERROR_MSG, e.getMessage());
+//			return "error";
+//		}
+//	}
+//	
 	
 	@ResponseBody
 	@RequestMapping(value="nextQ", method=RequestMethod.GET, produces = "application/json")
-	public QuestionResponse getNextJson(
+	public QuestionResponse getNextQuestionAsJson(
 			@ModelAttribute("questionSelector") QuestionSelector selector
 			//@CookieValue(value = NameOf.COOKIE_4_IDENTITY, defaultValue = NameOf.NOTHING) String identity
 		){
 		try{
-			System.out.println("OOO" + selector.toString());
 			Question nextQuestion = questionService.getNext(selector);
 			if (nextQuestion != null){
 				selector.setShift(selector.getShift() + 1);
 				QuestionResponse r = QuestionResponse.fromQuestionAndSelector(nextQuestion, selector);
-				System.out.println("EEEEEEE " + r);
 				return r;
 			}else{
 				return null;
@@ -101,49 +101,53 @@ public class QuestionController {
 	}
 
 	@RequestMapping(value="suggestion.html", method = RequestMethod.GET)
-	public String add(
+	public ModelAndView getSuggestionForm(
 			@CookieValue(value = NameOf.COOKIE_4_IDENTITY, defaultValue = NameOf.NOTHING) String identity,
 			Model model
 			){
+		ModelAndView mav = new ModelAndView();
 		if ((!identity.equals(NameOf.NOTHING)) && userService.validateIdentity(identity)){
-			model.addAttribute("questionSuggestion", new QuestionSuggestionRequest());
-			model.addAttribute("categories",   categoryService.getAll());
-			model.addAttribute("difficulties", difService.getAll());
-			model.addAttribute("languages",    langService.getAll());
-			return "suggestion";
+			mav.addObject("questionSuggestion", new QuestionSuggestion());
+			mav.addObject("categories",   categoryService.getAll());
+			mav.addObject("difficulties", difService.getAll());
+			mav.addObject("languages",    langService.getAll());
+			mav.setViewName("suggestion");
 		}else{
-			model.addAttribute(new UserCreds());
-			return "login";
+			mav.addObject(new UserCreds());
+			mav.setViewName("login");
 		}
+		return mav;
 	}
 
 	@RequestMapping(value="suggest",method = RequestMethod.POST)
-	public String processSuggestion(
+	public ModelAndView processSuggestion(
 			@RequestParam("recaptcha_challenge_field") String challangeField,
 			@RequestParam("recaptcha_response_field")  String responseField,
-			@ModelAttribute("questionSuggestion") QuestionSuggestionRequest suggestion,
+			@ModelAttribute("questionSuggestion") QuestionSuggestion suggestion,
 			ServletRequest servletRequest,
 			Model model
 			){
+		ModelAndView mav = new ModelAndView();
 		String remoteAddress = servletRequest.getRemoteAddr();
 		ReCaptchaResponse reCaptchaResponse = this.reCaptcha.checkAnswer(remoteAddress, challangeField, responseField);
 		if(reCaptchaResponse.isValid()){
 			try{
 				Long resultId = questionService.tryAddSuggested(suggestion);
 				if (resultId != null){
-					model.addAttribute(NameOf.MA_SUCCESS_MSG, "Question is added and will soon be moderated.");
-					model.addAttribute("questionSuggestion", new QuestionSuggestionRequest());
+					mav.addObject(NameOf.MA_SUCCESS_MSG, "Question is added and will soon be moderated.");
+					mav.addObject("questionSuggestion", new QuestionSuggestion());
 				}
 			}catch(Exception e){
-				model.addAttribute(NameOf.MA_ERROR_MSG, e.getMessage());
+				mav.addObject(NameOf.MA_ERROR_MSG, e.getMessage());
 			}
 		}else{
-			model.addAttribute(NameOf.MA_ERROR_MSG, "wrong captcha");
+			mav.addObject(NameOf.MA_ERROR_MSG, "wrong captcha");
 		}
-		model.addAttribute("categories", categoryService.getAll());
-		model.addAttribute("difficulties", difService.getAll());
-		model.addAttribute("languages", langService.getAll());
-		return "suggestion";
+		mav.addObject("categories", categoryService.getAll());
+		mav.addObject("difficulties", difService.getAll());
+		mav.addObject("languages", langService.getAll());
+		mav.setViewName("suggestion");
+		return mav;
 	}
 
 

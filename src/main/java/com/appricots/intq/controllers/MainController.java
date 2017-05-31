@@ -14,7 +14,7 @@ import com.appricots.intq.services.CategoryService;
 import com.appricots.intq.services.DifficultyService;
 import com.appricots.intq.services.LangService;
 import com.appricots.intq.services.UserService;
-import com.appricots.intq.wrappers.QuestionSelector;
+import com.appricots.intq.wrappers.reqobjects.QuestionSelector;
 
 @Controller
 public class MainController {

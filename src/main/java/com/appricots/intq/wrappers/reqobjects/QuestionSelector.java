@@ -1,4 +1,4 @@
-package com.appricots.intq.wrappers;
+package com.appricots.intq.wrappers.reqobjects;
 
 import java.util.List;
 
