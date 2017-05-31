@@ -1,15 +1,17 @@
-package com.appricots.intq.wrappers;
+package com.appricots.intq.wrappers.requests;
 
 import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 import com.appricots.intq.NameOf;
 
 @Entity
 @Table(name=NameOf.TABLE_QUESTION)
-public class QuestionSuggestion {
+public class QuestionSuggestionRequest {
 
 	@Override
 	public String toString() {
@@ -24,6 +26,14 @@ public class QuestionSuggestion {
 	private String question;
 	private String answer;
 	private String attachment;
+	private CommonsMultipartFile fileData;
+	
+	public CommonsMultipartFile getFileData() {
+		return fileData;
+	}
+	public void setFileData(CommonsMultipartFile fileData) {
+		this.fileData = fileData;
+	}
 	public Long getLanguage() {
 		return language;
 	}

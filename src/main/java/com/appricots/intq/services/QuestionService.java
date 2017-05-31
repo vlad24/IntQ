@@ -21,7 +21,7 @@ import com.appricots.intq.model.Question;
 import com.appricots.intq.wrappers.AliasedId;
 import com.appricots.intq.wrappers.QuestionSelector;
 import com.appricots.intq.wrappers.QuestionStatus;
-import com.appricots.intq.wrappers.QuestionSuggestion;
+import com.appricots.intq.wrappers.requests.QuestionSuggestionRequest;
 
 @Service
 public class QuestionService {
@@ -50,7 +50,7 @@ public class QuestionService {
 	}
 
 	@Transactional
-	public Long tryAddSuggested(QuestionSuggestion suggestion) {
+	public Long tryAddSuggested(QuestionSuggestionRequest suggestion) {
 		System.out.println(suggestion);
 		Question q = new Question();
 		Difficulty difficulty = difDAO.get(suggestion.getDifficulty());

@@ -26,7 +26,7 @@ import com.appricots.intq.services.QuestionService;
 import com.appricots.intq.services.UserService;
 import com.appricots.intq.wrappers.QuestionResponse;
 import com.appricots.intq.wrappers.QuestionSelector;
-import com.appricots.intq.wrappers.QuestionSuggestion;
+import com.appricots.intq.wrappers.requests.QuestionSuggestionRequest;
 
 @EnableWebMvc
 @Controller
@@ -106,7 +106,7 @@ public class QuestionController {
 			Model model
 			){
 		if ((!identity.equals(NameOf.NOTHING)) && userService.validateIdentity(identity)){
-			model.addAttribute("questionSuggestion", new QuestionSuggestion());
+			model.addAttribute("questionSuggestion", new QuestionSuggestionRequest());
 			model.addAttribute("categories",   categoryService.getAll());
 			model.addAttribute("difficulties", difService.getAll());
 			model.addAttribute("languages",    langService.getAll());
@@ -117,11 +117,11 @@ public class QuestionController {
 		}
 	}
 
-	@RequestMapping(value="suggestion.html",method = RequestMethod.POST)
+	@RequestMapping(value="suggest",method = RequestMethod.POST)
 	public String processSuggestion(
 			@RequestParam("recaptcha_challenge_field") String challangeField,
 			@RequestParam("recaptcha_response_field")  String responseField,
-			@ModelAttribute("questionSuggestion") QuestionSuggestion suggestion,
+			@ModelAttribute("questionSuggestion") QuestionSuggestionRequest suggestion,
 			ServletRequest servletRequest,
 			Model model
 			){
@@ -132,7 +132,7 @@ public class QuestionController {
 				Long resultId = questionService.tryAddSuggested(suggestion);
 				if (resultId != null){
 					model.addAttribute(NameOf.MA_SUCCESS_MSG, "Question is added and will soon be moderated.");
-					model.addAttribute("questionSuggestion", new QuestionSuggestion());
+					model.addAttribute("questionSuggestion", new QuestionSuggestionRequest());
 				}
 			}catch(Exception e){
 				model.addAttribute(NameOf.MA_ERROR_MSG, e.getMessage());

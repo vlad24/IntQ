@@ -69,7 +69,9 @@ var RecaptchaOptions = {
 	</div>
 	<div class="container-fluid">
 		<form:form id="suggestForm" role="form" data-toggle="validator" class="form-horizontal" modelAttribute="questionSuggestion"
-			action="suggestion.html" method="post">
+			action="suggest"
+			enctype="multipart/form-data" 
+			method="post">
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="qst">Question:</label>
 				<div class="col-sm-10">
@@ -106,6 +108,13 @@ var RecaptchaOptions = {
 					<form:select class="form-control" path="language" id="langs" require="true">
 						<form:options items="${languages}" itemValue="id" itemLabel="alias" />
 					</form:select>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="attachment">Attachment:</label>
+				<div class="col-sm-10">
+				 	<form:input path="fileData" type="file"/>
 				</div>
 			</div>
 			<div class="form-group">
