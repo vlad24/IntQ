@@ -2,7 +2,6 @@ package com.appricots.intq.wrappers.respobjects;
 
 import com.appricots.intq.model.Question;
 import com.appricots.intq.wrappers.reqobjects.QuestionSelector;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class QuestionResponse {
 	private long id;
@@ -11,7 +10,7 @@ public class QuestionResponse {
 	private String attachement;
 	private int rating;
 	private QuestionSelector selector;
-	
+
 	public static QuestionResponse fromQuestionAndSelector(Question nextQuestion, QuestionSelector selector){
 		return new QuestionResponse(
 				nextQuestion.getId(),
@@ -21,11 +20,11 @@ public class QuestionResponse {
 		        nextQuestion.calculateRating(),
 		        selector);
 	}
-	
+
 	public QuestionResponse() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public QuestionResponse(long id, String question, String answer,
 			String attachement, int rating, QuestionSelector selector) {
 		super();

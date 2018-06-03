@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="<c:url value="/resources/img/intq_logo.png" />" />
 <link rel="stylesheet" href="<c:url value="/resources/css/user.css" />" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="javascript"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="javascript"></script>
 <title>int q; assert exists(u);</title>
 </head>
 
@@ -41,13 +41,13 @@
 			<div class="form-group">
 				<label class="control-label col-sm-offset-2  col-sm-2" for="usr">Username:</label>
 				<div class="col-sm-4">
-					<form:input type="text" class="form-control" path="login" id="usr"></form:input>
+					<form:input type="text" class="form-control" path="login" id="usr"/>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-offset-2  col-sm-2" for="pass">Password:</label>
 				<div class="col-sm-4">
-					<form:input type="password" class="form-control" path="passHash" id="pass"></form:input>
+					<form:input type="password" class="form-control" path="passHash" id="pass"/>
 				</div>
 			</div>
 		</form:form>

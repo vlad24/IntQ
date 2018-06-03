@@ -32,7 +32,7 @@ public class MainController {
 	public MainController(UserService service) {
 		this.userService = service;
 	}
-	
+
 	@RequestMapping(value="/main", method=RequestMethod.GET)
 	public String enter(
 			@CookieValue(value = NameOf.COOKIE_4_IDENTITY, defaultValue = NameOf.NOTHING) String identity, 

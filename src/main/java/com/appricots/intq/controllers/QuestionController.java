@@ -49,36 +49,36 @@ public class QuestionController {
 	@Autowired
 	ReCaptchaImpl reCaptcha;
 
-//
-//	@RequestMapping(value="q.html", method=RequestMethod.GET)
-//	public String getNext(
-//			@ModelAttribute("questionSelector") QuestionSelector selector,
-//			@CookieValue(value = NameOf.COOKIE_4_IDENTITY, defaultValue = NameOf.NOTHING) String identity,
-//			Model model){
-//		try{
-//			Question nextQuestion = questionService.getNext(selector);
-//			if (nextQuestion != null){
-//				selector.setShift(selector.getShift() + 1);
-//				model.addAttribute("id",               nextQuestion.getId());
-//				model.addAttribute("question",         nextQuestion.getQuestion());
-//				model.addAttribute("answer",           nextQuestion.getAnswer());
-//				model.addAttribute("attachment",       nextQuestion.getAttachment());
-//				model.addAttribute("rating",           nextQuestion.calculateRating());
-//				model.addAttribute("questionSelector", selector);
-//				if (userService.validateIdentity(identity)){
-//					// could fectch user session and store some data
-//					//UserSession session = userService.getCurrentSessionByCookie(identity);
-//				}
-//			}else{
-//				model.addAttribute(NameOf.MA_NO_MORE_QUESTIONS, true);
-//			}
-//			return "question";
-//		}catch (Exception e){
-//			model.addAttribute(NameOf.MA_ERROR_MSG, e.getMessage());
-//			return "error";
-//		}
-//	}
-//	
+
+	@RequestMapping(value="q.html", method=RequestMethod.GET)
+	public String getNext(
+			@ModelAttribute("questionSelector") QuestionSelector selector,
+			@CookieValue(value = NameOf.COOKIE_4_IDENTITY, defaultValue = NameOf.NOTHING) String identity,
+			Model model){
+		try{
+			Question nextQuestion = questionService.getNext(selector);
+			if (nextQuestion != null){
+				selector.setShift(selector.getShift() + 1);
+				model.addAttribute("id",               nextQuestion.getId());
+				model.addAttribute("question",         nextQuestion.getQuestion());
+				model.addAttribute("answer",           nextQuestion.getAnswer());
+				model.addAttribute("attachment",       nextQuestion.getAttachment());
+				model.addAttribute("rating",           nextQuestion.calculateRating());
+				model.addAttribute("questionSelector", selector);
+				if (userService.validateIdentity(identity)){
+					// could fectch user session and store some data
+					//UserSession session = userService.getCurrentSessionByCookie(identity);
+				}
+			}else{
+				model.addAttribute(NameOf.MA_NO_MORE_QUESTIONS, true);
+			}
+			return "question";
+		}catch (Exception e){
+			model.addAttribute(NameOf.MA_ERROR_MSG, e.getMessage());
+			return "error";
+		}
+	}
+
 	
 	@ResponseBody
 	@RequestMapping(value="nextQ", method=RequestMethod.GET, produces = "application/json")

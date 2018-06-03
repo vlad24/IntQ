@@ -31,9 +31,9 @@ public class AppConfiguration {
 
 	@Bean(name="recaptcha")
 	ReCaptchaImpl initRecaptchaBean(){
-		ReCaptchaImpl rc = new ReCaptchaImpl();
-		rc.setPrivateKey("6LdKMBUUAAAAAN7PS9DV--iIysnZcr7yrV9SkD8k");
-		return rc;
+		ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
+		reCaptcha.setPrivateKey(environment.getProperty("recaptcha.private_key"));
+		return reCaptcha;
 	}
 
 	@Bean(name="fileResolver")
@@ -59,10 +59,8 @@ public class AppConfiguration {
 	public SessionFactory getSessionFactory() throws IOException{
 		LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
 		sessionFactoryBean.setPackagesToScan("com.appricots.intq.model");
-		System.out.println("here");
 		Properties hibernateProps = new Properties();
 		hibernateProps.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
-		System.out.println("here1");
 		hibernateProps.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
 		hibernateProps.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
 		hibernateProps.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
