@@ -5,6 +5,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import com.appricots.intq.security.CustomAuthenticationProvider;
 import net.tanesha.recaptcha.ReCaptchaImpl;
 
 import org.hibernate.SessionFactory;
@@ -17,6 +18,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
@@ -76,6 +78,12 @@ public class AppConfiguration {
 		HibernateTransactionManager txManager = new HibernateTransactionManager();
 		txManager.setSessionFactory(sessionFactory);
 		return txManager;
+	}
+
+
+	@Bean(name="authenticationProvider")
+	public AuthenticationProvider authenticationProvider() {
+		return new CustomAuthenticationProvider();
 	}
 
 }

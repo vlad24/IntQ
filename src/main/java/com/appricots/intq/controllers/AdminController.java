@@ -3,6 +3,7 @@ package com.appricots.intq.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -26,7 +27,7 @@ public class AdminController {
 	@Autowired
 	QuestionService questionService;
 
-
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value="admin.html", method=RequestMethod.GET)
 	public String admin(
 			@CookieValue(value = NameOf.COOKIE_4_ADMIN, defaultValue = NameOf.NOTHING) String identity, 
