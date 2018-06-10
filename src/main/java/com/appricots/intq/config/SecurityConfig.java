@@ -1,6 +1,5 @@
 package com.appricots.intq.config;
 
-import com.appricots.intq.security.CustomAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -10,21 +9,46 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    AuthenticationProvider provider;
+    AuthenticationProvider authenticationProvider;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(provider);
+    public void configureGlobal(AuthenticationManagerBuilder authBuilder) {
+        authBuilder.authenticationProvider(authenticationProvider);
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().authenticated()
+        http
+                .authorizeRequests()
                 .and()
-                .httpBasic();
+                    .formLogin()
+                        .loginPage("/login.html")
+                        .loginProcessingUrl("/j_spring_security_check")
+                        .failureUrl("/login.html?error=true")
+                        .usernameParameter("j_username")
+                        .passwordParameter("j_password")
+                        .permitAll()
+                .and()
+                    .httpBasic()
+                .and()
+                    .authorizeRequests()
+                    .antMatchers("/secured/**").hasRole("ADMIN")
+                    .antMatchers("/user/**").hasRole("USER")
+                .and()
+                    .logout()
+                        .logoutUrl("/j_spring_security_logout")
+                        .logoutSuccessUrl("/main")
+                        .invalidateHttpSession(true)
+                        .permitAll()
+                .and()
+                    .rememberMe()
+                        .key("rememberMeKey")
+                        .tokenValiditySeconds(300)
+                .and()
+                    .csrf()
+                    .disable();
     }
 }

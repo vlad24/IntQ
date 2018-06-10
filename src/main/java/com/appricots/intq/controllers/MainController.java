@@ -1,6 +1,7 @@
 package com.appricots.intq.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -29,11 +30,9 @@ public class MainController {
 	@Autowired
 	private LangService langService;
 	
-	public MainController(UserService service) {
-		this.userService = service;
-	}
 
-	@RequestMapping(value="/main", method=RequestMethod.GET)
+	@Secured("ROLE_USER")
+	@RequestMapping(value={"/", "/main"}, method=RequestMethod.GET)
 	public String enter(
 			@CookieValue(value = NameOf.COOKIE_4_IDENTITY, defaultValue = NameOf.NOTHING) String identity, 
 			Model model
