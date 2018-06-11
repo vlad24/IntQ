@@ -102,6 +102,7 @@ public class UserService{
 
 
     public Optional<User> getCurrentUser() {
+        logger.warn("@@@" + SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         return Optional.empty();
 //        IntqUserDetails userDetails = ((IntqUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 //        logger.warn("Principal: {}", userDetails);
