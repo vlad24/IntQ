@@ -14,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.Optional;
+
 @Controller
 public class MainController {
 
@@ -31,10 +33,8 @@ public class MainController {
     @Secured("ROLE_USER")
     @RequestMapping(value = {"/", "/main"}, method = RequestMethod.GET)
     public String enter(Model model) {
-        User user = userService.getCurrentUser();
-        if (user != null) {
-            model.addAttribute(NameOf.MA_USERNAME, user.getCreds().getLogin());
-        }
+        Optional<User> user = userService.getCurrentUser();
+        user.ifPresent(u -> model.addAttribute(NameOf.MA_USERNAME, u.getUsername()));
         return "main";
 
     }
@@ -42,14 +42,12 @@ public class MainController {
 
     @RequestMapping(value = "/start", method = RequestMethod.GET)
     public String startListing(Model model) {
-        User user = userService.getCurrentUser();
-        if (user != null) {
-            model.addAttribute(NameOf.MA_USERNAME, user.getCreds().getLogin());
-//            UserSession lastSession = userService.getgetCurrentSessionByCookie(identity);
-//            if (lastSession != null){
-//                //could do something useful
-//            }
-        }
+        Optional<User> user = userService.getCurrentUser();
+        //            UserSession lastSession = userService.getgetCurrentSessionByCookie(identity);
+        //            if (lastSession != null){
+        //                //could do something useful
+        //            }
+        user.ifPresent(u -> model.addAttribute(NameOf.MA_USERNAME, u.getUsername()));
         model.addAttribute(NameOf.MA_CATEGORIES, categoryService.getAliasedIds());
         model.addAttribute(NameOf.MA_DIFFICULTIES, diffService.getAliasedIds());
         model.addAttribute(NameOf.MA_LANGS, langService.getAliasedIds());

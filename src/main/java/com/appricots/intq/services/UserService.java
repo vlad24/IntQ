@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.appricots.intq.model.IntqUserDetails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,10 +24,13 @@ import com.appricots.intq.wrappers.UserProfile;
 
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService{
+
+    private final static Logger logger = LoggerFactory.getLogger(UserService.class);
 
 	@Autowired
 	UserDAO userDao;
+
 	@Autowired
 	UserSessionDAO userSessionDao;
 
@@ -45,7 +50,8 @@ public class UserService implements UserDetailsService {
 	@Transactional
 	public Long registerUser(UserProfile profile) {
 		User newUser = new User();
-		newUser.setUsername(profile.getFirstName());
+        newUser.setUsername(profile.getUsername());
+		newUser.setFirstName(profile.getFirstName());
 		newUser.setLastName(profile.getLastName());
 		newUser.setAge(profile.getAge());
 		newUser.setEmail(profile.getEmail());
@@ -55,7 +61,7 @@ public class UserService implements UserDetailsService {
 		newCreds.setPassHash(profile.getPass());
 		newUser.setCreds(newCreds);
 		newCreds.setUser(newUser);
-		System.out.println("---------" + "trying to add" + newUser);
+		logger.info("Trying to add {}", newUser);
 		return userDao.create(newUser);
 	}
 
@@ -77,18 +83,6 @@ public class UserService implements UserDetailsService {
 	}
 
 
-    public Optional<User> getCurrentUser() {
-        IntqUserDetails principal = (IntqUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return Optional.ofNullable(principal.getIntqUser());
-    }
-
-
-    @Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.getByLogin(username);
-		return new IntqUserDetails(user);
-	}
-
 
     private String generateCookie(String login) {
 		return login + "_cookie";
@@ -105,6 +99,14 @@ public class UserService implements UserDetailsService {
 		registerUser(userProfile);
 		return Arrays.asList(userProfile);
 	}
+
+
+    public Optional<User> getCurrentUser() {
+        return Optional.empty();
+//        IntqUserDetails userDetails = ((IntqUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+//        logger.warn("Principal: {}", userDetails);
+//        return Optional.of(userDetails.getIntqUser());
+    }
 
 
 }

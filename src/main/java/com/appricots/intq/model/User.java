@@ -62,6 +62,16 @@ public class User {
     }
 
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+
     public String getLastName() {
         return lastName;
     }
@@ -128,22 +138,6 @@ public class User {
 
 
     public void setAuthorities(Set<UserAuthority> authorities) {
-        this.authorities = authorities;
-    }
-
-
-    public User() {
-    }
-
-
-    public User(String name, String lastName, String email, int age, long activeness, UserSession session, UserCreds creds, Set<UserAuthority> authorities) {
-        this.username = name;
-        this.lastName = lastName;
-        this.email = email;
-        this.age = age;
-        this.activeness = activeness;
-        this.session = session;
-        this.creds = creds;
         this.authorities = authorities;
     }
 }
