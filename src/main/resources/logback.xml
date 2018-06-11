@@ -2,7 +2,7 @@
 
 <configuration>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender username="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoders are assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
@@ -10,7 +10,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.lordofthejars.foo" level="INFO" additivity="false">
+    <logger username="com.lordofthejars.foo" level="INFO" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
 

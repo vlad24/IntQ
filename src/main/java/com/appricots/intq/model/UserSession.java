@@ -30,7 +30,7 @@ public class UserSession {
 	private Long shift;
 	
 //	@ManyToOne
-//	@JoinColumn(name = NameOf.COLUMN_QUESTION_ID, nullable=true)
+//	@JoinColumn(username = NameOf.COLUMN_QUESTION_ID, nullable=true)
 //	private Question lastQuestion;
 	
 	

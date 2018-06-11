@@ -1,5 +1,6 @@
 package com.appricots.intq.dao.impl;
 
+import com.appricots.intq.model.UserCreds;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
@@ -28,4 +29,18 @@ public class UserSessionDAO extends DAO<UserSession, Long>{
 	}
 
 
+	public UserSession getByUserName(String username) {
+		Session session = sessionFactory.getCurrentSession();
+		Query selectQuery = session
+				.createQuery(new StringBuilder()
+						.append(" SELECT  US ")
+						.append(" FROM User U")
+						.append(" JOIN   U.session US")
+						.append(" WHERE  U.username  = :username")
+						.toString())
+				.setParameter("username", username);
+		UserSession userSession = (UserSession) selectQuery.uniqueResult();
+		System.out.println(userSession);
+		return userSession;
+	}
 }

@@ -11,7 +11,7 @@
 <script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>
 
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta username="viewport" content="width=device-width, initial-scale=1">
 <title>int q; puts u;</title>
 </head>
 
@@ -41,7 +41,7 @@
 			</tr>
 			<tr>
 				<td>First Name</td>
-				<td>${name}</td>
+				<td>${username}</td>
 			</tr>
 			<tr>
 				<td>Last Name</td>

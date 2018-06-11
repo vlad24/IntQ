@@ -13,7 +13,7 @@
 <head>
 <link rel="icon" href="<c:url value="/resources/img/intq_logo.png" />" />
 <link rel="stylesheet" href="<c:url value="/resources/css/user.css" />" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta username="viewport" content="width=device-width, initial-scale=1">
 <script src="http://code.jquery.com/jquery.min.js"></script>
 <script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

@@ -51,10 +51,7 @@ public class QuestionController {
 
 
 	@RequestMapping(value="q.html", method=RequestMethod.GET)
-	public String getNext(
-			@ModelAttribute("questionSelector") QuestionSelector selector,
-			@CookieValue(value = NameOf.COOKIE_4_IDENTITY, defaultValue = NameOf.NOTHING) String identity,
-			Model model){
+	public String getNext(@ModelAttribute("questionSelector") QuestionSelector selector, Model model){
 		try{
 			Question nextQuestion = questionService.getNext(selector);
 			if (nextQuestion != null){
@@ -65,7 +62,7 @@ public class QuestionController {
 				model.addAttribute("attachment",       nextQuestion.getAttachment());
 				model.addAttribute("rating",           nextQuestion.calculateRating());
 				model.addAttribute("questionSelector", selector);
-				if (userService.validateIdentity(identity)){
+				if (userService.getCurrentUser().isPresent()){
 					// could fectch user session and store some data
 					//UserSession session = userService.getCurrentSessionByCookie(identity);
 				}
@@ -101,12 +98,9 @@ public class QuestionController {
 	}
 
 	@RequestMapping(value="suggestion.html", method = RequestMethod.GET)
-	public ModelAndView getSuggestionForm(
-			@CookieValue(value = NameOf.COOKIE_4_IDENTITY, defaultValue = NameOf.NOTHING) String identity,
-			Model model
-			){
+	public ModelAndView getSuggestionForm(Model model){
 		ModelAndView mav = new ModelAndView();
-		if ((!identity.equals(NameOf.NOTHING)) && userService.validateIdentity(identity)){
+		if (userService.getCurrentUser().isPresent()){
 			mav.addObject("questionSuggestion", new QuestionSuggestion());
 			mav.addObject("categories",   categoryService.getAll());
 			mav.addObject("difficulties", difService.getAll());

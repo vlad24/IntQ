@@ -15,9 +15,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = NameOf.COLUMN_USER_ID)
     Long id;
-
-    @Column(name = NameOf.COLUMN_USER_NAME)
-    String name;
+    @Column(name = NameOf.COLUMN_USER_USERNAME)
+    String username;
+    @Column(name = NameOf.COLUMN_USER_FIRST_NAME)
+    String firstName;
     @Column(name = NameOf.COLUMN_USER_LAST_NAME)
     String lastName;
     @Column(name = NameOf.COLUMN_USER_EMAIL)
@@ -51,13 +52,13 @@ public class User {
     }
 
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 
@@ -136,7 +137,7 @@ public class User {
 
 
     public User(String name, String lastName, String email, int age, long activeness, UserSession session, UserCreds creds, Set<UserAuthority> authorities) {
-        this.name = name;
+        this.username = name;
         this.lastName = lastName;
         this.email = email;
         this.age = age;

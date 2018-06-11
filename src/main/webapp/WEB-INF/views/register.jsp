@@ -32,7 +32,7 @@ var RecaptchaOptions = {
  };
 </script>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta username="viewport" content="width=device-width, initial-scale=1">
 <title>int q; push user;</title>
 </head>
 
@@ -92,13 +92,13 @@ var RecaptchaOptions = {
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="inputName">First Name:</label>
 				<div class="col-sm-5">
-					<form:input id="inputName" path="name" type="text" class="form-control" placeholder="(Optional) First name" required="true"></form:input>
+					<form:input id="inputName" path="username" type="text" class="form-control" placeholder="(Optional) First username" required="true"></form:input>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="inputLastName">Last Name:</label>
 				<div class="col-sm-5">
-					<form:input id="inputLastName" path="lastName" type="text" class="form-control" placeholder="(Optional) Last name"></form:input>
+					<form:input id="inputLastName" path="lastName" type="text" class="form-control" placeholder="(Optional) Last username"></form:input>
 				</div>
 			</div>
 			<div class="form-group">

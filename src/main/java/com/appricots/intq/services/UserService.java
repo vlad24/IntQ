@@ -2,12 +2,17 @@ package com.appricots.intq.services;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import com.appricots.intq.model.IntqUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.appricots.intq.NameOf;
 import com.appricots.intq.dao.impl.UserDAO;
 import com.appricots.intq.dao.impl.UserSessionDAO;
 import com.appricots.intq.model.User;
@@ -17,7 +22,7 @@ import com.appricots.intq.wrappers.UserProfile;
 
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
 	@Autowired
 	UserDAO userDao;
@@ -28,29 +33,6 @@ public class UserService {
 	public UserService() {
 	}
 
-	public UserService(UserDAO userDao, UserSessionDAO userSessionDao) {
-		super();
-		this.userDao = userDao;
-		this.userSessionDao= userSessionDao;
-	}
-
-
-	@Transactional
-	public boolean validateIdentity(String identity) {
-		boolean validated = !identity.equals(NameOf.NOTHING) && (userSessionDao.getByIdentity(identity) != null);
-		return validated;
-	}
-
-	@Transactional
-	public User getUserForIdentity(String identity) {
-		if (!identity.equals(NameOf.NOTHING)){
-			UserSession uSes = userSessionDao.getByIdentity(identity);
-			if (uSes != null){
-				return uSes.getUser();
-			}
-		}
-		return null;
-	}
 
 
 	@Transactional
@@ -59,19 +41,11 @@ public class UserService {
 	}
 
 
-	@Transactional
-	public UserSession getCurrentSessionByCookie(String identity) {
-		if (!identity.equals(NameOf.NOTHING)){
-			return userSessionDao.getByIdentity(identity);
-		}else{
-			return null;
-		}
-	}
 
 	@Transactional
 	public Long registerUser(UserProfile profile) {
 		User newUser = new User();
-		newUser.setName(profile.getName());
+		newUser.setUsername(profile.getFirstName());
 		newUser.setLastName(profile.getLastName());
 		newUser.setAge(profile.getAge());
 		newUser.setEmail(profile.getEmail());
@@ -86,8 +60,8 @@ public class UserService {
 	}
 
 	@Transactional
-	public void dropSession(String identity) {
-		userSessionDao.getByIdentity(identity).getUser().setSession(null);
+	public void dropSession(String username) {
+		userSessionDao.getByUserName(username).getUser().setSession(null);
 	}
 
 	@Transactional
@@ -102,7 +76,21 @@ public class UserService {
 		return cookie;
 	}
 
-	private String generateCookie(String login) {
+
+    public Optional<User> getCurrentUser() {
+        IntqUserDetails principal = (IntqUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return Optional.ofNullable(principal.getIntqUser());
+    }
+
+
+    @Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userDao.getByLogin(username);
+		return new IntqUserDetails(user);
+	}
+
+
+    private String generateCookie(String login) {
 		return login + "_cookie";
 	}
 
@@ -113,7 +101,7 @@ public class UserService {
 		userProfile.setEmail("email@domain.ru");
 		userProfile.setLogin("user");
 		userProfile.setPass("user");
-		userProfile.setName("Anonymous");
+		userProfile.setFirstName("Anonymous");
 		registerUser(userProfile);
 		return Arrays.asList(userProfile);
 	}

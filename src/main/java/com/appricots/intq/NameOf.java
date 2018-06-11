@@ -45,8 +45,9 @@ public class NameOf {
 	public static final String COLUMN_USESSION_IDENTIIY_COOKIE = "identCookie";
 
 	public static final String COLUMN_USER_ID = "uid";
-	public static final String COLUMN_USER_NAME = "uName";
-	public static final String COLUMN_USER_LAST_NAME = "uLName";
+	public static final String COLUMN_USER_USERNAME = "uUsername";
+	public static final String COLUMN_USER_FIRST_NAME = "uFirstName";
+	public static final String COLUMN_USER_LAST_NAME = "uLastName";
 	public static final String COLUMN_USER_EMAIL = "uEmail";
 	public static final String COLUMN_USER_AGE = "uAge";
 	public static final String COLUMN_USER_ACTIVENESS = "uActiveness";

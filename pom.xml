@@ -5,7 +5,7 @@
 	<artifactId>intQ</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>IntQ Web</name>
+	<username>IntQ Web</username>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<spring-security-version>4.2.3.RELEASE</spring-security-version>

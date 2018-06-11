@@ -12,7 +12,7 @@
 <script src="http://1000hz.github.io/bootstrap-validator/dist/validator.min.js"></script>
 
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta username="viewport" content="width=device-width, initial-scale=1">
 <title>int q; puts u;</title>
 </head>
 

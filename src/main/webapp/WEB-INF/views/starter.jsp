@@ -5,7 +5,7 @@
 <html>
 <head>
 <link rel="stylesheet" href="<c:url value="/resources/css/user.css" />" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta username="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="<c:url value="/resources/img/intq_logo.png" />" />
 <title>int q; setFilter()</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
