@@ -8,7 +8,6 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,11 +66,11 @@ public class QuestionController {
 					//UserSession session = userService.getCurrentSessionByCookie(identity);
 				}
 			}else{
-				model.addAttribute(NameOf.MA_NO_MORE_QUESTIONS, true);
+				model.addAttribute(NameOf.ModelAttributeKey.NO_MORE_QUESTIONS_FLAG, true);
 			}
 			return "question";
 		}catch (Exception e){
-			model.addAttribute(NameOf.MA_ERROR_MSG, e.getMessage());
+			model.addAttribute(NameOf.ModelAttributeKey.ERROR_MSG, e.getMessage());
 			return "error";
 		}
 	}
@@ -128,14 +127,14 @@ public class QuestionController {
 			try{
 				Long resultId = questionService.tryAddSuggested(suggestion);
 				if (resultId != null){
-					mav.addObject(NameOf.MA_SUCCESS_MSG, "Question is added and will soon be moderated.");
+					mav.addObject(NameOf.ModelAttributeKey.SUCCESS_MSG, "Question is added and will soon be moderated.");
 					mav.addObject("questionSuggestion", new QuestionSuggestion());
 				}
 			}catch(Exception e){
-				mav.addObject(NameOf.MA_ERROR_MSG, e.getMessage());
+				mav.addObject(NameOf.ModelAttributeKey.ERROR_MSG, e.getMessage());
 			}
 		}else{
-			mav.addObject(NameOf.MA_ERROR_MSG, "wrong captcha");
+			mav.addObject(NameOf.ModelAttributeKey.ERROR_MSG, "wrong captcha");
 		}
 		mav.addObject("categories", categoryService.getAll());
 		mav.addObject("difficulties", difService.getAll());

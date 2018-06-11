@@ -4,71 +4,64 @@ public class NameOf {
 
 	public static final String NOTHING           = "nothing";
 	public static final Integer MAX_POSSIBLE     = Integer.MAX_VALUE;
-	public static final String LOGGED_IN_FLAG    = "loggedIn";
 	public static final String COOKIE_4_IDENTITY = "maria";
-	public static final String COOKIE_4_ADMIN    = "polina";
-	public static final Object DEBUG_ADMIN_COOKIE = "admin";
-	
-	public static final String TABLE_QUESTION_CAT_REL = "QuestionCategory";
-	public static final String TABLE_AUTHORITY        = "Authority";
-	public static final String TABLE_CAT              = "Category";
-	public static final String TABLE_LANG             = "Lang";
-	public static final String TABLE_USER             = "UUser";
-	public static final String TABLE_USER_CREDS       = "UserCreds";
-	public static final String TABLE_QUESTION         = "Question";
-	public static final String TABLE_DIFFICULTY       = "Difficulty";
-	public static final String TABLE_USESSION         = "UserSession";
 
-	public static final String COLUMN_LANG_ID = "langID";
-	public static final String COLUMN_LANG_ALIAS = "langAlias";
+	public class Table {
+        public static final String AUTHORITY = "intq_authority";
+        public static final String CATEGORY = "intq_category";
+        public static final String LANGUAGE = "intq_language";
+        public static final String USER = "intq_user";
+        public static final String CREDENTIALS = "intq_user_credentials";
+        public static final String QUESTION = "intq_question";
+        public static final String DIFFICULTY = "intq_difficulty";
+        public static final String USER_SESSION = "intq_user_session";
+        public static final String LINK_QUESTION_CATEGORY = "intq_m2m_question__category";
+        public static final String LINK_USER_AUTHORITY = "intq_o2m_user__authority";
+    }
 
-	public static final String COLUMN_DIFF_ID = "diffID";
-	public static final String COLUMN_DIFF_ALIAS = "diffAlias";
-	public static final String COLUMN_CAT_ID = "categoryId";
-	public static final String COLUMN_CAT_ALIAS = "catAlias";
+    public class Column {
+        public static final String LANGUAGE_ID = "language_id";
+        public static final String LANGUAGE_ALIAS = "language_alias";
+        public static final String DIFFICULTY_ID = "difficulty_id";
+        public static final String DIFFICULTY_ALIAS = "difficulty_alias";
+        public static final String CATEGORY_ID = "category_id";
+        public static final String CATEGORY_ALIAS = "category_alias";
+        public static final String QUESTION_ID = "question_id";
+        public static final String QUESTION_CONTENT = "question_content";
+        public static final String QUESTION_ANSWER = "answer_Content";
+        public static final String QUESTION_PLUS = "plus_count";
+        public static final String QUESTION_MINUS = "minus_count";
+        public static final String QUESTION_ATTACH_URL = "attachment_url";
+        public static final String QUESTION_STATUS = "question_status";
+        public static final String USER_CREDS_ID = "ucID";
+        public static final String USER_CREDS_LOGIN = "login";
+        public static final String USER_CREDS_PASS = "passHash";
+        public static final String USESSION_ID = "usID";
+        public static final String USESSION_SHIFT = "shift";
+        public static final String USESSION_IDENTIIY_COOKIE = "identCookie";
+        public static final String USER_ID = "uid";
+        public static final String USER_USERNAME = "uUsername";
+        public static final String USER_FIRST_NAME = "uFirstName";
+        public static final String USER_LAST_NAME = "uLastName";
+        public static final String USER_EMAIL = "uEmail";
+        public static final String USER_AGE = "uAge";
+        public static final String USER_ACTIVENESS = "uActiveness";
+        public static final String USER_AUTHORITIES = "uAuthority";
+        public static final String AUTHORITY_ID = "uAuthorityId";
+        public static final String AUTHORITY_NAME = "uAuthorityName";
+        public static final String AUTHORITY_COMMENT = "uAuthorityComment";
+    }
 
-	public static final String COLUMN_QUESTION_ID = "qID";
-	public static final String COLUMN_QUESTION_CONTENT = "questionContent";
-	public static final String COLUMN_QUESTION_ANSWER = "answerContent";
-	public static final String COLUMN_QUESTION_PLUS = "plusCount";
-	public static final String COLUMN_QUESTION_MINUS = "minusCount";
-	public static final String COLUMN_QUESTION_DIFF = "qDiff";
-	public static final String COLUMN_QUESTION_LANG = "qLang";
-	public static final String COLUMN_QUESTION_ATT_URL= "attachmentURL";
-	public static final String COLUMN_QUESTION_STATUS = "qStatus";
-
-	public static final String COLUMN_USER_CREDS_ID = "ucID";
-	public static final String COLUMN_USER_CREDS_LOGIN = "login";
-	public static final String COLUMN_USER_CREDS_PASS = "passHash";
-
-	public static final String COLUMN_USESSION_ID = "usID";
-	public static final String COLUMN_USESSION_IDENTIIY_COOKIE = "identCookie";
-
-	public static final String COLUMN_USER_ID = "uid";
-	public static final String COLUMN_USER_USERNAME = "uUsername";
-	public static final String COLUMN_USER_FIRST_NAME = "uFirstName";
-	public static final String COLUMN_USER_LAST_NAME = "uLastName";
-	public static final String COLUMN_USER_EMAIL = "uEmail";
-	public static final String COLUMN_USER_AGE = "uAge";
-	public static final String COLUMN_USER_ACTIVENESS = "uActiveness";
-	public static final String COLUMN_USER_AUTHORITY = "uAuthority";
-	public static final String COLUMN_USER_AUTHORITY_ID = "uAuthorityId";
-	public static final String COLUMN_USER_AUTHORITY_NAME = "uAuthorityName";
-	public static final String COLUMN_USER_AUTHORITY_COMMENT = "uAuthorityComment";
-	public static final String TABLE_USER_AUTHORITY_REL = "UserAuthorityRelation";
-	public static final String COLUMN_CAT_METAFLAG = "isMeta";
-	public static final String COLUMN_DIFF_METAFLAG = "isMeta";
-	public static final String COLUMN_LANG_METAFLAG = "isMeta";
-	public static final String COLUMN_USESSION_SHIFT = "shift";
-
-	public static final String MA_ERROR_MSG = "error_msg";
-	public static final String MA_SUCCESS_MSG = "success_msg";
-	public static final String MA_USERNAME = "username";
-	public static final String MA_CATEGORIES = "categories";
-	public static final String MA_LANGS = "languages";
-	public static final String MA_DIFFICULTIES = "difficulties";
-	public static final String MA_QUESTION_SELECTOR = "questionSelector";
-	public static final String MA_NO_MORE_QUESTIONS = "no_more_questions";
+    public static class ModelAttributeKey {
+        public static final String ERROR_MSG = "error_msg";
+        public static final String SUCCESS_MSG = "success_msg";
+        public static final String USERNAME = "username";
+        public static final String CATEGORIES = "categories";
+        public static final String LANGUAGES = "languages";
+        public static final String DIFFICULTIES = "difficulties";
+        public static final String QUESTION_SELECTOR = "questionSelector";
+        public static final String NO_MORE_QUESTIONS_FLAG = "no_more_questions";
+    }
 
 
 }

@@ -25,7 +25,7 @@ public class CategoryDAO extends DAO<Category, Long>{
 		Session session = sessionFactory.getCurrentSession();
 		String aliasParam = "alias";
 		Query selectQuery = session.createQuery(MessageFormat.format("SELECT C from {} where C.{} = {}", 
-				NameOf.TABLE_CAT, NameOf.COLUMN_CAT_ALIAS, aliasParam)
+				NameOf.Table.CATEGORY, NameOf.Column.CATEGORY_ALIAS, aliasParam)
 		);
 		selectQuery.setParameter(aliasParam, alias);
 		return (Category) selectQuery.uniqueResult();

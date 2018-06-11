@@ -12,18 +12,18 @@ import javax.persistence.Table;
 import com.appricots.intq.NameOf;
 
 @Entity
-@Table(name = NameOf.TABLE_USER_CREDS)
+@Table(name = NameOf.Table.CREDENTIALS)
 public class UserCreds {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = NameOf.COLUMN_USER_CREDS_ID)
+	@Column(name = NameOf.Column.USER_CREDS_ID)
 	Long id;
 	
-	@Column(name = NameOf.COLUMN_USER_CREDS_LOGIN, nullable = false, unique=true)
+	@Column(name = NameOf.Column.USER_CREDS_LOGIN, nullable = false, unique=true)
 	String login;
 
-	@Column(name = NameOf.COLUMN_USER_CREDS_PASS, nullable = false)
+	@Column(name = NameOf.Column.USER_CREDS_PASS, nullable = false)
 	String passHash;
 	
 	@OneToOne(mappedBy = "creds", cascade = CascadeType.ALL)

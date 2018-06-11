@@ -8,37 +8,37 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = NameOf.TABLE_USER)
+@Table(name = NameOf.Table.USER)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = NameOf.COLUMN_USER_ID)
+    @Column(name = NameOf.Column.USER_ID)
     Long id;
-    @Column(name = NameOf.COLUMN_USER_USERNAME)
+    @Column(name = NameOf.Column.USER_USERNAME)
     String username;
-    @Column(name = NameOf.COLUMN_USER_FIRST_NAME)
+    @Column(name = NameOf.Column.USER_FIRST_NAME)
     String firstName;
-    @Column(name = NameOf.COLUMN_USER_LAST_NAME)
+    @Column(name = NameOf.Column.USER_LAST_NAME)
     String lastName;
-    @Column(name = NameOf.COLUMN_USER_EMAIL)
+    @Column(name = NameOf.Column.USER_EMAIL)
     String email;
-    @Column(name = NameOf.COLUMN_USER_AGE)
+    @Column(name = NameOf.Column.USER_AGE)
     int age;
-    @Column(name = NameOf.COLUMN_USER_ACTIVENESS)
+    @Column(name = NameOf.Column.USER_ACTIVENESS)
     long activeness;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = NameOf.COLUMN_USESSION_ID)
+    @JoinColumn(name = NameOf.Column.USESSION_ID)
     UserSession session;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = NameOf.COLUMN_USER_CREDS_ID)
+    @JoinColumn(name = NameOf.Column.USER_CREDS_ID)
     UserCreds creds;
 
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = NameOf.COLUMN_USER_AUTHORITY)
+    @JoinColumn(name = NameOf.Column.USER_AUTHORITIES)
     Set<UserAuthority> authorities;
 
 

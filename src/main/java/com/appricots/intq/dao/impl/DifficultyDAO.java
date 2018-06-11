@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.appricots.intq.NameOf;
 import com.appricots.intq.model.Difficulty;
-import com.appricots.intq.wrappers.AliasedId;
 
 @Repository
 public class DifficultyDAO extends DAO<Difficulty, Long>{
@@ -25,7 +24,7 @@ public class DifficultyDAO extends DAO<Difficulty, Long>{
 		Session session = sessionFactory.getCurrentSession();
 		String aliasParam = "alias";
 		Query selectQuery = session.createQuery(MessageFormat.format("SELECT D from {} where D.{} = {}", 
-				NameOf.TABLE_DIFFICULTY, NameOf.COLUMN_DIFF_ALIAS, aliasParam)
+				NameOf.Table.DIFFICULTY, NameOf.Column.DIFFICULTY_ALIAS, aliasParam)
 		);
 		selectQuery.setParameter(aliasParam, alias);
 		return (Difficulty) selectQuery.uniqueResult();

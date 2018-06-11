@@ -54,11 +54,11 @@ public class AdminController {
 				.append(" put into ").
 				append(question.getCategories()).append("<br>");
 			}
-			model.addAttribute(NameOf.MA_SUCCESS_MSG, builder.toString());
+			model.addAttribute(NameOf.ModelAttributeKey.SUCCESS_MSG, builder.toString());
 		}catch (org.hibernate.exception.ConstraintViolationException alreadyInited){
-			model.addAttribute(NameOf.MA_ERROR_MSG, "Some entities that were tries to be added are already in database.");
+			model.addAttribute(NameOf.ModelAttributeKey.ERROR_MSG, "Some entities that were tries to be added are already in database.");
 		}catch (Exception e){
-			model.addAttribute(NameOf.MA_ERROR_MSG, e.getMessage());
+			model.addAttribute(NameOf.ModelAttributeKey.ERROR_MSG, e.getMessage());
 		}
 		return "control";
 	}

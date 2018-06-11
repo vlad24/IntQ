@@ -10,7 +10,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import com.appricots.intq.NameOf;
 
 @Entity
-@Table(name=NameOf.TABLE_QUESTION)
+@Table(name=NameOf.Table.QUESTION)
 public class QuestionSuggestion {
 
 	@Override

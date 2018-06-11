@@ -14,14 +14,14 @@ import javax.persistence.Table;
 import com.appricots.intq.NameOf;
 
 @Entity
-@Table(name=NameOf.TABLE_DIFFICULTY)
+@Table(name=NameOf.Table.DIFFICULTY)
 public class Difficulty {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name=NameOf.COLUMN_DIFF_ID)
+	@Column(name=NameOf.Column.DIFFICULTY_ID)
 	long id;
 	
-	@Column(name=NameOf.COLUMN_DIFF_ALIAS, nullable=false, unique=true)
+	@Column(name=NameOf.Column.DIFFICULTY_ALIAS, nullable=false, unique=true)
 	String alias;
 	
 	@OneToMany(cascade=CascadeType.REMOVE, mappedBy = "difficulty")

@@ -62,7 +62,7 @@ public class UserController {
 			}
 		} catch (Exception e) {
 			System.out.println("Errors " + e.getMessage());
-			model.addAttribute(NameOf.MA_ERROR_MSG, e.getMessage());
+			model.addAttribute(NameOf.ModelAttributeKey.ERROR_MSG, e.getMessage());
 		}
 		return "login";
 	}
@@ -102,7 +102,7 @@ public class UserController {
 				throw new Exception("Wrong captcha!");
 			}
 		} catch (Exception e) {
-			model.addAttribute(NameOf.MA_ERROR_MSG, e.getMessage());
+			model.addAttribute(NameOf.ModelAttributeKey.ERROR_MSG, e.getMessage());
 			return "register";
 		}
 

@@ -12,25 +12,25 @@ import com.appricots.intq.NameOf;
 
 
 @Entity
-@Table(name=NameOf.TABLE_USESSION)
+@Table(name=NameOf.Table.USER_SESSION)
 public class UserSession {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name=NameOf.COLUMN_USESSION_ID)
+	@Column(name=NameOf.Column.USESSION_ID)
 	long id;
 	
 	@OneToOne(mappedBy = "session")
 	private User user;
 	
-	@Column(name=NameOf.COLUMN_USESSION_IDENTIIY_COOKIE)
+	@Column(name=NameOf.Column.USESSION_IDENTIIY_COOKIE)
 	private String identCookie;
 	
-	@Column(name=NameOf.COLUMN_USESSION_SHIFT)
+	@Column(name=NameOf.Column.USESSION_SHIFT)
 	private Long shift;
 	
 //	@ManyToOne
-//	@JoinColumn(username = NameOf.COLUMN_QUESTION_ID, nullable=true)
+//	@JoinColumn(username = NameOf.QUESTION_ID, nullable=true)
 //	private Question lastQuestion;
 	
 	

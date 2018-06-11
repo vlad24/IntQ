@@ -24,7 +24,7 @@ public class LangDAO extends DAO<Lang, Long>{
 		Session session = sessionFactory.getCurrentSession();
 		String aliasParam = "alias";
 		Query selectQuery = session.createQuery(MessageFormat.format("SELECT L from {} where L.{} = {}", 
-				NameOf.TABLE_LANG, NameOf.COLUMN_LANG_ALIAS, aliasParam)
+				NameOf.Table.LANGUAGE, NameOf.Column.LANGUAGE_ALIAS, aliasParam)
 		);
 		selectQuery.setParameter(aliasParam, alias);
 		return (Lang) selectQuery.uniqueResult();

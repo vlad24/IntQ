@@ -19,43 +19,43 @@ import com.appricots.intq.NameOf;
 import com.appricots.intq.wrappers.QuestionStatus;
 
 @Entity
-@Table(name=NameOf.TABLE_QUESTION)
+@Table(name=NameOf.Table.QUESTION)
 public class Question {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name=NameOf.COLUMN_QUESTION_ID)
+	@Column(name=NameOf.Column.QUESTION_ID)
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = NameOf.COLUMN_LANG_ID)
+	@JoinColumn(name = NameOf.Column.LANGUAGE_ID)
 	private Lang lang;
 	
 	@ManyToOne
-	@JoinColumn(name = NameOf.COLUMN_DIFF_ID)
+	@JoinColumn(name = NameOf.Column.DIFFICULTY_ID)
 	private Difficulty difficulty;
 	
 	@ManyToMany
-	@JoinTable(name=NameOf.TABLE_QUESTION_CAT_REL, joinColumns=
-		@JoinColumn(name=NameOf.COLUMN_QUESTION_ID), inverseJoinColumns=@JoinColumn(name=NameOf.COLUMN_CAT_ID)) 
+	@JoinTable(name=NameOf.Table.LINK_QUESTION_CATEGORY, joinColumns=
+		@JoinColumn(name=NameOf.Column.QUESTION_ID), inverseJoinColumns=@JoinColumn(name=NameOf.Column.CATEGORY_ID))
 	private Set<Category> categories;
 	
-	@Column(name=NameOf.COLUMN_QUESTION_CONTENT, nullable=false, length=1024)
+	@Column(name=NameOf.Column.QUESTION_CONTENT, nullable=false, length=1024)
 	private String question;
 	
-	@Column(name=NameOf.COLUMN_QUESTION_ANSWER, nullable=true, length=2048)
+	@Column(name=NameOf.Column.QUESTION_ANSWER, nullable=true, length=2048)
 	private String answer;
 	
-	@Column(name=NameOf.COLUMN_QUESTION_PLUS, nullable=false)
+	@Column(name=NameOf.Column.QUESTION_PLUS, nullable=false)
 	private long plusAmount;
 	
-	@Column(name=NameOf.COLUMN_QUESTION_MINUS, nullable=false)
+	@Column(name=NameOf.Column.QUESTION_MINUS, nullable=false)
 	private long minusAmount;
 	
-	@Column(name=NameOf.COLUMN_QUESTION_ATT_URL, nullable=true)
+	@Column(name=NameOf.Column.QUESTION_ATTACH_URL, nullable=true)
 	private String attachment;
 	   
 	@Enumerated(EnumType.STRING)
-	@Column(name=NameOf.COLUMN_QUESTION_STATUS, nullable=false)
+	@Column(name=NameOf.Column.QUESTION_STATUS, nullable=false)
 	private QuestionStatus status;
 
 	

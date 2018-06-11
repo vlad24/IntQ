@@ -14,17 +14,17 @@ import javax.persistence.Table;
 import com.appricots.intq.NameOf;
 
 @Entity
-@Table(name=NameOf.TABLE_LANG)
+@Table(name=NameOf.Table.LANGUAGE)
 public class Lang {
 
 	public static final Lang ANY = new Lang("*");
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = NameOf.COLUMN_LANG_ID)
+	@Column(name = NameOf.Column.LANGUAGE_ID)
 	long id;
 
-	@Column(name=NameOf.COLUMN_LANG_ALIAS)
+	@Column(name=NameOf.Column.LANGUAGE_ALIAS)
 	String alias;
 	
 	@OneToMany(cascade=CascadeType.REMOVE, mappedBy="lang")

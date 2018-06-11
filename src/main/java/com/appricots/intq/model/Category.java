@@ -14,15 +14,15 @@ import javax.persistence.Table;
 import com.appricots.intq.NameOf;
 
 @Entity
-@Table(name = NameOf.TABLE_CAT)
+@Table(name = NameOf.Table.CATEGORY)
 public class Category {
 	
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = NameOf.COLUMN_CAT_ID)
+	@Column(name = NameOf.Column.CATEGORY_ID)
 	Long id;
-	@Column(name=NameOf.COLUMN_CAT_ALIAS)
+	@Column(name=NameOf.Column.CATEGORY_ALIAS)
 	String alias;
 	@ManyToMany(cascade=CascadeType.ALL, mappedBy="categories")
 	Set<Question> questions;

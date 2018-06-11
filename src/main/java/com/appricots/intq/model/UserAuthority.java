@@ -6,23 +6,23 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = NameOf.TABLE_AUTHORITY)
+@Table(name = NameOf.Table.AUTHORITY)
 public class UserAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = NameOf.COLUMN_USER_AUTHORITY_ID)
+    @Column(name = NameOf.Column.AUTHORITY_ID)
     private String id;
 
-    @Column(name = NameOf.COLUMN_USER_AUTHORITY_NAME)
+    @Column(name = NameOf.Column.AUTHORITY_NAME)
     private String name;
 
-    @Column(name = NameOf.COLUMN_USER_AUTHORITY_COMMENT)
+    @Column(name = NameOf.Column.AUTHORITY_COMMENT)
     private String comment;
 
     @ManyToMany
-    @JoinTable(name=NameOf.TABLE_USER_AUTHORITY_REL, joinColumns=
-        @JoinColumn(name=NameOf.COLUMN_USER_AUTHORITY_ID), inverseJoinColumns=@JoinColumn(name=NameOf.COLUMN_USER_ID))
+    @JoinTable(name=NameOf.Table.LINK_USER_AUTHORITY, joinColumns=
+        @JoinColumn(name=NameOf.Column.AUTHORITY_ID), inverseJoinColumns=@JoinColumn(name=NameOf.Column.USER_ID))
     private Set<User> users;
 
 

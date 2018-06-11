@@ -34,7 +34,7 @@ public class MainController {
     @RequestMapping(value = {"/", "/main"}, method = RequestMethod.GET)
     public String enter(Model model) {
         Optional<User> user = userService.getCurrentUser();
-        user.ifPresent(u -> model.addAttribute(NameOf.MA_USERNAME, u.getUsername()));
+        user.ifPresent(u -> model.addAttribute(NameOf.ModelAttributeKey.USERNAME, u.getUsername()));
         return "main";
 
     }
@@ -47,11 +47,11 @@ public class MainController {
         //            if (lastSession != null){
         //                //could do something useful
         //            }
-        user.ifPresent(u -> model.addAttribute(NameOf.MA_USERNAME, u.getUsername()));
-        model.addAttribute(NameOf.MA_CATEGORIES, categoryService.getAliasedIds());
-        model.addAttribute(NameOf.MA_DIFFICULTIES, diffService.getAliasedIds());
-        model.addAttribute(NameOf.MA_LANGS, langService.getAliasedIds());
-        model.addAttribute(NameOf.MA_QUESTION_SELECTOR, new QuestionSelector());
+        user.ifPresent(u -> model.addAttribute(NameOf.ModelAttributeKey.USERNAME, u.getUsername()));
+        model.addAttribute(NameOf.ModelAttributeKey.CATEGORIES, categoryService.getAliasedIds());
+        model.addAttribute(NameOf.ModelAttributeKey.DIFFICULTIES, diffService.getAliasedIds());
+        model.addAttribute(NameOf.ModelAttributeKey.LANGUAGES, langService.getAliasedIds());
+        model.addAttribute(NameOf.ModelAttributeKey.QUESTION_SELECTOR, new QuestionSelector());
         return "starter";
     }
 
