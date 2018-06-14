@@ -1,13 +1,7 @@
 package com.appricots.intq.config;
 
-import java.io.IOException;
-import java.util.Properties;
-
-import javax.sql.DataSource;
-
 import com.appricots.intq.security.CustomAuthenticationProvider;
 import net.tanesha.recaptcha.ReCaptchaImpl;
-
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +16,10 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
@@ -48,9 +46,8 @@ public class AppConfiguration {
 		return resolver;
 	}
 
-
 	@Bean(name="dataSource")
-	public DataSource getDatasource() {
+	DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
 		dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
@@ -60,7 +57,7 @@ public class AppConfiguration {
 	}
 
 	@Bean(name="sessionFactory")
-	public SessionFactory getSessionFactory() throws IOException{
+	SessionFactory getSessionFactory() throws IOException{
 		LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
 		sessionFactoryBean.setPackagesToScan("com.appricots.intq.model");
 		Properties hibernateProps = new Properties();
@@ -69,14 +66,14 @@ public class AppConfiguration {
 		hibernateProps.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
 		hibernateProps.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
 		sessionFactoryBean.setHibernateProperties(hibernateProps);
-		sessionFactoryBean.setDataSource(getDatasource());
+		sessionFactoryBean.setDataSource(dataSource());
 		sessionFactoryBean.afterPropertiesSet();
 		return sessionFactoryBean.getObject();
 	}
 
 	@Autowired
 	@Bean(name="txManager")
-	public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
+	HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
 		HibernateTransactionManager txManager = new HibernateTransactionManager();
 		txManager.setSessionFactory(sessionFactory);
 		return txManager;

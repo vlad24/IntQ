@@ -1,26 +1,15 @@
 package com.appricots.intq.model;
 
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import com.appricots.intq.NameOf;
 import com.appricots.intq.wrappers.QuestionStatus;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name=NameOf.Table.QUESTION)
 public class Question {
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name=NameOf.Column.QUESTION_ID)
@@ -84,9 +73,7 @@ public class Question {
 	public String getAttachment() {
 		return attachment;
 	}
-	public Difficulty getDiffuculty() {
-		return difficulty;
-	}
+
 	public Long getId() {
 		return id;
 	}
@@ -94,8 +81,7 @@ public class Question {
 	public Lang getLang() {
 		return lang;
 	}
-	
-	
+
 	public long getMinusAmount() {
 		return minusAmount;
 	}
@@ -108,41 +94,29 @@ public class Question {
 		return question;
 	}
 
-
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
-
 
 	public void setAttachment(String attachment) {
 		this.attachment = attachment;
 	}
 
-
-	public void setDiffuculty(Difficulty diffuculty) {
-		this.difficulty = diffuculty;
-	}
-
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 
 	public void setLang(Lang lang) {
 		this.lang = lang;
 	}
 
-
 	public void setMinusAmount(long minusAmount) {
 		this.minusAmount = minusAmount;
 	}
 
-
 	public void setPlusAmount(long plusAmount) {
 		this.plusAmount = plusAmount;
 	}
-
 
 	public void setQuestion(String question) {
 		this.question = question;
@@ -261,9 +235,7 @@ public class Question {
 				return false;
 		} else if (!question.equals(other.question))
 			return false;
-		if (status != other.status)
-			return false;
-		return true;
+		return status == other.status;
 	}
 
 

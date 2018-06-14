@@ -1,12 +1,14 @@
 package com.appricots.intq.controllers;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-
+import com.appricots.intq.NameOf;
+import com.appricots.intq.model.User;
+import com.appricots.intq.model.UserCreds;
+import com.appricots.intq.services.UserService;
+import com.appricots.intq.wrappers.UserProfile;
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,16 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.appricots.intq.NameOf;
-import com.appricots.intq.model.User;
-import com.appricots.intq.model.UserCreds;
-import com.appricots.intq.services.UserService;
-import com.appricots.intq.wrappers.UserProfile;
-
+import javax.servlet.ServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 @Controller
 public class UserController {
+
+    private final static Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	UserService userService;
@@ -48,7 +49,6 @@ public class UserController {
 			Model model
 			){
 		try {
-			System.out.println(creds);
 			if (userService.getUserForCreds(creds) != null){
 				String cookie = userService.startNewSession(creds.getLogin());
 				if (cookie != null){
@@ -61,7 +61,7 @@ public class UserController {
 				throw new Exception("Could not find user");
 			}
 		} catch (Exception e) {
-			System.out.println("Errors " + e.getMessage());
+		    logger.error("Error!", e);
 			model.addAttribute(NameOf.ModelAttributeKey.ERROR_MSG, e.getMessage());
 		}
 		return "login";

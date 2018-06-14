@@ -1,26 +1,21 @@
 package com.appricots.intq.services;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import com.appricots.intq.model.IntqUserDetails;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.appricots.intq.dao.impl.UserDAO;
 import com.appricots.intq.dao.impl.UserSessionDAO;
 import com.appricots.intq.model.User;
 import com.appricots.intq.model.UserCreds;
 import com.appricots.intq.model.UserSession;
 import com.appricots.intq.wrappers.UserProfile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -102,7 +97,7 @@ public class UserService{
 
 
     public Optional<User> getCurrentUser() {
-        logger.warn("@@@" + SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        logger.info("@@@" + SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         return Optional.empty();
 //        IntqUserDetails userDetails = ((IntqUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 //        logger.warn("Principal: {}", userDetails);

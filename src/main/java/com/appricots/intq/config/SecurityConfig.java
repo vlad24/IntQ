@@ -40,32 +40,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                    .antMatchers("/resources/**").permitAll()
                 .and()
                     .formLogin()
                         .loginPage("/login.html")
-                        .loginProcessingUrl("/j_spring_security_check")
-                        .failureUrl("/login.html?error=true")
-                        .usernameParameter("j_username")
-                        .passwordParameter("j_password")
-                        .permitAll()
+                        .usernameParameter("login")
+                        .passwordParameter("passHash")
+                    .permitAll()
                 .and()
-                    .httpBasic()
+                    .logout().permitAll().logoutSuccessUrl("/login")
                 .and()
-                    .authorizeRequests()
-                    .antMatchers("/secured/**").hasRole("ADMIN")
-                    .antMatchers("/user/**").hasRole("USER")
-                .and()
-                    .logout()
-                        .logoutUrl("/j_spring_security_logout")
-                        .logoutSuccessUrl("/main")
-                        .invalidateHttpSession(true)
-                        .permitAll()
-                .and()
-                    .rememberMe()
-                        .key("rememberMeKey")
-                        .tokenValiditySeconds(300)
-                .and()
-                    .csrf()
-                    .disable();
+                    .csrf().disable();
     }
 }
