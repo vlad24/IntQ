@@ -1,7 +1,5 @@
 package com.appricots.intq.controllers;
 
-import com.appricots.intq.NameOf;
-import com.appricots.intq.model.Question;
 import com.appricots.intq.services.QuestionService;
 import com.appricots.intq.services.UserService;
 import com.appricots.intq.wrappers.AliasedId;
@@ -30,30 +28,6 @@ public class AdminController {
 		return "admin";
 	}
 
-	@Secured("ROLE_ADMIN")
-	@RequestMapping(value="admin_init.html", method=RequestMethod.GET)
-	public String adminInit(Model model){
-		try{
-			List<Question> newQuestions = questionService.debugInit();
-			StringBuilder builder = new StringBuilder();
-			builder.append("Auto generated users:").append("<br>");
-			builder.append("Auto generated questions:").append("<br>");
-			for (Question question: newQuestions) {
-				String qContent = question.getQuestion();
-				builder
-				.append("* ")
-				.append(qContent.substring(0, Math.min(20, qContent.length()))).append("...")
-				.append(" put into ").
-				append(question.getCategories()).append("<br>");
-			}
-			model.addAttribute(NameOf.ModelAttributeKey.SUCCESS_MSG, builder.toString());
-		}catch (org.hibernate.exception.ConstraintViolationException alreadyInited){
-			model.addAttribute(NameOf.ModelAttributeKey.ERROR_MSG, "Some entities that were tries to be added are already in database.");
-		}catch (Exception e){
-			model.addAttribute(NameOf.ModelAttributeKey.ERROR_MSG, e.getMessage());
-		}
-		return "control";
-	}
 
 	@Secured("ROLE_ADMIN")
 	@RequestMapping(value="admin_moderate.html", method=RequestMethod.GET)

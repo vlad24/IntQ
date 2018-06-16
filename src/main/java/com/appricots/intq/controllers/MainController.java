@@ -39,10 +39,6 @@ public class MainController {
     @RequestMapping(value = "/start", method = RequestMethod.GET)
     public String startListing(Model model) {
         Optional<User> user = SecurityUtil.getCurrentUser();
-        //            UserSession lastSession = userService.getgetCurrentSessionByCookie(identity);
-        //            if (lastSession != null){
-        //                //could do something useful
-        //            }
         user.ifPresent(u -> model.addAttribute(NameOf.ModelAttributeKey.USERNAME, u.getCredentials().getLogin()));
         model.addAttribute(NameOf.ModelAttributeKey.CATEGORIES, categoryService.getAliasedIds());
         model.addAttribute(NameOf.ModelAttributeKey.DIFFICULTIES, diffService.getAliasedIds());

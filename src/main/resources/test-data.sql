@@ -26,3 +26,59 @@ INSERT INTO intq_m2m_user__authority VALUES
   (20, 2),
   (20, 3)
 ;
+
+INSERT INTO intq_difficulty VALUES
+  (0, 'Easy'),
+  (1, 'Middle'),
+  (2, 'Hard')
+;
+
+
+INSERT INTO intq_language VALUES
+  (0, 'English'),
+  (1, 'Russian')
+;
+
+
+INSERT INTO intq_category VALUES
+  (0, 'Java'),
+  (1, 'Python'),
+  (2, 'Testing'),
+  (3, 'SQL')
+;
+
+INSERT INTO intq_question VALUES
+  (0, 'Answer1', '', 0, 0, 'What is Q1?', 'ACCEPTED', 0, 0),
+  (1, 'Answer2', '', 0, 0, 'What is Q2?', 'ACCEPTED', 1, 0),
+  (2, 'Answer3', '', 0, 0, 'What is Q3?', 'ACCEPTED', 2, 0),
+  (3, 'Answer4', '', 0, 0, 'What is Q4?', 'ACCEPTED', 0, 0),
+  (4, 'Answer5', '', 0, 0, 'What is Q5?', 'ACCEPTED', 1, 0),
+  (5, 'Answer6', '', 0, 0, 'What is Q6?', 'ACCEPTED', 1, 0)
+;
+
+INSERT INTO intq_m2m_question__category VALUES
+  (0, 0),
+  (0, 2),
+  (1, 1),
+  (1, 3),
+  (2, 2),
+  (3, 3),
+  (3, 1),
+  (4, 1),
+  (4, 3),
+  (5, 1)
+;
+
+-- select
+--   Q.question_id,
+--   Q.question_content,
+--   string_agg(CC.category_alias, ',')
+-- from
+--   intq_question Q
+--   join intq_m2m_question__category QC on Q.question_id = QC.question_id
+--   join intq_category CC on CC.category_id= QC.category_id
+-- group by
+--   Q.question_id,
+--   Q.question_content
+-- order by
+--   Q.question_id

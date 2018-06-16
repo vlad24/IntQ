@@ -2,15 +2,17 @@ package com.appricots.intq.controllers;
 
 import com.appricots.intq.NameOf;
 import com.appricots.intq.model.Question;
-import com.appricots.intq.model.UserCredentials;
 import com.appricots.intq.services.*;
-import com.appricots.intq.util.SecurityUtil;
+import com.appricots.intq.util.Util;
 import com.appricots.intq.wrappers.reqobjects.QuestionSelector;
 import com.appricots.intq.wrappers.reqobjects.QuestionSuggestion;
 import com.appricots.intq.wrappers.respobjects.QuestionResponse;
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,21 +25,20 @@ import javax.servlet.ServletRequest;
 @Controller
 public class QuestionController {
 
+	private final static Logger logger = LoggerFactory.getLogger(QuestionController.class);
 
 	@Autowired
 	private QuestionService questionService;
-
-
 	@Autowired
-	CategoryService categoryService;
+	private CategoryService categoryService;
 	@Autowired
-	UserService userService;
+	private UserService userService;
 	@Autowired
-	DifficultyService difService;
+	private DifficultyService difService;
 	@Autowired
-	LangService langService;
+	private LangService langService;
 	@Autowired
-	ReCaptchaImpl reCaptcha;
+	private ReCaptchaImpl reCaptcha;
 
 	@RequestMapping(value="q.html", method=RequestMethod.GET)
 	public String getNext(@ModelAttribute("questionSelector") QuestionSelector selector, Model model){
@@ -51,10 +52,7 @@ public class QuestionController {
 				model.addAttribute("attachment",       nextQuestion.getAttachment());
 				model.addAttribute("rating",           nextQuestion.calculateRating());
 				model.addAttribute("questionSelector", selector);
-				if (SecurityUtil.getCurrentUser().isPresent()){
-					// could fectch user session and store some data
-					//UserSession session = userService.getCurrentSessionByCookie(identity);
-				}
+				Util.fillModelWithUserName(model);
 			}else{
 				model.addAttribute(NameOf.ModelAttributeKey.NO_MORE_QUESTIONS_FLAG, true);
 			}
@@ -68,37 +66,32 @@ public class QuestionController {
 	
 	@ResponseBody
 	@RequestMapping(value="nextQ", method=RequestMethod.GET, produces = "application/json")
-	public QuestionResponse getNextQuestionAsJson(
-			@ModelAttribute("questionSelector") QuestionSelector selector
-			//@CookieValue(value = NameOf.COOKIE_4_IDENTITY, defaultValue = NameOf.NOTHING) String identity
-		){
+	public QuestionResponse getNextQuestionAsJson(@ModelAttribute("questionSelector") QuestionSelector selector){
 		try{
 			Question nextQuestion = questionService.getNext(selector);
 			if (nextQuestion != null){
 				selector.setShift(selector.getShift() + 1);
-				QuestionResponse r = QuestionResponse.fromQuestionAndSelector(nextQuestion, selector);
-				return r;
-			}else{
+				QuestionResponse questionResponse = QuestionResponse.fromQuestionAndSelector(nextQuestion, selector);
+				return questionResponse;
+			} else{
 				return null;
 			}
 		}catch (Exception e){
+			logger.error("Error occured while getting next question!", e);
 			return null;
 		}
 	}
 
+	@Secured({"ROLE_ADMIN", "ROLE_MODERATOR", "ROLE_USER"})
 	@RequestMapping(value="suggestion.html", method = RequestMethod.GET)
 	public ModelAndView getSuggestionForm(){
 		ModelAndView mav = new ModelAndView();
-		if (SecurityUtil.getCurrentUser().isPresent()){
-			mav.addObject("questionSuggestion", new QuestionSuggestion());
-			mav.addObject("categories",   categoryService.getAll());
-			mav.addObject("difficulties", difService.getAll());
-			mav.addObject("languages",    langService.getAll());
-			mav.setViewName("suggestion");
-		}else{
-			mav.addObject("userCredentials", new UserCredentials());
-			mav.setViewName("login");
-		}
+		Util.fillModelAndViewWithUserName(mav);
+		mav.addObject("questionSuggestion", new QuestionSuggestion());
+		mav.addObject("categories",   categoryService.getAll());
+		mav.addObject("difficulties", difService.getAll());
+		mav.addObject("languages",    langService.getAll());
+		mav.setViewName("suggestion");
 		return mav;
 	}
 

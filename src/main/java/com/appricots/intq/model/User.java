@@ -1,9 +1,7 @@
 package com.appricots.intq.model;
 
 import com.appricots.intq.NameOf;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,6 +12,8 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id

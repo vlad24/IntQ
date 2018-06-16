@@ -1,5 +1,9 @@
 package com.appricots.intq.util;
 
+import com.appricots.intq.NameOf;
+import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.ServletRequest;
 import java.util.function.Function;
 
@@ -21,5 +25,14 @@ public class Util {
         } else {
             return defaultValue;
         }
+    }
+
+
+    public static void fillModelWithUserName(Model model) {
+        SecurityUtil.getCurrentUser().ifPresent(user -> model.addAttribute(NameOf.ModelAttributeKey.USERNAME, user.getCredentials().getLogin()));
+    }
+
+    public static void fillModelAndViewWithUserName(ModelAndView modelAndView) {
+        SecurityUtil.getCurrentUser().ifPresent(user -> modelAndView.addObject(NameOf.ModelAttributeKey.USERNAME, user.getCredentials().getLogin()));
     }
 }

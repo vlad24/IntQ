@@ -1,18 +1,21 @@
 package com.appricots.intq.dao.impl;
 
-import java.util.List;
-
-import org.hibernate.Session;
-import org.hibernate.query.Query;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.appricots.intq.model.Question;
 import com.appricots.intq.wrappers.QuestionStatus;
 import com.appricots.intq.wrappers.reqobjects.QuestionSelector;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 public class QuestionDAO extends DAO<Question, Long> {
+
+	private final static Logger logger = LoggerFactory.getLogger(QuestionDAO.class);
 
 	private static final String SELECT_ALL_NEW = new StringBuilder()
 		.append(" SELECT Q FROM ").append(Question.class.getSimpleName()).append(" Q ")
@@ -55,7 +58,7 @@ public class QuestionDAO extends DAO<Question, Long> {
 	
 	public Question getNextAccepted(QuestionSelector selector) {
 		Session session = sessionFactory.getCurrentSession();
-		System.out.println("GGGGGGOT SELECTOR" + selector);
+		logger.debug("Getting next accepted questions with selector {}", selector.toString());
 		Query selectQuery;
 		if (selector.isCatsUnioned()){
 			selectQuery = session.createQuery(SELECT_NEXT_UNIONED);
