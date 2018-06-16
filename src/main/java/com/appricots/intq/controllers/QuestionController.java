@@ -41,26 +41,10 @@ public class QuestionController {
 	private ReCaptchaImpl reCaptcha;
 
 	@RequestMapping(value="q.html", method=RequestMethod.GET)
-	public String getNext(@ModelAttribute("questionSelector") QuestionSelector selector, Model model){
-		try{
-			Question nextQuestion = questionService.getNext(selector);
-			if (nextQuestion != null){
-				selector.setShift(selector.getShift() + 1);
-				model.addAttribute("id",               nextQuestion.getId());
-				model.addAttribute("question",         nextQuestion.getQuestion());
-				model.addAttribute("answer",           nextQuestion.getAnswer());
-				model.addAttribute("attachment",       nextQuestion.getAttachment());
-				model.addAttribute("rating",           nextQuestion.calculateRating());
-				model.addAttribute("questionSelector", selector);
-				Util.fillModelWithUserName(model);
-			}else{
-				model.addAttribute(NameOf.ModelAttributeKey.NO_MORE_QUESTIONS_FLAG, true);
-			}
-			return "question";
-		}catch (Exception e){
-			model.addAttribute(NameOf.ModelAttributeKey.ERROR_MSG, e.getMessage());
-			return "error";
-		}
+	public String getNext(@ModelAttribute("questionSelector") QuestionSelector questionSelector, Model model){
+		model.addAttribute("questionSelector", questionSelector);
+		Util.fillModelWithUserName(model);
+		return "question";
 	}
 
 	

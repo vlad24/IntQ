@@ -22,14 +22,15 @@
 
 
     function rateAsync(indicator) {
-        delta = (indicator == "-1") ? "DOWN" : "UP";
+        var delta = (indicator == "-1") ? "DOWN" : "UP";
+        var questionId = $("#qstid");
         $.ajax(
             {
                 type: "POST",
                 url: 'rate.html',
-                data: {"id": ${id}, "delta": delta},
+                data: {"id": questionId, "delta": delta},
                 success: function (data) {
-                    $('#status').html("Rating: " + data + " %");
+                    $('#rating').html("Rating: " + data + " %");
                     $(".rate_button").hide();
                 }
             }
@@ -48,6 +49,7 @@
                         $("#qstid").html(data.id);
                         $("#qst").html(data.question);
                         $("#ans").html(data.answer);
+                        $("#rating").html("Rating: " + data.rating + " %");
                         $("#shft").val(data.selector.shift);
                     } else {
                         $("#err-box").html(
@@ -122,7 +124,7 @@
                 <button class="btn btn-link" data-toggle="collapse" data-target="#ans">Show answer</button>
             </div>
             <div class="col-sm-offset-8 col-sm-2">
-                <p id="status">Rating: ${rating} %</p>
+                <p id="rating"></p>
             </div>
         </div>
     </div>
