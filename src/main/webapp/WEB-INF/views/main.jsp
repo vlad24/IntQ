@@ -39,7 +39,7 @@
 						<button class="btn btn-default btn-block" type="submit" value="Submit">Sign Up</button>
 					</form>
 					<br> <br>
-					<form method="get" action="start.html">
+					<form method="get" action="login/guest">
 						<button class="btn btn-success btn-block" type="submit" value="Submit">Continue as guest</button>
 					</form>
 				</div>

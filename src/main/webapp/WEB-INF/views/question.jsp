@@ -118,7 +118,7 @@ $( document ).ready(function() {
 					</div>
 				</div>
 			</div>
-			<div class="continer">
+			<div class="container">
 				<div class="row">
 					<div class="col-sm-2">
 						<button class="btn btn-link" data-toggle="collapse" data-target="#ans">Show answer</button>

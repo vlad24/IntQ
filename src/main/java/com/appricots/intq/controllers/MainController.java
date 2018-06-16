@@ -8,7 +8,6 @@ import com.appricots.intq.services.LangService;
 import com.appricots.intq.util.SecurityUtil;
 import com.appricots.intq.wrappers.reqobjects.QuestionSelector;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,11 +27,10 @@ public class MainController {
     private LangService langService;
 
 
-    @Secured({"ROLE_GUEST", "ROLE_USER", "ROLE_ADMIN"})
     @RequestMapping(value = {"/", "/main"}, method = RequestMethod.GET)
     public String enter(Model model) {
-        Optional<User> user = SecurityUtil.getCurrentUser();
-        user.ifPresent(u -> model.addAttribute(NameOf.ModelAttributeKey.USERNAME, u.getCredentials().getLogin()));
+//        Optional<User> user = SecurityUtil.getCurrentUser();
+//        user.ifPresent(u -> model.addAttribute(NameOf.ModelAttributeKey.USERNAME, u.getCredentials().getLogin()));
         return "main";
 
     }

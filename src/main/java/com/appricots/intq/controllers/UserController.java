@@ -5,6 +5,7 @@ import com.appricots.intq.model.User;
 import com.appricots.intq.model.UserCredentials;
 import com.appricots.intq.services.UserService;
 import com.appricots.intq.util.SecurityUtil;
+import com.appricots.intq.util.Util;
 import com.appricots.intq.wrappers.UserProfile;
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
@@ -39,34 +41,18 @@ public class UserController {
 	}
 
 	@RequestMapping(value="login.html", method = RequestMethod.GET)
-	public String login(Model model){
-		model.addAttribute("userCredentials", new UserCredentials());
-		return "login";		
-	}
-
-	@RequestMapping(value="login/perform", method = RequestMethod.POST)
-	public String startSession(@ModelAttribute("userCredentials") UserCredentials userCredentials,
-			HttpServletResponse response,
-			Model model
-			){
-		logger.debug("Login perform");
-		try {
-			if (userService.getUserByCredentials(userCredentials) != null){
-				String cookie = userService.startNewSession(userCredentials.getLogin());
-				if (cookie != null){
-					response.addCookie(new Cookie(NameOf.COOKIE_4_IDENTITY, cookie));
-					return "redirect:/start.html";
-				}else{
-					throw new Exception("Could not start session");
-				}
-			}else{
-				throw new Exception("Could not find user");
-			}
-		} catch (Exception e) {
-		    logger.error("Error!", e);
-			model.addAttribute(NameOf.ModelAttributeKey.ERROR_MSG, e.getMessage());
+	public String login(ServletRequest request, RedirectAttributes model){
+        boolean isGuest = Util.transformNonEmptyRequestParamOrDefault("is_guest", Boolean::parseBoolean, false, request);
+		if (!isGuest){
+			model.addAttribute("userCredentials", new UserCredentials());
+			return "login";
+		} else {
+            model.addFlashAttribute("is_guest", true);
+            model.addFlashAttribute("login", "");
+            model.addFlashAttribute("passHash", "");
+            return "redirect:/perform/login";
 		}
-		return "login";
+
 	}
 
 	@RequestMapping(value="register.html",method = RequestMethod.GET)
