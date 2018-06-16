@@ -68,7 +68,7 @@ public class UserCredentials {
 	@Override
 	public String toString() {
 		return "UserCredentials [id=" + id + ", login=" + login + ", passHash="
-				+ passHash + ", user=" + user + "]";
+				+ passHash + ", user.id=" + user.getId() + "]";
 	}
 	
 	

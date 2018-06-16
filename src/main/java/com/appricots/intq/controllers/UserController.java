@@ -40,7 +40,7 @@ public class UserController {
 
 	@RequestMapping(value="login.html", method = RequestMethod.GET)
 	public String login(Model model){
-		model.addAttribute("userCreds", new UserCredentials());
+		model.addAttribute("userCredentials", new UserCredentials());
 		return "login";		
 	}
 
@@ -49,6 +49,7 @@ public class UserController {
 			HttpServletResponse response,
 			Model model
 			){
+		logger.debug("Login perform");
 		try {
 			if (userService.getUserByCredentials(userCredentials) != null){
 				String cookie = userService.startNewSession(userCredentials.getLogin());
