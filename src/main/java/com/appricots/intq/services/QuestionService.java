@@ -1,15 +1,5 @@
 package com.appricots.intq.services;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.appricots.intq.dao.impl.CategoryDAO;
 import com.appricots.intq.dao.impl.DifficultyDAO;
 import com.appricots.intq.dao.impl.LangDAO;
@@ -22,6 +12,11 @@ import com.appricots.intq.wrappers.AliasedId;
 import com.appricots.intq.wrappers.QuestionStatus;
 import com.appricots.intq.wrappers.reqobjects.QuestionSelector;
 import com.appricots.intq.wrappers.reqobjects.QuestionSuggestion;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
 
 @Service
 public class QuestionService {
@@ -41,7 +36,7 @@ public class QuestionService {
 	Long cachedIdOfAny = null;
 
 	public QuestionService(QuestionDAO qDao, CategoryDAO categoryDao,
-			LangDAO langDAO, DifficultyDAO difDAO) {
+                           LangDAO langDAO, DifficultyDAO difDAO) {
 		super();
 		this.qDao = qDao;
 		this.categoryDao = categoryDao;

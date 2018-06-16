@@ -1,15 +1,14 @@
 package com.appricots.intq.dao.impl;
 
-import java.text.MessageFormat;
-import java.util.List;
-
+import com.appricots.intq.NameOf;
+import com.appricots.intq.model.Category;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.appricots.intq.NameOf;
-import com.appricots.intq.model.Category;
+import java.text.MessageFormat;
+import java.util.List;
 
 @Repository
 public class CategoryDAO extends DAO<Category, Long>{

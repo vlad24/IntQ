@@ -1,5 +1,6 @@
 package com.appricots.intq.config;
 
+import com.appricots.intq.NameOf;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.ServletContext;
@@ -25,6 +26,7 @@ public class ServletInitializer extends AbstractAnnotationConfigDispatcherServle
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		super.onStartup(servletContext);
-		servletContext.setInitParameter("spring.profiles.active", "test");
+		servletContext.setInitParameter("spring.profiles.active", NameOf.Profile.TEST);
+		servletContext.setInitParameter("spring.profiles.default", NameOf.Profile.TEST);
 	}
 }

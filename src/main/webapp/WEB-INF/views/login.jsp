@@ -37,7 +37,7 @@
 		</c:if>
 	</div>
 	<div class="container-fluid">
-		<form:form class="form-horizontal" id="loginForm" modelAttribute="userCreds" action="login.html" method="post">
+		<form:form class="form-horizontal" id="loginForm" modelAttribute="userCreds" action="login/perform" method="post">
 			<div class="form-group">
 				<label class="control-label col-sm-offset-2  col-sm-2" for="usr">Username:</label>
 				<div class="col-sm-4">

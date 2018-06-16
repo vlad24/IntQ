@@ -1,32 +1,35 @@
 package com.appricots.intq.dao.impl;
 
-import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
-import java.util.List;
-
-import com.appricots.intq.model.UserCreds;
+import com.appricots.intq.NameOf;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.appricots.intq.NameOf;
+import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
+/**
+ * Abstract DAO extending which dao implementations are able to inherit CRUD operations
+ * @param <T> type of entities this dao is manipulating (e.g. SomeEntity)
+ * @param <ID> type of id entities are indexed with (e.g. Long)
+ */
+@SuppressWarnings("unchecked")
 public abstract class DAO<T, ID extends Serializable> {
+
+    @Autowired
+    protected SessionFactory sessionFactory;
+
+	private Class<T> clazz;
 	
-	protected Class<T> clazz;
-	
-	public DAO() {
-		clazz = ((Class) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
+	DAO() {
+		clazz = ((Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
 	}
 	
-	@Autowired
-	protected SessionFactory sessionFactory;
-	
-	@SuppressWarnings("unchecked")
+
 	public ID create (T element){
 		Session session = sessionFactory.getCurrentSession();
-		System.out.println(element);
 		return (ID) session.save(element);
 	}
 	

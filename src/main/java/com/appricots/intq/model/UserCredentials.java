@@ -1,19 +1,12 @@
 package com.appricots.intq.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 import com.appricots.intq.NameOf;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = NameOf.Table.CREDENTIALS)
-public class UserCreds {
+public class UserCredentials {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -26,8 +19,19 @@ public class UserCreds {
 	@Column(name = NameOf.Column.USER_CREDS_PASS, nullable = false)
 	String passHash;
 	
-	@OneToOne(mappedBy = "creds", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "credentials", cascade = CascadeType.ALL)
 	private User user;
+
+
+	public UserCredentials() {
+	}
+
+
+	public UserCredentials(String login, String passHash) {
+		this.login = login;
+		this.passHash = passHash;
+	}
+
 
 	public Long getId() {
 		return id;
@@ -63,7 +67,7 @@ public class UserCreds {
 
 	@Override
 	public String toString() {
-		return "UserCreds [id=" + id + ", login=" + login + ", passHash="
+		return "UserCredentials [id=" + id + ", login=" + login + ", passHash="
 				+ passHash + ", user=" + user + "]";
 	}
 	

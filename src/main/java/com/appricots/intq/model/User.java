@@ -1,22 +1,25 @@
 package com.appricots.intq.model;
 
-import javax.persistence.*;
-
 import com.appricots.intq.NameOf;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+import javax.persistence.*;
 import java.util.Set;
 
 
 @Entity
 @Table(name = NameOf.Table.USER)
+@Getter
+@Setter
+@ToString
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = NameOf.Column.USER_ID)
     Long id;
-    @Column(name = NameOf.Column.USER_USERNAME)
-    String username;
     @Column(name = NameOf.Column.USER_FIRST_NAME)
     String firstName;
     @Column(name = NameOf.Column.USER_LAST_NAME)
@@ -27,6 +30,10 @@ public class User {
     int age;
     @Column(name = NameOf.Column.USER_ACTIVENESS)
     long activeness;
+    @Column(name = NameOf.Column.USER_IS_BLOCKED)
+    Boolean isBlocked;
+    @Column(name = NameOf.Column.USER_IS_DELETED)
+    Boolean isDeleted;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = NameOf.Column.USESSION_ID)
@@ -34,110 +41,13 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = NameOf.Column.USER_CREDS_ID)
-    UserCreds creds;
+    UserCredentials credentials;
 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = NameOf.Column.USER_AUTHORITIES)
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(name = NameOf.Table.LINK_USER_AUTHORITY, joinColumns =
+    @JoinColumn(name = NameOf.Column.USER_ID), inverseJoinColumns = @JoinColumn(name = NameOf.Column.AUTHORITY_ID))
     Set<UserAuthority> authorities;
 
 
-    public Long getId() {
-        return id;
-    }
-
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
-    public String getUsername() {
-        return username;
-    }
-
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-
-    public String getLastName() {
-        return lastName;
-    }
-
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-
-    public String getEmail() {
-        return email;
-    }
-
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-
-    public int getAge() {
-        return age;
-    }
-
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-
-    public long getActiveness() {
-        return activeness;
-    }
-
-
-    public void setActiveness(long activeness) {
-        this.activeness = activeness;
-    }
-
-
-    public UserSession getSession() {
-        return session;
-    }
-
-
-    public void setSession(UserSession session) {
-        this.session = session;
-    }
-
-
-    public UserCreds getCreds() {
-        return creds;
-    }
-
-
-    public void setCreds(UserCreds creds) {
-        this.creds = creds;
-    }
-
-
-    public Set<UserAuthority> getAuthorities() {
-        return authorities;
-    }
-
-
-    public void setAuthorities(Set<UserAuthority> authorities) {
-        this.authorities = authorities;
-    }
 }

@@ -1,12 +1,17 @@
-package com.appricots.intq.model;
+package com.appricots.intq.wrappers;
 
+import com.appricots.intq.model.User;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
-public class IntqUserDetails implements org.springframework.security.core.userdetails.UserDetails {
+import static java.util.stream.Collectors.toList;
+
+@ToString
+public class IntqUserDetails implements UserDetails {
 
     private User user;
 
@@ -16,26 +21,21 @@ public class IntqUserDetails implements org.springframework.security.core.userde
     }
 
 
-    public User getIntqUser() {
-        return user;
-    }
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getAuthorities().stream().map(a -> new SimpleGrantedAuthority(a.getName())).collect(Collectors.toList());
+        return user.getAuthorities().stream().map(a -> new SimpleGrantedAuthority(a.getName())).collect(toList());
     }
 
 
     @Override
     public String getPassword() {
-        return user.getCreds().getPassHash();
+        return user.getCredentials().getPassHash();
     }
 
 
     @Override
     public String getUsername() {
-        return user.getCreds().getLogin();
+        return user.getCredentials().getLogin();
     }
 
 
@@ -47,7 +47,7 @@ public class IntqUserDetails implements org.springframework.security.core.userde
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !user.getIsBlocked();
     }
 
 
@@ -59,6 +59,13 @@ public class IntqUserDetails implements org.springframework.security.core.userde
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return !user.getIsDeleted();
     }
+
+
+    public User getUser() {
+        return user;
+    }
+
+
 }

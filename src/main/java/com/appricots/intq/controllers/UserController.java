@@ -2,8 +2,9 @@ package com.appricots.intq.controllers;
 
 import com.appricots.intq.NameOf;
 import com.appricots.intq.model.User;
-import com.appricots.intq.model.UserCreds;
+import com.appricots.intq.model.UserCredentials;
 import com.appricots.intq.services.UserService;
+import com.appricots.intq.util.SecurityUtil;
 import com.appricots.intq.wrappers.UserProfile;
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
@@ -39,18 +40,18 @@ public class UserController {
 
 	@RequestMapping(value="login.html", method = RequestMethod.GET)
 	public String login(Model model){
-		model.addAttribute(new UserCreds());
+		model.addAttribute("userCreds", new UserCredentials());
 		return "login";		
 	}
 
-	@RequestMapping(value="login.html", method = RequestMethod.POST)
-	public String startSession(@ModelAttribute("userCreds") UserCreds creds,
+	@RequestMapping(value="login/perform", method = RequestMethod.POST)
+	public String startSession(@ModelAttribute("userCredentials") UserCredentials userCredentials,
 			HttpServletResponse response,
 			Model model
 			){
 		try {
-			if (userService.getUserForCreds(creds) != null){
-				String cookie = userService.startNewSession(creds.getLogin());
+			if (userService.getUserByCredentials(userCredentials) != null){
+				String cookie = userService.startNewSession(userCredentials.getLogin());
 				if (cookie != null){
 					response.addCookie(new Cookie(NameOf.COOKIE_4_IDENTITY, cookie));
 					return "redirect:/start.html";
@@ -110,26 +111,25 @@ public class UserController {
 
 	@RequestMapping(value="profile.html",method = RequestMethod.GET)
 	public String getProfile(Model model){
-		Optional<User> user = userService.getCurrentUser();
+		Optional<User> user = SecurityUtil.getCurrentUser();
 		if (user.isPresent()){
-			model.addAttribute("login", user.get().getCreds().getLogin());
-			model.addAttribute("pass", user.get().getCreds().getPassHash());
+			model.addAttribute("login", user.get().getCredentials().getLogin());
+			model.addAttribute("pass", user.get().getCredentials().getPassHash());
 			model.addAttribute("email", user.get().getEmail());
-			model.addAttribute("name", user.get().getUsername());
 			model.addAttribute("lastName", user.get().getLastName());
 			model.addAttribute("age", user.get().getAge());
 			model.addAttribute("activeness", user.get().getActiveness());
 			return "userInfo";
 		}else{
-			model.addAttribute(new UserCreds());
+			model.addAttribute(new UserCredentials());
 			return "login";
 		}
 	}
 
 	@RequestMapping(value="logout.html",method = RequestMethod.GET)
 	public String dropSession(Model model){
-		Optional<User> user = userService.getCurrentUser();
-		user.ifPresent(user1 -> userService.dropSession(user1.getUsername()));
+		Optional<User> user = SecurityUtil.getCurrentUser();
+		user.ifPresent(u -> userService.dropSession(u.getId()));
 		return "main";
 	}
 }

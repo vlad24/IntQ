@@ -1,18 +1,18 @@
 package com.appricots.intq.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.appricots.intq.NameOf;
 import com.appricots.intq.dao.impl.CategoryDAO;
 import com.appricots.intq.model.Category;
 import com.appricots.intq.wrappers.AliasedId;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CategoryService {
+
 	@Autowired
 	CategoryDAO categoryDAO;
 	

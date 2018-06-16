@@ -16,9 +16,9 @@ public class NameOf {
         public static final String DIFFICULTY = "intq_difficulty";
         public static final String USER_SESSION = "intq_user_session";
         public static final String LINK_QUESTION_CATEGORY = "intq_m2m_question__category";
-        public static final String LINK_USER_AUTHORITY = "intq_o2m_user__authority";
-    }
+        public static final String LINK_USER_AUTHORITY = "intq_m2m_user__authority";
 
+    }
     public class Column {
         public static final String LANGUAGE_ID = "language_id";
         public static final String LANGUAGE_ALIAS = "language_alias";
@@ -33,23 +33,23 @@ public class NameOf {
         public static final String QUESTION_MINUS = "minus_count";
         public static final String QUESTION_ATTACH_URL = "attachment_url";
         public static final String QUESTION_STATUS = "question_status";
-        public static final String USER_CREDS_ID = "ucID";
-        public static final String USER_CREDS_LOGIN = "login";
-        public static final String USER_CREDS_PASS = "passHash";
-        public static final String USESSION_ID = "usID";
-        public static final String USESSION_SHIFT = "shift";
-        public static final String USESSION_IDENTIIY_COOKIE = "identCookie";
-        public static final String USER_ID = "uid";
-        public static final String USER_USERNAME = "uUsername";
-        public static final String USER_FIRST_NAME = "uFirstName";
-        public static final String USER_LAST_NAME = "uLastName";
-        public static final String USER_EMAIL = "uEmail";
-        public static final String USER_AGE = "uAge";
-        public static final String USER_ACTIVENESS = "uActiveness";
-        public static final String USER_AUTHORITIES = "uAuthority";
-        public static final String AUTHORITY_ID = "uAuthorityId";
-        public static final String AUTHORITY_NAME = "uAuthorityName";
-        public static final String AUTHORITY_COMMENT = "uAuthorityComment";
+        public static final String USER_CREDS_ID = "user_credentials_id";
+        public static final String USER_CREDS_LOGIN = "user_credentials_login";
+        public static final String USER_CREDS_PASS = "user_credentials_pass_hash";
+        public static final String USESSION_ID = "user_session_id";
+        public static final String USESSION_SHIFT = "user_session_shift";
+        public static final String USESSION_IDENTIIY_COOKIE = "user_session_identity_cookie";
+        public static final String USER_ID = "user_id";
+        public static final String USER_FIRST_NAME = "user_first_name";
+        public static final String USER_LAST_NAME = "user_last_name";
+        public static final String USER_EMAIL = "user_email";
+        public static final String USER_AGE = "user_age";
+        public static final String USER_ACTIVENESS = "user_activeness";
+        public static final String USER_IS_BLOCKED = "user_is_blocked";
+        public static final String USER_IS_DELETED = "user_is_deleted";
+        public static final String AUTHORITY_ID = "authority_id";
+        public static final String AUTHORITY_NAME = "authority_name";
+        public static final String AUTHORITY_COMMENT = "authority_comment";
     }
 
     public static class ModelAttributeKey {
@@ -64,4 +64,8 @@ public class NameOf {
     }
 
 
+    public class Profile {
+        public static final String TEST = "TEST";
+        public static final String PRODUCTION = "PRODUCTION";
+    }
 }

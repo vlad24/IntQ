@@ -1,55 +1,98 @@
 package com.appricots.intq.config;
 
+import com.appricots.intq.NameOf;
+import com.appricots.intq.services.IntqUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 @Configuration
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true,
+        securedEnabled = true,
+        jsr250Enabled = true
+)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserDetailsService userDetailsService;
-
-    @Bean
-    AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new StandardPasswordEncoder();
-    }
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authBuilder) {
         authBuilder.authenticationProvider(authenticationProvider());
     }
 
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/resources/**").permitAll()
+                .antMatchers("/resources/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                    .formLogin()
-                        .loginPage("/login.html")
-                        .usernameParameter("login")
-                        .passwordParameter("passHash")
-                    .permitAll()
+                .formLogin()
+//                        .loginPage("/login.html")
+//                        .usernameParameter("login")
+//                        .passwordParameter("passHash")
+//                        .loginProcessingUrl("/perform_login.html")
+                .permitAll()
                 .and()
-                    .logout().permitAll().logoutSuccessUrl("/login")
+                .logout().permitAll().logoutSuccessUrl("/login")
                 .and()
-                    .csrf().disable();
+                .csrf().disable();
+    }
+
+
+    @Bean("authenticationProvider")
+    AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(customUserDetailsService());
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
+        return authenticationProvider;
+    }
+
+
+    @Bean
+    UserDetailsService customUserDetailsService() {
+        return new IntqUserDetailsService();
+    }
+
+    /*
+        TEST RELATED BEANS
+     */
+    @Bean
+    public PasswordEncoder testPasswordEncoder() {
+        return new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence rawPassword) {
+                return rawPassword.toString();
+            }
+
+
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                return encodedPassword.equals(rawPassword.toString());
+            }
+        };
+    }
+
+
+    /*
+        PRODUCTION RELATED BEANS
+    */
+    @Bean
+    @Profile(NameOf.Profile.PRODUCTION)
+    public PasswordEncoder productionPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

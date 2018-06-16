@@ -1,11 +1,11 @@
 package com.appricots.intq.dao.impl;
 
-import com.appricots.intq.model.UserCreds;
+import com.appricots.intq.model.UserSession;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
-import com.appricots.intq.model.UserSession;
+import java.util.Optional;
 
 @Repository
 public class UserSessionDAO extends DAO<UserSession, Long>{
@@ -29,18 +29,17 @@ public class UserSessionDAO extends DAO<UserSession, Long>{
 	}
 
 
-	public UserSession getByUserName(String username) {
+	public Optional<UserSession> getByUserId(Long id) {
 		Session session = sessionFactory.getCurrentSession();
 		Query selectQuery = session
 				.createQuery(new StringBuilder()
 						.append(" SELECT  US ")
-						.append(" FROM User U")
-						.append(" JOIN   U.session US")
-						.append(" WHERE  U.username  = :username")
+						.append(" FROM    User U")
+						.append(" JOIN    U.session US")
+						.append(" WHERE   U.id  = :id")
 						.toString())
-				.setParameter("username", username);
+				.setParameter("id", id);
 		UserSession userSession = (UserSession) selectQuery.uniqueResult();
-		System.out.println(userSession);
-		return userSession;
+		return Optional.ofNullable(userSession);
 	}
 }

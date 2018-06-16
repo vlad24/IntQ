@@ -5,7 +5,7 @@ import com.appricots.intq.model.User;
 import com.appricots.intq.services.CategoryService;
 import com.appricots.intq.services.DifficultyService;
 import com.appricots.intq.services.LangService;
-import com.appricots.intq.services.UserService;
+import com.appricots.intq.util.SecurityUtil;
 import com.appricots.intq.wrappers.reqobjects.QuestionSelector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -21,8 +21,6 @@ public class MainController {
 
 
     @Autowired
-    private UserService userService;
-    @Autowired
     private CategoryService categoryService;
     @Autowired
     private DifficultyService diffService;
@@ -30,11 +28,11 @@ public class MainController {
     private LangService langService;
 
 
-    @Secured("ROLE_USER")
+    @Secured({"ROLE_GUEST", "ROLE_USER", "ROLE_ADMIN"})
     @RequestMapping(value = {"/", "/main"}, method = RequestMethod.GET)
     public String enter(Model model) {
-        Optional<User> user = userService.getCurrentUser();
-        user.ifPresent(u -> model.addAttribute(NameOf.ModelAttributeKey.USERNAME, u.getUsername()));
+        Optional<User> user = SecurityUtil.getCurrentUser();
+        user.ifPresent(u -> model.addAttribute(NameOf.ModelAttributeKey.USERNAME, u.getCredentials().getLogin()));
         return "main";
 
     }
@@ -42,12 +40,12 @@ public class MainController {
 
     @RequestMapping(value = "/start", method = RequestMethod.GET)
     public String startListing(Model model) {
-        Optional<User> user = userService.getCurrentUser();
+        Optional<User> user = SecurityUtil.getCurrentUser();
         //            UserSession lastSession = userService.getgetCurrentSessionByCookie(identity);
         //            if (lastSession != null){
         //                //could do something useful
         //            }
-        user.ifPresent(u -> model.addAttribute(NameOf.ModelAttributeKey.USERNAME, u.getUsername()));
+        user.ifPresent(u -> model.addAttribute(NameOf.ModelAttributeKey.USERNAME, u.getCredentials().getLogin()));
         model.addAttribute(NameOf.ModelAttributeKey.CATEGORIES, categoryService.getAliasedIds());
         model.addAttribute(NameOf.ModelAttributeKey.DIFFICULTIES, diffService.getAliasedIds());
         model.addAttribute(NameOf.ModelAttributeKey.LANGUAGES, langService.getAliasedIds());

@@ -1,32 +1,23 @@
 package com.appricots.intq.controllers;
 
-import javax.servlet.ServletRequest;
-
-import net.tanesha.recaptcha.ReCaptchaImpl;
-import net.tanesha.recaptcha.ReCaptchaResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
 import com.appricots.intq.NameOf;
 import com.appricots.intq.model.Question;
-import com.appricots.intq.model.UserCreds;
-import com.appricots.intq.services.CategoryService;
-import com.appricots.intq.services.DifficultyService;
-import com.appricots.intq.services.LangService;
-import com.appricots.intq.services.QuestionService;
-import com.appricots.intq.services.UserService;
+import com.appricots.intq.model.UserCredentials;
+import com.appricots.intq.services.*;
+import com.appricots.intq.util.SecurityUtil;
 import com.appricots.intq.wrappers.reqobjects.QuestionSelector;
 import com.appricots.intq.wrappers.reqobjects.QuestionSuggestion;
 import com.appricots.intq.wrappers.respobjects.QuestionResponse;
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import javax.servlet.ServletRequest;
 
 @EnableWebMvc
 @Controller
@@ -61,7 +52,7 @@ public class QuestionController {
 				model.addAttribute("attachment",       nextQuestion.getAttachment());
 				model.addAttribute("rating",           nextQuestion.calculateRating());
 				model.addAttribute("questionSelector", selector);
-				if (userService.getCurrentUser().isPresent()){
+				if (SecurityUtil.getCurrentUser().isPresent()){
 					// could fectch user session and store some data
 					//UserSession session = userService.getCurrentSessionByCookie(identity);
 				}
@@ -97,16 +88,16 @@ public class QuestionController {
 	}
 
 	@RequestMapping(value="suggestion.html", method = RequestMethod.GET)
-	public ModelAndView getSuggestionForm(Model model){
+	public ModelAndView getSuggestionForm(){
 		ModelAndView mav = new ModelAndView();
-		if (userService.getCurrentUser().isPresent()){
+		if (SecurityUtil.getCurrentUser().isPresent()){
 			mav.addObject("questionSuggestion", new QuestionSuggestion());
 			mav.addObject("categories",   categoryService.getAll());
 			mav.addObject("difficulties", difService.getAll());
 			mav.addObject("languages",    langService.getAll());
 			mav.setViewName("suggestion");
 		}else{
-			mav.addObject(new UserCreds());
+			mav.addObject("userCredentials", new UserCredentials());
 			mav.setViewName("login");
 		}
 		return mav;
