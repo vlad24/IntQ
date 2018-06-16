@@ -29,8 +29,8 @@ public class MainController {
 
     @RequestMapping(value = {"/", "/main"}, method = RequestMethod.GET)
     public String enter(Model model) {
-//        Optional<User> user = SecurityUtil.getCurrentUser();
-//        user.ifPresent(u -> model.addAttribute(NameOf.ModelAttributeKey.USERNAME, u.getCredentials().getLogin()));
+        Optional<User> user = SecurityUtil.getCurrentUser();
+        user.ifPresent(u -> model.addAttribute(NameOf.ModelAttributeKey.USERNAME, u.getCredentials().getLogin()));
         return "main";
 
     }

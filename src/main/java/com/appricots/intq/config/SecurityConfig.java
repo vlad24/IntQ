@@ -29,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authBuilder) {
+
         authBuilder.authenticationProvider(authenticationProvider());
     }
 
@@ -40,7 +41,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers("/", "/main.html").permitAll()
                 .antMatchers("/register.html").permitAll()
-                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                     .loginPage("/login.html")

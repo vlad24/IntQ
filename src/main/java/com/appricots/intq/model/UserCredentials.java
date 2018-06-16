@@ -3,6 +3,7 @@ package com.appricots.intq.model;
 import com.appricots.intq.NameOf;
 
 import javax.persistence.*;
+import java.util.Optional;
 
 @Entity
 @Table(name = NameOf.Table.CREDENTIALS)
@@ -68,7 +69,7 @@ public class UserCredentials {
 	@Override
 	public String toString() {
 		return "UserCredentials [id=" + id + ", login=" + login + ", passHash="
-				+ passHash + ", user.id=" + user.getId() + "]";
+				+ passHash + ", user.id=" + Optional.ofNullable(user).map(User::getId).orElse(-1L).toString() + "]";
 	}
 	
 	

@@ -5,7 +5,6 @@ import com.appricots.intq.model.User;
 import com.appricots.intq.model.UserCredentials;
 import com.appricots.intq.services.UserService;
 import com.appricots.intq.util.SecurityUtil;
-import com.appricots.intq.util.Util;
 import com.appricots.intq.wrappers.UserProfile;
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
@@ -41,22 +39,15 @@ public class UserController {
 	}
 
 	@RequestMapping(value="login.html", method = RequestMethod.GET)
-	public String login(ServletRequest request, RedirectAttributes model){
-        boolean isGuest = Util.transformNonEmptyRequestParamOrDefault("is_guest", Boolean::parseBoolean, false, request);
-		if (!isGuest){
-			model.addAttribute("userCredentials", new UserCredentials());
-			return "login";
-		} else {
-            model.addFlashAttribute("is_guest", true);
-            model.addFlashAttribute("login", "");
-            model.addFlashAttribute("passHash", "");
-            return "redirect:/perform/login";
-		}
-
+	public String login(Model model){
+		logger.debug("Logging in...");
+		model.addAttribute("userCredentials", new UserCredentials());
+		return "login";
 	}
 
 	@RequestMapping(value="register.html",method = RequestMethod.GET)
 	public String startRegistering(Model model){
+        logger.debug("Signing up...");
 		model.addAttribute("profile", new UserProfile());
 		return "register";
 	}
@@ -64,14 +55,14 @@ public class UserController {
 
 	@RequestMapping(value="register.html",method = RequestMethod.POST)
 	public String registerNewUser(
-			@RequestParam("recaptcha_challenge_field") String challangeField,
+			@RequestParam("recaptcha_challenge_field") String challengeField,
 			@RequestParam("recaptcha_response_field")  String responseField,
 			@ModelAttribute("profile") UserProfile profile,
 			ServletRequest servletRequest,
 			HttpServletResponse response,
 			Model model){
 		String remoteAddress = servletRequest.getRemoteAddr();
-		ReCaptchaResponse reCaptchaResponse = this.reCaptcha.checkAnswer(remoteAddress, challangeField, responseField);
+		ReCaptchaResponse reCaptchaResponse = this.reCaptcha.checkAnswer(remoteAddress, challengeField, responseField);
 		try {
 			if(reCaptchaResponse.isValid()){
 				Long registerUser = userService.registerUser(profile);

@@ -39,7 +39,6 @@ public class QuestionController {
 	@Autowired
 	ReCaptchaImpl reCaptcha;
 
-
 	@RequestMapping(value="q.html", method=RequestMethod.GET)
 	public String getNext(@ModelAttribute("questionSelector") QuestionSelector selector, Model model){
 		try{

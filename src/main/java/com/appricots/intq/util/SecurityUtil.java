@@ -12,13 +12,15 @@ public class SecurityUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityUtil.class);
 
+
     public static Optional<User> getCurrentUser() {
-        IntqUserDetails intqUserDetails = (IntqUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (intqUserDetails != null) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof IntqUserDetails) {
+            IntqUserDetails intqUserDetails = (IntqUserDetails) principal;
             logger.debug("Current user: {}", intqUserDetails.getUser());
             return Optional.ofNullable(intqUserDetails.getUser());
         } else {
-            logger.debug("No user found");
+            logger.debug("Current user seems to be guest : {}", principal);
             return Optional.empty();
         }
     }
