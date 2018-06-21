@@ -22,14 +22,14 @@ public class AdminController {
 	@Autowired
 	QuestionService questionService;
 
-	@Secured("ROLE_ADMIN")
+	@Secured("ROLE_ADMIN_ACCESS")
 	@RequestMapping(value="admin.html", method=RequestMethod.GET)
 	public String admin(Model model){
 		return "admin";
 	}
 
 
-	@Secured("ROLE_ADMIN")
+	@Secured({"ROLE_ADMIN_ACCESS", "ROLE_MODERATOR_ACCESS"})
 	@RequestMapping(value="admin_moderate.html", method=RequestMethod.GET)
 	public String adminModerate(Model model){
         List<AliasedId<Long>> questions = questionService.getNew();

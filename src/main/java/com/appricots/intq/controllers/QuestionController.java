@@ -66,7 +66,7 @@ public class QuestionController {
 		}
 	}
 
-	@Secured({"ROLE_ADMIN", "ROLE_MODERATOR", "ROLE_USER"})
+	@Secured({"ROLE_ADMIN_ACCESS", "ROLE_MODERATOR_ACCESS", "ROLE_USER_ACCESS"})
 	@RequestMapping(value="suggestion.html", method = RequestMethod.GET)
 	public ModelAndView getSuggestionForm(){
 		ModelAndView mav = new ModelAndView();

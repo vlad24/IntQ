@@ -6,6 +6,7 @@
 
 <%@taglib prefix="spt" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="spf" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
@@ -27,7 +28,7 @@
 	</div>
 	<div class="container">
 		<div class="col-sm-offset-4 col-sm-4 ">
-			<c:if test="${empty username}">
+			<sec:authorize access="not isAuthenticated()">
 				<h3>You need to choose the way:</h3>
 				<div class="well">
 					<br>
@@ -39,18 +40,18 @@
 						<button class="btn btn-default btn-block" type="submit" value="Submit">Sign Up</button>
 					</form>
 					<br> <br>
-					<form method="get" action="login/guest">
+					<form method="get" action="start.html">
 						<button class="btn btn-success btn-block" type="submit" value="Submit">Continue as guest</button>
 					</form>
 				</div>
-			</c:if>
+			</sec:authorize>
 		</div>
-		<c:if test="${not empty username}">
+		<sec:authorize access="isAuthenticated()">
 			<div class="col-sm-offset-2 col-sm-8 ">
 				<div class="well">
 					<br>
 					<form method="get" action="start.html">
-						<button class="btn btn-success btn-block" type="submit" value="Submit">Start reviewing as ${username}</button>
+						<button class="btn btn-success btn-block" type="submit" value="Submit">Start reviewing as <sec:authentication property="principal.username"/> </button>
 					</form>
 					<br> <br>
 					<form method="get" action="logout.html">
@@ -59,10 +60,12 @@
 					<br> <br>
 				</div>
 			</div>
-		</c:if>
-		<form method="get" action="admin.html">
-			<button class="btn btn-link btn-block" type="submit" value="Submit">Debug</button>
-		</form>
+		</sec:authorize>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <form method="get" action="admin.html">
+                <button class="btn btn-link btn-block" type="submit" value="Submit">Administration</button>
+            </form>
+        </sec:authorize>
 	</div>
 
 </body>

@@ -1,8 +1,13 @@
 INSERT INTO intq_authority VALUES
-  (0,  'User which have all privileges',        'ROLE_ADMIN'),
-  (10, 'User which have moderating privileges', 'ROLE_MODERATOR'),
-  (20, 'User which have read/write privileges', 'ROLE_USER'),
-  (30, 'User which have only read privileges',  'ROLE_GUEST')
+  (0,  'User which is considered to be an admin',     'ROLE_ADMIN_ACCESS'),
+  (1,  'User which can ban users',                    'ROLE_ADMIN_ACCOUNT_BAN'),
+  (250, 'User which is considered to be a moderator', 'ROLE_MODERATOR_ACCESS'),
+  (251, 'User which is considered to be a moderator', 'ROLE_MODERATOR_QUESTION_ACCEPT'),
+  (252, 'User which is considered to be a moderator', 'ROLE_MODERATOR_QUESTION_REJECT'),
+  (252, 'User which is considered to be a moderator', 'ROLE_MODERATOR_QUESTION_MODIFY'),
+  (500, 'User which have read/write privileges',      'ROLE_USER_ACCESS'),
+  (501, 'User which have a right to rate questions',  'ROLE_USER_RATE'),
+  (750, 'User which have only read privileges',       'ROLE_GUEST')
 ;
 
 INSERT INTO intq_user_credentials VALUES
@@ -21,10 +26,10 @@ INSERT INTO intq_user VALUES
 
 
 INSERT INTO intq_m2m_user__authority VALUES
-  (0,  0),
-  (10, 1),
-  (20, 2),
-  (20, 3)
+  (0,   0),
+  (250, 1),
+  (500, 2),
+  (750, 3)
 ;
 
 INSERT INTO intq_difficulty VALUES
